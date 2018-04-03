@@ -1,0 +1,5 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Wed Apr 04 00:07:18 CST 2018
+https\://repo.maven.apache.org/maven2/.lastUpdated=1522771638004
+http\://www.cantonsoft.com\:8081/repository/maven-central/.error=Could not transfer artifact nz.net.ultraq.thymeleaf\:thymeleaf-layout-dialect\:jar\:1.2.9 from/to maven-central (http\://www.cantonsoft.com\:8081/repository/maven-central/)\: Connection refused\: connect
+@default-maven-central-http\://www.cantonsoft.com\:8081/repository/maven-central/.lastUpdated=1522771420768

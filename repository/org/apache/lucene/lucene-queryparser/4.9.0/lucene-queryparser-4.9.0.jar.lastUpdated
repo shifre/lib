@@ -1,0 +1,10 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Tue Apr 03 23:48:30 CST 2018
+http\://repo.maven.apache.org/maven2/.lastUpdated=1522770440843
+http\://www.cantonsoft.com\:8081/repository/maven-central/.error=Could not transfer artifact org.apache.lucene\:lucene-queryparser\:jar\:4.9.0 from/to maven-central (http\://www.cantonsoft.com\:8081/repository/maven-central/)\: Connection refused\: connect
+https\://repository.cloudera.com/artifactory/libs-release/.lastUpdated=1522770510228
+https\://repository.cloudera.com/artifactory/libs-release/.error=
+http\://repo1.maven.org/maven2/.lastUpdated=1522688262593
+http\://maven.restlet.org/.error=
+http\://maven.restlet.org/.lastUpdated=1522770494443
+@default-http\://www.cantonsoft.com\:8081/repository/maven-central/.lastUpdated=1522686743240

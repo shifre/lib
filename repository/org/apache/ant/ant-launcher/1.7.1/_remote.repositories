@@ -1,0 +1,6 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Tue Apr 03 23:47:20 CST 2018
+ant-launcher-1.7.1.pom>maven-central=
+ant-launcher-1.7.1.jar>maven-central=
+ant-launcher-1.7.1.jar>central=
+ant-launcher-1.7.1.pom>central=

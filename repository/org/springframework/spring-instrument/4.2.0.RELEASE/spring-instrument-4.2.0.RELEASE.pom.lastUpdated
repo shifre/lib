@@ -1,0 +1,6 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Tue Apr 03 22:56:27 CST 2018
+http\://repo.maven.apache.org/maven2/.lastUpdated=1522767387137
+http\://repo1.maven.org/maven2/.lastUpdated=1522686245127
+http\://www.cantonsoft.com\:8081/repository/maven-central/.error=Could not transfer artifact org.springframework\:spring-instrument\:pom\:4.2.0.RELEASE from/to maven-central (http\://www.cantonsoft.com\:8081/repository/maven-central/)\: The operation was cancelled.
+@default-http\://www.cantonsoft.com\:8081/repository/maven-central/.lastUpdated=1522680401879

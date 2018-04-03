@@ -1,0 +1,5 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Tue Apr 03 22:52:11 CST 2018
+https\://repo.maven.apache.org/maven2/.lastUpdated=1522767131587
+http\://www.cantonsoft.com\:8081/repository/maven-central/.error=Could not transfer artifact org.apache.poi\:poi-ooxml\:jar\:3.10-FINAL from/to maven-central (http\://www.cantonsoft.com\:8081/repository/maven-central/)\: Connection refused\: connect
+@default-maven-central-http\://www.cantonsoft.com\:8081/repository/maven-central/.lastUpdated=1522766996137

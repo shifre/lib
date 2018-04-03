@@ -1,0 +1,11 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Tue Apr 03 23:13:16 CST 2018
+@default-http\://repo1.maven.org/maven2/.lastUpdated=1522686564834
+http\://repo.maven.apache.org/maven2/.lastUpdated=1522768382967
+http\://www.cantonsoft.com\:8081/repository/maven-central/.error=Could not transfer artifact org.eclipse.jetty\:jetty-webapp\:pom\:8.1.10.v20130312 from/to maven-central (http\://www.cantonsoft.com\:8081/repository/maven-central/)\: Connection refused\: connect
+https\://repository.cloudera.com/artifactory/libs-release/.lastUpdated=1522768396762
+https\://repository.cloudera.com/artifactory/libs-release/.error=
+http\://repo1.maven.org/maven2/.error=Could not transfer artifact org.eclipse.jetty\:jetty-webapp\:pom\:8.1.10.v20130312 from/to maven-central (http\://repo1.maven.org/maven2/)\: The operation was cancelled.
+http\://maven.restlet.org/.error=
+http\://maven.restlet.org/.lastUpdated=1522768383992
+@default-http\://www.cantonsoft.com\:8081/repository/maven-central/.lastUpdated=1522686907711

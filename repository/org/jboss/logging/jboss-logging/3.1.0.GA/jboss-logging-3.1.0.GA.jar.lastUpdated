@@ -1,0 +1,5 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Mon Apr 02 22:49:55 CST 2018
+http\://repo.maven.apache.org/maven2/.lastUpdated=1522680595008
+http\://www.cantonsoft.com\:8081/repository/maven-central/.error=Could not transfer artifact org.jboss.logging\:jboss-logging\:jar\:3.1.0.GA from/to maven-central (http\://www.cantonsoft.com\:8081/repository/maven-central/)\: Connection refused\: connect
+@default-http\://www.cantonsoft.com\:8081/repository/maven-central/.lastUpdated=1522680535369

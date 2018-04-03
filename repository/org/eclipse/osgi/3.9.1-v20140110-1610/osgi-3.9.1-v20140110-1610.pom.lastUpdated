@@ -1,0 +1,5 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Mon Apr 02 22:42:04 CST 2018
+http\://repo.maven.apache.org/maven2/.lastUpdated=1522680124948
+http\://www.cantonsoft.com\:8081/repository/maven-central/.error=Could not transfer artifact org.eclipse\:osgi\:pom\:3.9.1-v20140110-1610 from/to maven-central (http\://www.cantonsoft.com\:8081/repository/maven-central/)\: Connection refused\: connect
+@default-http\://www.cantonsoft.com\:8081/repository/maven-central/.lastUpdated=1522680121250

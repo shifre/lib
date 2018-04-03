@@ -1,0 +1,6 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Tue Apr 03 23:47:17 CST 2018
+asm-tree-3.3.pom>maven-central=
+asm-tree-3.3.jar>maven-central=
+asm-tree-3.3.jar>central=
+asm-tree-3.3.pom>central=

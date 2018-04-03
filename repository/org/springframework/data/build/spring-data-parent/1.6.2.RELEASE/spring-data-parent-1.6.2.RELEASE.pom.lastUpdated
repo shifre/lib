@@ -1,0 +1,5 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Tue Apr 03 23:42:39 CST 2018
+https\://repo.maven.apache.org/maven2/.lastUpdated=1522770159204
+http\://www.cantonsoft.com\:8081/repository/maven-central/.error=Could not transfer artifact org.springframework.data.build\:spring-data-parent\:pom\:1.6.2.RELEASE from/to maven-central (http\://www.cantonsoft.com\:8081/repository/maven-central/)\: Connection refused\: connect
+@default-maven-central-http\://www.cantonsoft.com\:8081/repository/maven-central/.lastUpdated=1522770158000

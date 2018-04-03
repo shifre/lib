@@ -1,0 +1,10 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Tue Apr 03 23:47:35 CST 2018
+http\://www.terracotta.org/download/reflector/snapshots/.error=
+http\://repo.maven.apache.org/maven2/.lastUpdated=1522770437400
+http\://www.terracotta.org/download/reflector/releases/.lastUpdated=1522770455197
+http\://www.terracotta.org/download/reflector/releases/.error=
+http\://repo1.maven.org/maven2/.lastUpdated=1522688205218
+http\://www.cantonsoft.com\:8081/repository/maven-central/.error=Could not transfer artifact c3p0\:c3p0\:jar\:0.9.1.1 from/to maven-central (http\://www.cantonsoft.com\:8081/repository/maven-central/)\: Connection refused\: connect
+@default-http\://www.cantonsoft.com\:8081/repository/maven-central/.lastUpdated=1522686742803
+http\://www.terracotta.org/download/reflector/snapshots/.lastUpdated=1522770453624

@@ -1,0 +1,8 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Tue Apr 03 22:54:39 CST 2018
+http\://repo.maven.apache.org/maven2/.lastUpdated=1522767276574
+http\://repo1.maven.org/maven2/.lastUpdated=1522686174210
+http\://www.cantonsoft.com\:8081/repository/maven-central/.error=Could not transfer artifact org.javassist\:javassist\:pom\:3.16.1-GA from/to maven-central (http\://www.cantonsoft.com\:8081/repository/maven-central/)\: The operation was cancelled.
+@default-http\://www.cantonsoft.com\:8081/repository/maven-central/.lastUpdated=1522680401505
+https\://oss.sonatype.org/content/repositories/snapshots/.lastUpdated=1522767279783
+https\://oss.sonatype.org/content/repositories/snapshots/.error=

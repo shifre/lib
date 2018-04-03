@@ -1,0 +1,12 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Tue Apr 03 23:04:09 CST 2018
+http\://download.java.net/maven/2/.lastUpdated=1522767839734
+@default-http\://forumarchivebuilder.googlecode.com/svn/repository/.lastUpdated=1522767849850
+http\://download.java.net/maven/2/.error=
+http\://forumarchivebuilder.googlecode.com/svn/repository/.error=Could not transfer artifact org.sonatype.oss\:oss-parent\:pom\:3 from/to Forumarchivebuilder (http\://forumarchivebuilder.googlecode.com/svn/repository)\: connect timed out
+https\://repository.cloudera.com/artifactory/libs-release/.lastUpdated=1522767831166
+https\://repository.cloudera.com/artifactory/libs-release/.error=
+http\://oss.sonatype.org/content/groups/sourceforge/.lastUpdated=1522767834929
+http\://maven.restlet.org/.error=
+http\://maven.restlet.org/.lastUpdated=1522767822751
+http\://oss.sonatype.org/content/groups/sourceforge/.error=

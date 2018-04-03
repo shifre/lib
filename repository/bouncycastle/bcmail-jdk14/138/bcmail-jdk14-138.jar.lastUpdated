@@ -1,0 +1,5 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Tue Apr 03 01:00:53 CST 2018
+http\://repo.maven.apache.org/maven2/.lastUpdated=1522688453437
+http\://repo1.maven.org/maven2/.error=Could not transfer artifact bouncycastle\:bcmail-jdk14\:jar\:138 from/to maven-central (http\://repo1.maven.org/maven2/)\: connect timed out
+@default-http\://repo1.maven.org/maven2/.lastUpdated=1522688399250

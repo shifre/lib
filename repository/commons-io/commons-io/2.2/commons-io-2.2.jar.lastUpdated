@@ -1,0 +1,4 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Tue Apr 03 23:24:13 CST 2018
+@default-central-https\://repo.maven.apache.org/maven2/.lastUpdated=1522769053755
+https\://repo.maven.apache.org/maven2/.error=Could not transfer artifact commons-io\:commons-io\:jar\:2.2 from/to central (https\://repo.maven.apache.org/maven2)\: repo.maven.apache.org

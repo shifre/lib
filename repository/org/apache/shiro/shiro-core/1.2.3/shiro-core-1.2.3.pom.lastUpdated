@@ -1,0 +1,6 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Tue Apr 03 22:58:23 CST 2018
+http\://repo.maven.apache.org/maven2/.lastUpdated=1522767503457
+http\://repo1.maven.org/maven2/.lastUpdated=1522686419864
+http\://www.cantonsoft.com\:8081/repository/maven-central/.error=Could not transfer artifact org.apache.shiro\:shiro-core\:pom\:1.2.3 from/to maven-central (http\://www.cantonsoft.com\:8081/repository/maven-central/)\: The operation was cancelled.
+@default-http\://www.cantonsoft.com\:8081/repository/maven-central/.lastUpdated=1522680402316

@@ -1,0 +1,11 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Tue Apr 03 23:04:19 CST 2018
+@default-http\://repo1.maven.org/maven2/.lastUpdated=1522686560090
+http\://repo.maven.apache.org/maven2/.lastUpdated=1522767854254
+http\://www.cantonsoft.com\:8081/repository/maven-central/.error=Could not transfer artifact com.spatial4j\:spatial4j\:pom\:0.4.1 from/to maven-central (http\://www.cantonsoft.com\:8081/repository/maven-central/)\: Connection refused\: connect
+https\://repository.cloudera.com/artifactory/libs-release/.lastUpdated=1522767859643
+https\://repository.cloudera.com/artifactory/libs-release/.error=
+http\://repo1.maven.org/maven2/.error=Could not transfer artifact com.spatial4j\:spatial4j\:pom\:0.4.1 from/to maven-central (http\://repo1.maven.org/maven2/)\: The operation was cancelled.
+http\://maven.restlet.org/.error=
+http\://maven.restlet.org/.lastUpdated=1522767856055
+@default-http\://www.cantonsoft.com\:8081/repository/maven-central/.lastUpdated=1522686872856

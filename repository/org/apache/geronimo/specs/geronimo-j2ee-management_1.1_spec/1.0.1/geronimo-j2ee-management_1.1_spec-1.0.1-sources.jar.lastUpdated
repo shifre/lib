@@ -1,0 +1,5 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Mon Apr 02 23:16:59 CST 2018
+http\://repo.maven.apache.org/maven2/.lastUpdated=1522682219629
+http\://www.cantonsoft.com\:8081/repository/maven-central/.error=Could not transfer artifact org.apache.geronimo.specs\:geronimo-j2ee-management_1.1_spec\:jar\:sources\:1.0.1 from/to maven-central (http\://www.cantonsoft.com\:8081/repository/maven-central/)\: Connection refused\: connect
+@default-http\://www.cantonsoft.com\:8081/repository/maven-central/.lastUpdated=1522682209146

@@ -1,0 +1,5 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Tue Apr 03 23:42:58 CST 2018
+https\://repo.maven.apache.org/maven2/.lastUpdated=1522770178600
+http\://www.cantonsoft.com\:8081/repository/maven-central/.error=Could not transfer artifact org.slf4j\:slf4j-parent\:pom\:1.7.12 from/to maven-central (http\://www.cantonsoft.com\:8081/repository/maven-central/)\: Connection refused\: connect
+@default-maven-central-http\://www.cantonsoft.com\:8081/repository/maven-central/.lastUpdated=1522770177787

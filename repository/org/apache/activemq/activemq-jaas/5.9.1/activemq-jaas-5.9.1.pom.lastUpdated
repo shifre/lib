@@ -1,0 +1,6 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Tue Apr 03 22:57:49 CST 2018
+http\://repo.maven.apache.org/maven2/.lastUpdated=1522767469900
+http\://repo1.maven.org/maven2/.lastUpdated=1522686386790
+http\://www.cantonsoft.com\:8081/repository/maven-central/.error=Could not transfer artifact org.apache.activemq\:activemq-jaas\:pom\:5.9.1 from/to maven-central (http\://www.cantonsoft.com\:8081/repository/maven-central/)\: The operation was cancelled.
+@default-http\://www.cantonsoft.com\:8081/repository/maven-central/.lastUpdated=1522680402238

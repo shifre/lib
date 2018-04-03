@@ -1,0 +1,10 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Tue Apr 03 23:09:49 CST 2018
+https\://repository.cloudera.com/artifactory/libs-release/.error=
+http\://maven.restlet.org/.error=
+https\://repository.cloudera.com/artifactory/libs-release/.lastUpdated=1522768162096
+https\://repository.apache.org/content/repositories/snapshots/.error=Could not transfer artifact org.apache.zookeeper\:zookeeper\:pom\:3.4.5 from/to apache.snapshots.https (https\://repository.apache.org/content/repositories/snapshots)\: No appropriate protocol (protocol is disabled or cipher suites are inappropriate)
+http\://repository.jboss.org/nexus/content/groups/public/.error=
+@default-https\://repository.apache.org/content/repositories/snapshots/.lastUpdated=1522768184749
+http\://repository.jboss.org/nexus/content/groups/public/.lastUpdated=1522768189482
+http\://maven.restlet.org/.lastUpdated=1522768153410
