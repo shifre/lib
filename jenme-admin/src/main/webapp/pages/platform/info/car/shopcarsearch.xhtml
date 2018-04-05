@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorator="layout/main">
+<head>
+	<div th:replace="common/datatable" />
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	$(document).ready(function() {
+		var aoColumn = [
+           { "mDataProp": "id", "bSortable": true, "sWidth" : "5%",
+           	"mRender": function ( data, type, full ) {
+           		return $.es.encodeHtml(data);
+           	}	  
+           },
+           { "mDataProp": "carNo", "bSortable": true, "sWidth" : "15%",
+              	"mRender": function ( data, type, full ) {
+              		return $.es.encodeHtml(data);
+           	}	  
+           },
+           { "mDataProp": "models", "bSortable": false, "sWidth" : "15%", "sClass": "wrapable",
+              	"mRender": function ( data, type, full ) {
+              		return $.es.encodeHtml(data);
+           	}
+           },
+           { "mDataProp": "maxVolume", "bSortable": true, "sWidth" : "10%", "sClass": "wrapable",
+           	"mRender": function ( data, type, full ) {
+           		return $.es.encodeHtml(data);
+           	}	  
+           },
+           { "mDataProp": "mutiple", "bSortable": false, "sWidth" : "10%", "sClass": "wrapable",
+           	"mRender": function ( data, type, full ) {
+           		return $.es.encodeHtml(data);
+           	}	  
+           },
+           { "mDataProp": "price", "bSortable": true, "sWidth" : "10%", "sClass": "wrapable",
+           	"mRender": function ( data, type, full ) {
+           		return $.es.encodeHtml(data);
+           	}	  
+           },
+           { "mDataProp": "maxWeight", "bSortable": true, "sWidth" : "15%", "sClass": "wrapable",
+           	"mRender": function ( data, type, full ) {
+           		return $.es.encodeHtml(data);
+           	}	  
+           },
+           { "mDataProp": "operate", "bSortable": false, "sWidth" : "20%",
+           	"mRender": function ( data, type, full ) {
+           		var s = [[${isShowOperate}]];
+                return new ActionBuilder().start()
+                .add(bundle['detail'], "javascript:sh.showItem(" + full.id + ");", "glyphicon glyphicon-search")
+                .add(bundle['edit'], "javascript:sh.editItem(" + full.id + ");", "glyphicon glyphicon-pencil")
+                .add(bundle['remove'], "javascript:sh.delItem(" + full.id + ", '" + full.carNo + "');", "fa fa-trash-o")
+                .end();
+             }
+           }
+       ];
+
+		var shInitData={
+	            linkPrefix:"shopcar",
+	           	tableExtraOpt:{
+	            	"scrollX":true,
+	            	"bAutoWidth":true
+	            },
+				aoColumn:aoColumn,
+				passConds: function(){
+					var cb = new CondBuilder();
+					cb.where("carNo", "%", $("#carNo").val());
+					return cb.json;
+				}
+		};
+
+		window.sh = new SearchHandler(shInitData);
+	});
+	/*]]>*/
+	</script>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="contentpanel">
+			<div class="panel  panel-default">
+				<div class="panel-heading">
+	            	<div class="panel-btns col-sm-5">
+	            		<form>
+	            			<button type="button" class="btn btnAdd btn-success right" th:text="#{field.info.car.button.add}" hidden="true"/>
+		             		<button type="submit" class="btn btn-primary mr5 btnSearch right ladda-button" th:text="#{button.search}" />
+			                <div class="col-sm-5 right">
+			             		 <input type="text" class="form-control" id="carNo" th:placeholder="#{field.info.car.column.carNo}" />
+			             	</div>
+		             	</form>
+	             	</div>
+	                <div class="panel-title" th:text="#{field.info.car.list}" />
+	            </div>
+			</div>
+			<div class="row">
+			   <div class="col-sm-12">
+					<table id="resultTable" class="table table-bordered table-hover">
+					      <thead class="">
+					          <tr>
+					             <th th:text="#{field.info.car.column.id}" />
+					             <th th:text="#{field.info.car.column.carNo}" />
+					             <th th:text="#{field.info.car.column.models}" />
+					             <th th:text="#{field.info.car.column.maxVolume}" />
+					             <th th:text="#{field.info.car.column.mutiple}" />
+   					             <th th:text="#{field.info.car.column.price}" />
+					             <th th:text="#{field.info.car.column.maxWeight}" />
+					             <th th:text="#{field.op}" />
+					         </tr>
+					      </thead>
+					      <tbody>
+					      </tbody>
+					</table>
+			   </div>
+			</div>  
+		</div>
+	</div>
+</body>
+</html>

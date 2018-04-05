@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorator="layout/main">
+<head>
+	<data:notice th:id="${utils.first(param.id)}" var="data"/>
+	<link th:href="@{/assets/js/plugins/layer/skin/layer.css}" rel="stylesheet"/>
+	<link th:href="@{/assets/js/plugins/layer/skin/layer.css}" rel="stylesheet"/>
+	<script th:inline="javascript" th:src="@{/assets/js/plugins/layer/layer.min.js}"></script>
+	
+    <script>
+	    $(document).ready(function() {
+	       <div th:utext="${utils.validate('notice', '#form')}" th:remove="tag"></div>
+	    }); 
+    </script>
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+    $(document).ready(function() {
+        var updateOpts={
+                linkPrefix:"notice",
+                callbackBeforeSubmit:callbackBeforeSubmit,
+        }
+        window.uh = new UpdateHander(updateOpts);
+    });
+	
+    function callbackBeforeSubmit()
+    {
+ 	   $("textarea[name='detail']").val(editor.text());
+    }
+	/*]]>*/
+	</script>
+</head>
+<body layout:fragment="content">  
+	    <div class="contentpanel">
+	        <form id="form" method="post" class="form-horizontal form-bordered">
+	            <div class="panel panel-default">
+	                <div class="panel-heading">
+	                    <div class="panel-title" th:text="#{field.notice.info}" />
+	                </div>
+	                <div class="panel-body nopadding">
+	                    <div class="errorForm" />
+	                    <input type="hidden" id="id" name="id" th:value="${data.id}"/>
+						<div th:replace="common/form::params('notice', ${data}, '')" />
+	                </div>
+	                <div class="panel-footer">
+	                    <button class="btnSave btn btn-primary mr5" th:text="#{button.save}" />
+	                    <button type="button" class="btnReturn btn btn-default" th:text="#{button.return}" />
+	                </div>
+	            </div>
+	        </form>
+	    </div>
+</body>
+</html>

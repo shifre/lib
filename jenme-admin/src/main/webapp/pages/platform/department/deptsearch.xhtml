@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorator="layout/main">
+<head>
+	<div th:replace="common/datatable" />
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	$(document).ready(function() {
+		var aoColumn = [
+           { "mDataProp": "deptCode", "bSortable": true, "sWidth" : "10%",
+           	"mRender": function ( data, type, full ) {
+           		return $.es.encodeHtml(data);
+           	}	  
+           },
+           { "mDataProp": "deptName", "bSortable": true, "sWidth" : "20%", "sClass": "wrapable",
+              	"mRender": function ( data, type, full ) {
+              		return $.es.encodeHtml(data);
+              	}
+            },
+           { "mDataProp": "phone", "bSortable": true, "sWidth" : "20%", "sClass": "wrapable",
+           	"mRender": function ( data, type, full ) {
+           		return $.es.encodeHtml(data);
+           	}	  
+           },
+           { "mDataProp": "address", "bSortable": false, "sWidth" : "20%", "sClass": "wrapable",
+           	"mRender": function ( data, type, full ) {
+           		return $.es.encodeHtml(data);
+           	}	  
+           },
+           { "mDataProp": "operate", "bSortable": false, "sWidth" : "20%",
+           	"mRender": function ( data, type, full ) {
+                return new ActionBuilder().start()
+                .add(bundle['detail'], "javascript:sh.showItem(" + full.deptId + ");", "glyphicon glyphicon-search")
+                .add(bundle['edit'], "javascript:sh.editItem(" + full.deptId + ");", "glyphicon glyphicon-pencil")
+                .add(bundle['remove'], "javascript:sh.delItem(" + full.deptId + ", '" + full.deptName + "');", "fa fa-trash-o")
+                .end();
+             }
+           }
+       ];
+
+		var shInitData={
+	            linkPrefix:"dept",
+	            key:"deptId",
+	           	tableExtraOpt:{
+	            	"scrollX":true,
+	            	"bAutoWidth":true
+	            },
+				aoColumn:aoColumn,
+				passConds: function(){
+					var cb = new CondBuilder();
+					cb.where("deptName", "%", $("#deptName").val());
+					return cb.json;
+				}
+		};
+
+		window.sh = new SearchHandler(shInitData);
+	});
+	/*]]>*/
+	</script>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="contentpanel">
+			<div class="panel  panel-default">
+				<div class="panel-heading">
+	            	<div class="panel-btns col-sm-5">
+	            		<form>
+	            			<button type="button" class="btn btnAdd btn-success right" th:text="#{field.dept.button.add}"/>
+		             		<button type="submit" class="btn btn-primary mr5 btnSearch right ladda-button" th:text="#{button.search}" />
+			                <div class="col-sm-5 right">
+			             		 <input type="text" class="form-control" id="deptName" th:placeholder="#{field.dept.column.deptName}" />
+			             	</div>
+		             	</form>
+	             	</div>
+	                <div class="panel-title" th:text="#{field.dept.list}" />
+	            </div>
+			</div>
+			<div class="row">
+			   <div class="col-sm-12">
+					<table id="resultTable" class="table table-bordered table-hover">
+					      <thead class="">
+					          <tr>
+					             <th th:text="#{field.dept.column.deptCode}" />
+					             <th th:text="#{field.dept.column.deptName}" />
+					             <th th:text="#{field.dept.column.phone}" />
+					             <th th:text="#{field.dept.column.address}" />
+					             <th th:text="#{field.op}" />
+					         </tr>
+					      </thead>
+					      <tbody>
+					      </tbody>
+					</table>
+			   </div>
+			</div>  
+		</div>
+	</div>
+</body>
+</html>

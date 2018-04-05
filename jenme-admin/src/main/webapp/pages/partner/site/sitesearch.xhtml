@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorator="layout/partner">
+<head>
+	<div th:replace="common/datatable" />
+	<link th:href="@{/assets/js/plugins/layer/skin/layer.css}" rel="stylesheet"/>
+	<script th:inline="javascript" th:src="@{/assets/js/plugins/layer/layer.min.js}"></script>
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	var type = "";
+	$(document).ready(function() {
+		var aoColumn = [
+           { "mDataProp": "title", "bSortable": true, "sWidth" : "30%",
+           	"mRender": function ( data, type, full ) {
+           		return $.es.encodeHtml(data);
+           	}	  
+           },
+           { "mDataProp": "description", "bSortable": true, "sWidth" : "30%",
+              	"mRender": function ( data, type, full ) {
+              		return $.es.encodeHtml(data);
+              	}	  
+            },
+           { "mDataProp": "createdTime", "bSortable": true, "sWidth" : "15%", "sClass": "wrapable",
+           	"mRender": function ( data, type, full ) {
+           		return $.es.datetime(data);
+           	}	  
+           },
+           { "mDataProp": "id", "bSortable": false, "sWidth" : "15%",
+           	"mRender": function ( data, type, full ) {
+                return new ActionBuilder().start()
+                .add(bundle['detail'], "javascript:sh.showItem(" + full.id + ");", "glyphicon glyphicon-search")
+                .add(bundle['edit'], "javascript:sh.editItem(" + full.id + ");", "glyphicon glyphicon-pencil")
+                .add(bundle['change.template'], "javascript:changeTemplate(" + full.id + "," + full.templateId + ");", "glyphicon glyphicon-wrench")
+                /* .add(bundle['export.template'], "javascript:exportItem(" + full.id + ");", "fa fa-download") */
+                .end();
+             }
+           }
+       ];
+		
+		var shInitData = {
+            linkPrefix:"site",
+            searchAction:"view/search.json",
+			aoColumn:aoColumn,
+			tableExtraOpt:{"defaultSorting":[[ 2, "desc" ]]},
+			passConds: function(){
+				var cb = new CondBuilder();
+				cb.where("title", "%", $("#title").val());
+				return cb.json;
+			}
+		};
+
+		window.sh = new SearchHandler(shInitData);
+	});
+	
+	function changeTemplate(siteId, templateId)
+	{
+		var dh = new DialogHandler();
+		var path = [[@{/partner/template/}]];
+		dh.confirm(bundle["change.template.hint"] + ' <b>' + name + '</b>', function(){
+			openModaless(path+"templateselect.xhtml?siteId=" + siteId + "&templateId=" + templateId, bundle["title.dialog"]);
+    		return true;
+		}); 
+	}
+	
+	function exportItem(id)
+	{
+		location.href = "export.json?siteId=" + id;
+	}
+	/*]]>*/
+	</script>
+</head>
+<body layout:fragment="content">
+	<div class="contentpanel">
+		<div class="panel  panel-default">
+			<div class="panel-heading">
+            	<div class="panel-btns col-sm-5">
+            		<form>
+	             		<button type="submit" class="btn btn-primary mr5 btnSearch right ladda-button" th:text="#{button.search}"></button>
+		                <div class="col-sm-5 right">
+		             		 <input type="text" class="form-control" id="title" th:placeholder="#{field.title}"></input>
+		             	</div>
+	             	</form>
+             	</div>
+                <div class="panel-title" th:text="#{field.site.list}"></div>
+            </div>
+		</div>
+		<div class="row">
+		   <div class="col-sm-12">
+				<table id="resultTable" class="table table-bordered table-hover">
+				      <thead class="">
+				          <tr>
+				             <th th:text="#{field.title}"></th>
+				             <th th:text="#{field.description}"></th>
+				             <th th:text="#{field.created.time}"></th>
+				             <th th:text="#{field.op}"></th>
+				         </tr>
+				      </thead>
+				      <tbody>
+				      </tbody>
+				</table>
+		   </div>
+		</div>  
+	</div>
+</body>
+</html>

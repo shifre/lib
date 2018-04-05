@@ -1,0 +1,51 @@
+<current:setting />
+<data:notices th:type="1"/>
+<header>
+   <div class="headerwrapper" th:classappend="${setting.theme} == 'COMPACT'? 'collapsed' : ''">
+       <div class="header-left">
+           <a href="#" class="logo">
+               <img th:src="@{/assets/images/logo.png}" alt="" /> 
+           </a>
+           <div class="pull-right">
+               <a href="#" class="menu-collapse ">
+                   <i class="fa fa-bars"></i>
+               </a>
+           </div>
+       </div><!-- header-left -->
+       <div class="header-right">
+           <div class="pull-right">
+               <div class="btn-group btn-group-list btn-group-notification">
+                   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                     <i class="fa fa-bell-o"></i>
+                   </button>
+                   <div class="dropdown-menu pull-right">
+                       <h5>新通知</h5>
+                       <ul class="media-list dropdown-list">
+                           <li class="media" th:each="a,astat:${notices}" th:onclick="|mainShowNotice(${a.id})|">
+                               <div class="media-body">
+                                 <strong th:text="${a.title}">渠道商管理员</strong>
+                                 <small class="date">发布时间： <span th:text="${utils.dateFormat(a.createdTime, 'yyyy-MM-dd HH:mm:ss')}"></span></small>
+                               </div>
+                           </li>
+                       </ul>
+                       <div class="dropdown-footer text-center">
+                           <a th:href="@{/partner/}" class="link">查看所有通知</a>
+                       </div>
+                   </div>
+               </div>
+               
+               <div class="btn-group btn-group-option">
+                   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                     <i class="fa fa-caret-down"></i>
+                   </button>
+                   <ul class="dropdown-menu pull-right" role="menu">
+                     <li><a th:href="@{/partner/account/profile.xhtml}"><i class="glyphicon glyphicon-user"></i>个人设置</a></li>
+                     <li><a th:href="@{/partner/account/changepwd.xhtml}"><i class="glyphicon glyphicon-user"></i>密码修改</a></li>
+                     <li class="divider"></li>
+                     <li><a th:href="@{/logout.xhtml}"><i class="glyphicon glyphicon-log-out"></i>退出登录</a></li>
+                   </ul>
+               </div>
+           </div>
+       </div>
+   </div>
+</header>

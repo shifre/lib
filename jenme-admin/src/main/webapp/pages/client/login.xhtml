@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorator="layout/single">
+<head>
+    <script type="text/javascript" th:src="@{/assets/js/common/apply.captcha.js}"></script>
+	     <script>
+		    $(document).ready(function() {
+		       <div th:utext="${utils.validate('loginClient', '#submitForm')}" th:remove="tag"></div>
+		    }); 
+	    </script>
+	    <script th:inline="javascript">
+		/*<![CDATA[*/
+		    $(document).ready(function() {
+	            $('#submitForm').on('submit', function(e) {
+	                e.preventDefault();
+	                $("#submitForm").ajax(false, null, callback,  $("#submitBtn")[0]);
+	            });
+	        });
+        
+        function callback(data)
+        {
+            if (!data.error)
+            {
+            	 var redirect = [[${utils.first(param.redirect)}]];
+ 	            if (!redirect || redirect.length == 0)
+ 	            {
+ 	                redirect = [[@{/platform/index.xhtml}]];
+ 	            }
+ 	            window.location.href = redirect;
+            }
+            else
+            {
+                if (data.code == "error.login.warn")
+                {
+                    refreshCaptcha();
+                    $("#verifyCode").val('');
+                    $(".verifyPanel").show();
+                }
+            }
+        }
+        /*]]>*/
+	    </script>
+</head>
+	<body class="signin" layout:fragment="content">
+        <section>
+            <div class="panel panel-signin">
+                <div class="panel-body">
+                    <div class="logo text-center">
+                    	<img th:src="@{/assets/images/logo-primary.png}" alt="Logo" />
+                 	</div>
+                 	<br />
+                 	<h4 class="text-center mb5">客户登录</h4>
+                 	<p class="text-center">请输入您的账户与密码</p>
+                 	<div class="mb30"></div>
+                    <form action="login.json" method="post" id="submitForm" >
+	                     <div class="errorForm">
+	                     </div>
+	                     <div class="input-group mb15">
+	                          <span class="input-group-addon"><i class="fa fa-bank"></i></span>
+                              <input type="text" class="form-control" name="client" placeholder="客户名称" value="番禺广场"/>
+	                     </div>
+	                     <div class="input-group mb15">
+	                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                             <input type="text" class="form-control" name="username" placeholder="客户账号" value="admin"/>
+	                     </div>
+	                     <div class="input-group mb15">
+	                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                            <input type="password" class="form-control" name="password" placeholder="客户密码" value="111111"/>
+	                     </div>
+	                     <div class="input-group mb15 verifyPanel " style="display:none;" > 
+	                          <span class="input-group-addon"><i class="glyphicon glyphicon-exclamation-sign"></i></span>
+                              <input type="text" class="form-control mr5" style="width:50%;" name="verifyCode" placeholder="验证码" />
+                              <a href="javascript:void(0);" ><img id="captcha" style="max-width:50%; height:30px;" th:src="@{/captcha/get.json}" /></a>
+	                     </div>
+	                     <div class="clearfix">
+	                         <div class="pull-left">
+	                         </div>
+	                         <div class="pull-right">
+	                             <button type="submit" id="submitBtn" class="btn btn-success">登录 <i class="fa fa-angle-right ml5"></i></button>
+	                         </div>
+	                     </div>                      
+	                 </form>
+                </div><!-- panel-body -->
+            </div><!-- panel -->
+        </section>
+    </body>
+</html>

@@ -1,0 +1,20 @@
+<div th:if="${mode == 'readonly'}" class="form-group">
+    <label class="col-sm-2 control-label" th:text="#{${field.title}}" />
+    <div class="col-sm-4">
+        <div class="well well-sm" th:text="${data[field.name]}" >
+        </div>
+    </div>
+   	<div class="col-sm-3 form-hint" th:unless="${#strings.isEmpty(field.hint)}" th:text="#{${field.hint}}" />
+</div>
+<div th:unless="${mode == 'readonly'}"  class="form-group">
+    <label class="col-sm-2 control-label" th:text="#{${field.title}}" />
+    <div class="col-sm-4">
+        <input type="text" class="form-control" th:name="${field.name}" th:value="${data[field.name]}"/>
+    </div>
+    <div class="col-sm-3">
+    	<button id="btnLock" th:onclick="|assetLock(this,'${field.name}');|" class="btn tooltips btn-white" type="button" style="line-height: 15px;" th:attr="data-original-title=#{field.deblocking}">
+    		<i class="fa fa-unlock" style="font-size: 15px;"></i>
+    	</button>
+    </div>
+   	<div class="col-sm-3 form-hint" th:unless="${#strings.isEmpty(field.hint)}" th:text="#{${field.hint}}" />
+</div>

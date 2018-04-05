@@ -1,0 +1,20 @@
+<div th:unless="${mode == 'readonly'}" class="form-group">
+    <label class="col-sm-2 control-label" th:text="#{field.memberlevel.status}" />
+    <div class="col-sm-4">
+    	<select th:name="${field.name}" class="usertype select" th:attr="data-select-value=${data[field.name]}" >
+    	    <option value="" th:selected="${data[field.name]} == ''" th:text="#{field.memberlevel.status}"></option>
+            <option value="0" th:selected="${data[field.name]} == '0'" th:text="#{field.memberlevel.status0}"></option>
+            <option value="1" th:selected="${data[field.name]} == '1'" th:text="#{field.memberlevel.status1}"></option>
+            <option value="2" th:selected="${data[field.name]} == '9'" th:text="#{field.memberlevel.status9}"></option>
+        </select>
+    </div>
+</div>
+<div th:if="${mode == 'readonly'}" class="form-group">
+    <label class="col-sm-2 control-label" th:text="#{field.memberlevel.status}" />
+    <div class="col-sm-4">
+        <div class="well well-sm" th:if="${data[field.name]} == ''" th:text="#{field.memberlevel.status}" />
+        <div class="well well-sm" th:if="${data[field.name]} == '0'" th:text="#{field.memberlevel.status0}" />
+        <div class="well well-sm" th:if="${data[field.name]} == '1'" th:text="#{field.memberlevel.status1}" />
+        <div class="well well-sm" th:if="${data[field.name]} == '9'" th:text="#{field.memberlevel.status9}" />
+    </div>
+</div>

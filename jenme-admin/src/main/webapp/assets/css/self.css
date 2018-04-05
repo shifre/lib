@@ -1,0 +1,10 @@
+.searchForm{
+	margin:5px 0px;
+}
+.searchForm .btn{
+	margin-top:4px;
+}
+
+button:disabled {
+  visibility: hidden !important;
+}

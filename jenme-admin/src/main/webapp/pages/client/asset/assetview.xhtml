@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorator="layout/client">
+<head>
+    <data:asset th:id="${utils.first(param.id)}" var="data"/>
+	<style type="text/css">
+		.td-hide-text
+		{
+			overflow: hidden;
+		    text-overflow: ellipsis;
+		    white-space: nowrap;
+		    width: 30%;
+		}
+		.td-hide-text img{
+			width: 30px;
+			height: 20px;
+			cursor: pointer;
+		}
+	</style>
+	 <div th:replace="common/datatable" />
+	<!-- prettyPhoto -->
+	<link th:href="@{/assets/css/prettyPhoto.css}" rel="stylesheet"/>
+	<script th:inline="javascript" th:src="@{/assets/js/jquery.prettyPhoto.js}"></script>
+	<style type="text/css">
+		.td-hide-text
+		{
+			overflow: hidden;
+		    text-overflow: ellipsis;
+		    white-space: nowrap;
+		    width: 30%;
+		}
+		#resultTable{
+			width:100%; 
+			table-layout : fixed;
+		}
+	</style>
+    <script th:inline="javascript">
+	/*<![CDATA[*/
+    var filehost = [[${utils.config('filehost')}]];
+	
+	$(document).ready(function() {
+		var updateOpts={
+	        	linkPrefix:"asset"
+	        }
+	    window.uh = new UpdateHander(updateOpts);
+	    
+	    var aoColumn = [
+    	                { "mDataProp": "position", "bSortable": true, "sWidth" : "30%",
+    	                	"mRender": function ( data, type, full ) {
+    	                		return $.es.encodeHtml(full.title);
+    	                	}	  
+    	                },
+    	                { "mDataProp": "value", "bSortable": false, "sWidth" : "70%", "sClass": "td-hide-text",
+    	                	"mRender": function ( data, type, full ) {
+    	                		if([[${data.type}]]== "IMAGE")
+    	                		{
+    	                			var preview = bundle['preview'];
+    	                			return '<a th:href="' + filehost + full.url + '" data-rel="prettyPhoto" class="img-single" title="' + preview + '">'
+									+ '<img th:src="' + filehost + full.url + '" th:onload="imgLoad();"/></a>'
+    	                		}	
+    	                		return $.es.encodeHtml(full.value);
+    	                	}	  
+    	                }
+    	            ];
+    	     		
+    	var linkPrefix = "string";
+    	var searchAction = "string/search.json";
+    	var removeAction = "string/delete.json";
+    	if([[${data.type}]] == "HTML")
+    	{
+    		linkPrefix = "text";
+    		searchAction = "text/search.json";
+    		removeAction = "text/delete.json";
+    	}
+    	
+   		var shInitData = {
+   	            linkPrefix: linkPrefix,
+   	            searchAction: searchAction,
+   	            removeAction: removeAction,
+   				aoColumn:aoColumn,
+   				tableExtraOpt:{"defaultSorting":[[ 0, "desc" ]]},
+   				passConds: function(){
+   					var cb = new CondBuilder();
+   					cb.where("title", "%", $("#title").val());
+   					cb.where("assetId", "=", $("#id").val());
+   					return cb.json;
+   				}
+   			};
+   		window.sh = new SearchHandler(shInitData);
+		
+		$("#resultTable_wrapper").css("margin-right","-20px");
+	});
+	
+	function imgLoad(){
+		$("a[data-rel^='prettyPhoto']").prettyPhoto();
+	}
+	/*]]>*/
+    </script>        
+</head>
+<body layout:fragment="content">   
+	   <div class="contentpanel">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title" th:text="#{field.asset.info}"/>
+                </div>
+                <div class="panel-body nopadding" style="padding: 5px;">
+                    <form id="form" method="post" style="border: solid 1px #ccc;" class="form-horizontal form-bordered col-md-12">
+	                    <div class="errorForm"></div>
+	                    <input type="hidden" id="id" name="id" th:value="${data.id}"/>
+						<div th:replace="common/form::params('asset', ${data}, 'readonly')" />
+	                   <div class="panel-footer">
+		                 <button type="button" class="btn btnEdit btn-primary"  th:text="#{button.edit}" />
+	                   	 <button type="button" class="btn btnRemove btn-danger" th:text="#{button.delete}" />
+		                 <button type="button" class="btn btnReturn btn-default"  th:text="#{button.return}" />
+		              </div>
+                	</form>
+                	<div class="col-md-12 assetTable mt10" style="margin-left:-10px">
+						<div class="panel  panel-default" style="margin-right:-20px">
+				            <div class="panel-heading">
+				            	<div class="panel-btns col-sm-8">
+				            		<form>
+					             		<button type="submit" class="btn btn-primary mr5 btnSearch right ladda-button" th:text="#{button.search}"/>
+						                <div class="col-sm-5 right">
+						             		 <input type="text" class="form-control" id="title" th:placeholder="#{field.title}"/>
+						             	</div>
+					            	</form>
+				             	</div>
+				                <div class="panel-title" style="height: 36px;">
+				                </div>
+				            </div>
+						</div>
+						<table id="resultTable" class="table table-bordered table-hover">
+						      <thead class="">
+						          <tr>
+						             <th th:text="#{field.title}"/>
+						             <th th:text="#{info.content}"/>
+						         </tr>
+						      </thead>
+						      <tbody>
+						      </tbody>
+						</table>
+					 </div>
+                </div>
+            </div>
+	    </div>
+	</body>
+</html>

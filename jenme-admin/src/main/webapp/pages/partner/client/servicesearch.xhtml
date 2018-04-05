@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorator="layout/partner">
+<head>
+	<div th:replace="common/datatable" />
+	<data:client th:id="${utils.first(param.id)}" var="data"/>
+	<data:clientsite th:attr="clientId=${utils.first(param.id)}" var="clientSites"/> 
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+		$(document).ready(function(){
+				$(".createdSiteBtn").click(function(){
+					location.href = "service/siteedit.xhtml?clientId="+[[${utils.first(param.id)}]]+"&amp;type="+[[${utils.first(param.type)}]];
+				});
+				
+				$(".createdAppBtn").click(function(){
+					
+				});
+			})
+			
+			var aa = "${data.chain}";
+			
+			function showView()
+			{
+				location.href = "client" + [[${utils.first(param.type)}]] + ".xhtml?id=" + [[${utils.first(param.id)}]];
+			}
+	/*]]>*/
+	</script>
+</head>
+<body layout:fragment="content">  
+	<div class="contentpanel">
+		<div class="row">
+		    <div class="col-sm-12 col-md-12">
+		        <ul class="nav nav-tabs nav-line">
+		            <li><a href="javascript:void(0);" onclick="showView()"><strong th:text="#{field.client.ref.info}"></strong></a></li>
+		            <li class="active"><a href="javascript:void(0);"><strong th:text="#{field.client.ref.service}"></strong></a></li>
+		        </ul>
+		        <div class="tab-content nopadding noborder">
+	        		<div class="row">
+                        <div class="col-md-8">
+                            <div class="panel panel-success-alt">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title" th:text="#{field.services.add.finish}"></h3>
+                                </div>
+                                <div class="panel-body">
+                                	<div class="tab-pane active">
+                                	   <div th:each="clientSite, status : ${clientSites}"  th:remove="tag">
+                                	   	   <button class="btn btn-white tooltips" type="button" data-toggle="tooltip" style="margin: 5px;"><i class="glyphicon glyphicon-globe" style="font-size: 60px;"></i>
+                                				<div style="margin-bottom: -6px;" th:text="${clientSite.title}"></div>
+                                			</button>
+                                	   </div>
+						        	</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title" th:text="#{field.services.can.add}"></h3>                                      
+                                </div>
+                                <div class="panel-body">
+                               		<div class="row">
+                              			<button class="btn createdSiteBtn btn-white tooltips" type="button" data-toggle="tooltip"  th:title="#{field.client.site.created}" style="margin-right: 10px;"><i class="glyphicon glyphicon-globe" style="font-size: 60px;"></i></button>
+				        				<button class="btn createdSiteBtn btn-primary" th:text="#{field.client.site.created}"></button>
+					        		</div>
+						        	<div class="row">
+					            		<button class="btn createdAppBtn btn-white tooltips" disabled="disabled" type="button" data-toggle="tooltip" th:title="#{field.client.app.created}" style="margin-right: 10px;margin-top: 10px;"><i class="glyphicon glyphicon-phone" style="font-size: 60px;"></i></button>
+						        		<button class="btn createdAppBtn btn-primary" disabled="disabled" th:text="#{field.client.app.created}"></button>
+						        	</div>
+                                </div>
+                            </div>
+                        </div>
+                	</div>
+		    	</div>
+		    </div>
+		</div> 
+	</div>
+</body>
+</html>

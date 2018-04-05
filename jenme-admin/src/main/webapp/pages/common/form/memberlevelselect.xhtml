@@ -1,0 +1,23 @@
+<div th:unless="${mode == 'readonly'}" class="form-group">
+    <data:memberlevels var="levels" />
+    <label class="col-sm-2 control-label" th:text="#{field.member.memberlevel}" />
+    <div class="col-sm-4">
+    	<select th:name="${field.name}" class="usertype select" th:attr="data-select-value=${data[field.name]}" >
+    	    <option value="" th:text="会员等级"/>
+	        <div th:each="level,itemStat:${levels}" th:remove="tag">
+	            <option th:value="${level.id}" th:text="${level.title}" th:selected="${level.id == data[field.name]}"/>
+	        </div>
+        </select>
+    </div>
+</div>
+<div th:if="${mode == 'readonly'}" class="form-group">
+    <data:memberlevels var="levels" />    
+    <label class="col-sm-2 control-label" th:text="#{field.member.memberlevel}" />
+    <div class="col-sm-4">
+	     <div th:each="level,itemStat:${levels}" th:remove="tag">
+	         <div th:if="${data[field.name]} == ${level.id}" th:remove="tag">
+	             <div class="well well-sm" th:text="${level.title}"/>
+	         </div>
+	     </div>
+    </div>
+</div>

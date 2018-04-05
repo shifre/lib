@@ -1,0 +1,73 @@
+
+/* customize size */
+body {
+    font-size: 12px;
+}
+
+.form-control {
+	font-size: 12px;
+    height: 25px;
+    padding: 0px;
+    margin-top: 4px;
+    padding-left: 5px;
+}
+
+.form-group{
+    padding: 0px !important;
+}
+
+.btn {
+    font-size: 12px;
+    padding: 4px 10px;
+}
+
+@media (min-width: 768px)
+.form-horizontal .control-label {
+    padding-top: 0px;
+}
+
+.well, .well-sm {
+    min-height: 25px !important;
+    margin-top: 4px;
+    padding-top: 4px !important;
+    padding-left: 5px !important;
+}
+
+.well-sm {
+	padding: 0px;
+}
+
+img {
+    margin-bottom: 4px !important;
+    margin-top: 4px !important;
+}
+
+.panel-heading .panel-title {
+    line-height: 26px !important;
+}
+
+.panel-title {
+    font-size: 14px !important;
+}
+
+.select2-choice {
+    min-height: 25px;
+}
+.select2-container .select2-choice {
+    padding: 0 !important;
+    padding-left: 5px !important;
+}
+
+.select2-container .select2-choice .select2-arrow {
+    top: -8px !important;
+}
+
+.leftpanel .profile-left .profile-thumb {
+	border: 0px solid #5cb85c !important;
+}
+
+.panel-footer{
+	 padding: 0 !important;
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+}

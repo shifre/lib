@@ -1,0 +1,82 @@
+<link th:href="@{/assets/css/style.default.css}" rel="stylesheet" />
+<link th:href="@{/assets/css/style.custom.min.css}" rel="stylesheet" />
+<link th:href="@{/assets/css/jquery-ui-1.10.3.css}" rel="stylesheet" />
+<link th:href="@{/assets/css/select2.css}" rel="stylesheet" />
+<link th:href="@{/assets/css/jquery.gritter.css}" rel="stylesheet" />
+<link th:href="@{/assets/css/bootstrap-datetimepicker.min.css}" rel="stylesheet" />
+<link th:href="@{/assets/css/self.css}" rel="stylesheet"/>
+<link th:href="@{/assets/js/ladda-loading/ladda-themeless.min.css}" rel="stylesheet" />
+<link th:href="@{/assets/js/plugins/layer/skin/layer.css}" rel="stylesheet"/>
+<link th:href="@{/assets/js/plugins/layer/skin/layer.css}" rel="stylesheet"/>
+
+<!--[if lt IE 9]>
+<script th:src="@{/assets/js/html5shiv.js}"></script>
+<script th:src="@{/assets/js/respond.min.js}"></script>
+<![endif]-->
+
+<script th:src="@{/assets/js/jquery-1.11.1.min.js}"></script>
+<script th:src="@{/assets/js/jquery-migrate-1.2.1.min.js}"></script>
+<script th:src="@{/assets/js/jquery-ui-1.10.3.min.js}"></script>
+<script th:src="@{/assets/js/bootstrap.min.js}"></script>
+<script th:src="@{/assets/js/modernizr.min.js}"></script>
+<script th:src="@{/assets/js/pace.min.js}"></script>
+
+<script th:src="@{/assets/js/jquery.cookies.js}"></script>
+<script th:src="@{/assets/js/jquery.autogrow-textarea.js}"></script>
+<script th:src="@{/assets/js/jquery.mousewheel.js}"></script>
+
+<script th:src="@{/assets/js/toggles3.min.js}"></script>
+<script th:src="@{/assets/js/bootstrap-datetimepicker.min.js}"></script>
+<script th:src="@{/assets/js/select2.min.js}"></script>
+<script th:src="@{/assets/js/jquery.gritter.min.js}"></script>
+
+<script th:src="@{/assets/js/jquery.form.min.js}"></script>
+<script th:src="@{/assets/js/jquery.validate.min.js}"></script>
+<script th:src="@{/assets/js/ladda-loading/spin.min.js}"></script>
+<script th:src="@{/assets/js/ladda-loading/ladda.min.js}"></script>
+<script th:src="@{/assets/js/custom.js}"></script>
+<script th:src="@{/assets/js/common/cantonsoft.js?v1.0.0}"></script>
+<script th:src="@{/assets/js/plugins/download/jquery.fileDownload.js}"></script>
+<script th:inline="javascript" th:src="@{/assets/js/plugins/layer/layer.min.js}"></script>
+<script th:inline="javascript">
+/*<![CDATA[*/
+  function saveTheme(value)
+  {
+      $.newform([[@{/account/setting/theme.json}]], "post", null).ajax(false, {"value" : value}, null, null);
+  }
+  
+  $(document).ready(function(){
+	  var $root = $("ul.nav");
+	  if ($root.length > 0)
+	  {
+		  var currentUrl = [[${#ctx.httpServletRequest.requestURI}]];
+		  var $obj = $("ul.nav").find("[href='" + currentUrl + "']");
+		  if ($obj.length > 0)
+		  {
+			  var $parent = $obj.parent();
+			  activeParents($root[0], $parent[0]);
+		  }
+	  }
+  });
+  
+  function activeParents(root, parent)
+  {
+	  if (!parent || parent == root)
+	  {
+		  return;
+	  }
+	  $(parent).addClass("active");
+	  
+	  var $nextParent = $(parent).parent();
+	  if ($nextParent.length > 0)
+	  {
+		  activeParents(root, $nextParent[0]);
+	  }
+  }
+  
+  function mainShowNotice(id)
+  {
+	  openModaless([[@{/notice/shownotice.xhtml?id=}]] + id, bundle["title.dialog"]);
+  }
+/*]]>*/
+</script>

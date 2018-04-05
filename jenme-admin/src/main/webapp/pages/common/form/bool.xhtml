@@ -1,0 +1,16 @@
+<div th:if="${mode == 'readonly'}" class="form-group">
+    <label class="col-sm-2 control-label" th:text="#{${field.title}}" />
+   	<div class="col-sm-4">
+		<img th:if="${data[field.name]}" th:src="@{/assets/images/enabled_yes.png}" width="20px" class="mt10" />
+		<img th:unless="${data[field.name]}" th:src="@{/assets/images/enabled_no.png}" width="20px" class="mt10" />
+    </div>
+   	<div class="col-sm-6 form-hint" th:unless="${#strings.isEmpty(field.hint)}" th:text="#{${field.hint}}" />
+</div>
+<div th:unless="${mode == 'readonly'}" class="form-group">
+    <label class="col-sm-2 control-label" th:text="#{${field.title}}" />
+    <div class="col-sm-4 control-label">
+        <div class="toggle toggle-success" th:attr="data-toggle-checkbox=${'#' + field.name}" th:name="${field.name}"></div>
+        <input class="hide" type="checkbox" value="true" th:id="${field.name}" th:name="${field.name}" th:checked="${data[field.name]}" />
+    </div>
+   	<div class="col-sm-6 form-hint" th:unless="${#strings.isEmpty(field.hint)}" th:text="#{${field.hint}}" />
+</div>

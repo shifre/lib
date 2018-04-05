@@ -1,0 +1,669 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form-config>
+	<keys>
+		<minlength keyx="{0}的长度不能少于{1}个字符。" />
+		<maxlength keyx="{0}的长度不能多于{1}个字符。" />
+		<maxasialength keyx="{0}的长度不能多于{1}个亚洲字符（一个亚洲字符相当于两个英文字符）。" />
+		<minasialength key="{0}的长度不能少于{1}个亚洲字符（一个亚洲字符相当于两个英文字符）。" />
+		<min keyx="{0}的值不能小于{1}。" />
+		<max keyx="{0}的值不能大于{1}。" />
+		<required keyx="{0}是必填项。" />
+		<range keyx="{0}必须符合{1}。" />
+		<numbercompare keyx="{0}必须介于{1}与{2}之间。" />
+		<daterange keyx="{0}必须介于{1}与{2}之间。" />
+		<equals keyx="{0}必须等于{1}。" />
+		<notequals keyx="{0}不能等于{1}。" />
+		<email keyx="{0}的格式不正确，请输入正确的电子邮箱格式，如：x@xyz.com。" />
+		<match keyx="{0}的格式不正确。" />
+		<loginname keyx="{0}只能含有数字、字母、下划线、点号。" />
+		<integer keyx="请输入正确的整数型数字{0}。" />
+		<usertype keyx="提交了非限定参数。" />
+		<name keyx="{0}只能含有汉字、数字、字母、下划线、点号或圆括号。" />
+		<code keyx="{0}只能含有数字、字母、点号。" />
+		<path keyx="{0}必须以反斜杠(/)开始，并只能含有反斜杠、数字、字母、下划线、横线、点号。" />
+		<phonenumber keyx="{0}只能由数字、横线组成，如：0757-8823838。" />
+		<numeric keyx="{0}必须为数值。" />
+		<pmoney keyx="{0}必须为小于等于10位的正数金额，如：99999.99。" />
+		<date keyx="{0}必须为正确的日期格式，如 2012-01-01。" />
+		<compare hint="操作符param2是l,le,g,ge；提示消息必须要自定义。" />
+
+		<host keyx="{0}只能含有数字、字母、下划线、横线、点号。" />
+		<fieldtype keyx="提交了非限定参数。" />
+		<channelFieldDef keyx="提交了非限定参数。" />
+		<englishName keyx="{0}必须以字母开头,并且只能含有字母、数字。" />
+		<gpsSource keyx="提交了非限定参数。" />
+		<link keyx="请输入正确的网址，如:http://www.cantonsoft.com。" />
+		<mainusertype keyx="提交了非限定参数。" />
+		<partnerusertype keyx="提交了非限定参数。" />
+		<clientusertype keyx="提交了非限定参数。" />
+		<friendlyurl keyx="{0}必须以反斜杠(/)开始，并只能含有反斜杠、数字、字母、横线。" />
+		<sku keyx="{0}必须以字母开头,并且只能含有字母、数字、横线。" />
+	</keys>
+	<fields>
+		<!-- add by shifre -->
+		<text id="number">
+			<numeric />
+		</text>
+		<text id="text">
+			
+		</text>
+		
+		<text id="money">
+			
+		</text>
+	
+		<!-- Standard Fields -->
+		<text id="title" name="title" title="名称" code="field.title">
+			<required />
+			<maxlength param="30" />
+		</text>
+		<datetime id="datetime">
+			<required />
+		</datetime>
+		<date id="date">
+			<required />
+		</date>
+		<!-- <money id="money">
+		</money> -->
+		<uploadImg id="image" name="image" title="图片">
+			<maxlength param="100" />
+		</uploadImg>
+		<text id="dynamic.text">
+			<maxlength param="200" />
+		</text>
+		<textarea id="dynamic.textarea">
+			<maxlength param="65535" />
+		</textarea>
+		<html id="dynamic.html">
+			<maxlength param="65535" />
+		</html>
+		<bool id="dynamic.bool">
+		</bool>
+		<images id="dynamic.images">
+		</images>
+		<files id="dynamic.files">
+		</files>
+		<refs id="dynamic.refs">
+		</refs>
+		<multiple id="dynamic.multiple">
+		</multiple>
+		<datetime id="dynamic.datetime">
+		</datetime>
+
+		<!-- User Related -->
+		<text id="username" name="username" title="账号" code="field.username">
+			<required />
+			<loginname />
+			<minlength param="5" />
+			<maxlength param="20" />
+		</text>
+
+		<password id="password" name="password" title="密码"
+			code="field.password">
+			<required />
+			<minlength param="6" />
+			<maxlength param="15" />
+		</password>
+
+		<newpassword id="password.verify" name="password" title="密码"
+			code="field.password">
+			<required />
+			<minlength param="6" />
+			<maxlength param="15" />
+			<equals param="$verifyPassword" key="两次输入的密码不一致。"
+				code="form.message.verifypassword" />
+		</newpassword>
+
+		<newpassword id="userview.password.verify" name="password"
+			title="密码" code="field.password">
+			<minlength param="6" />
+			<maxlength param="15" />
+			<equals param="$verifyPassword" key="两次输入的密码不一致。"
+				code="form.message.verifypassword" />
+		</newpassword>
+
+		<text id="phone" name="phone" title="电话号码" code="field.phone">
+			<phonenumber />
+			<required />
+			<maxlength param="20" />
+		</text>
+		<text id="email" name="email" title="电子邮箱" code="field.email">
+			<email />
+			<maxlength param="50" />
+		</text>
+
+		<division id="division" name="division" title="区域" code="field.division">
+			<required />
+		</division>
+
+		<ext_expresscompany id="expresscompany" name="expressCompany" title="快递公司" code="field.orderdelivery.expresscompany">
+		    <required />
+		</ext_expresscompany>
+		<longtext id="address" name="address" title="地址" code="field.address">
+			<maxlength param="100" />
+		</longtext>
+
+		<textarea id="description" name="description" title="描述" code="field.description">
+			<maxlength param="100" />
+		</textarea>
+
+		<textarea id="detail" name="detail" title="公告内容"
+			code="field.notice.detail">
+			<required />
+			<maxlength param="1000" />
+		</textarea>
+
+		<textarea id="pattern" name="pattern" title="数据格式" code="field.pattern">
+			<maxlength param="65535" />
+		</textarea>
+
+		<textarea id="content" name="content" title="内容" code="field.content">
+			<required />
+			<maxlength param="65535" />
+		</textarea>
+
+		<html id="productContent" name="content" title="介绍"
+			code="field.product.content">
+			<maxlength param="65535" />
+		</html>
+
+		<hosttext id="portal" name="portal" title="平台绑定网址" code="field.portal">
+			<maxlength param="50" />
+			<host />
+		</hosttext>
+
+		<ext_clienttypeselect id="clientType" name="type"
+			title="类型" code="field.type">
+			<required />
+		</ext_clienttypeselect>
+		
+		
+		<text id="domain" name="domain" title="域名" code="field.site.domain">
+			<maxlength param="20" />
+			<host />
+		</text>
+		<text id="friendlyUrl" name="friendlyUrl" title="URL"
+			code="field.site.nav.friendly.url">
+			<friendlyurl />
+			<maxlength param="100" />
+		</text>
+		<shorttext id="position" name="position" title="排序"
+			code="field.site.nav.position">
+			<required />
+			<integer />
+			<maxlength param="9" />
+		</shorttext>
+		<channelselect id="channelId" name="channelId" title="内容频道"
+			code="field.site.nav.channel.id">
+		</channelselect>
+		<sitenavselect id="parentId" name="parentId" title="上级栏目"
+			code="field.site.nav.parent.id">
+		</sitenavselect>
+		<sitenavselect id="articleParent" name="parentId" title="所属栏目"
+			code="field.article.parent">
+			<required />
+		</sitenavselect>
+		<text id="detailTemplate" name="detailTemplate" title="网站详情模版"
+			code="field.site.nav.detail.template">
+			<maxlength param="50" />
+		</text>
+		<text id="listTemplate" name="listTemplate" title="网站列表模版"
+			code="field.site.nav.list.template">
+			<maxlength param="50" />
+		</text>
+		<text id="mobileDetailTemplate" name="mobileDetailTemplate"
+			title="WAP网站详情模版" code="field.site.nav.mobile.detail.template">
+			<maxlength param="50" />
+		</text>
+		<text id="mobileListTemplate" name="mobileListTemplate" title="WAP网站列表模版"
+			code="field.site.nav.mobile.list.template">
+			<maxlength param="50" />
+		</text>
+		<text id="seoKeywords" name="seoKeywords" title="SEO关键字"
+			code="field.site.nav.seo.keywords">
+			<maxlength param="25" />
+		</text>
+		<textarea id="seoDescription" name="seoDescription" title="SEO描述"
+			code="field.site.nav.seo.description">
+			<maxlength param="200" />
+		</textarea>
+
+		<text id="uniqueName" name="uniqueName" title="唯一编码" code="field.unique.name">
+			<required />
+			<englishName />
+			<maxlength param="50" />
+		</text>
+
+		<!-- Product Related -->
+		<shorttext id="price" name="price" title="价格" code="field.template.price"
+			hint="元">
+			<pmoney />
+		</shorttext>
+
+		<text id="brand" name="brand" title="品牌" code="field.brand">
+			<maxlength param="50" />
+		</text>
+
+		<html id="productDescription" name="description" title="介绍"
+			code="field.product.description">
+			<maxlength param="65535" />
+		</html>
+
+		<text id="sku" name="sku" title="编号" code="field.product.sku">
+			<maxlength param="30" />
+			<sku />
+		</text>
+
+		<templateImg id="templateImg" name="image" title="模版图片">
+			<maxlength param="100" />
+		</templateImg>
+
+		<templatesource id="templatesource" name="source"
+			title="模版来源" code="field.template.source">
+			<required />
+			<maxlength param="20" />
+		</templatesource>
+
+		<shorttext id="quantity" name="quantity" tie="数量"
+			code="field.quantity">
+			<required />
+			<integer />
+			<maxlength param="9" />
+		</shorttext>
+
+		<text id="m_name" name="name" title="名称" code="field.title">
+			<required />
+			<maxlength param="10" />
+		</text>
+		<text id="m_title" name="title" title="标题" code="field.title.full">
+			<maxlength param="80" />
+		</text>
+		<areaselect id="m_area" name="areaid" title="城市"
+			code="field.hotel.areaid">
+			<required />
+			<maxlength param="10" />
+		</areaselect>
+		<findaddress id="m_address" name="address" title="坐标"
+			code="field.address">
+		</findaddress>
+		<hoteltagselect id="m_tagid" name="tagid" title="标签"
+			code="field.hotel.tagid">
+		</hoteltagselect>
+		<starsselect id="m_stars" name="stars" title="星级" code="field.stars"></starsselect>
+		<hotelstatusselect id="m_hotel_status" name="status"
+			title="状态" code="field.status"></hotelstatusselect>
+		<roomstatusselect id="m_room_status" name="status"
+			title="状态" code="field.status"></roomstatusselect>
+		<textarea id="m_remark" name="remark" title="备注" code="field.comment">
+			<maxlength param="40" />
+		</textarea>
+
+		<text id="code" name="code" title="编码" code="field.unique.name">
+			<required />
+			<maxlength param="20" />
+			<host />
+		</text>
+
+		<ext_assettypeselect id="assetType" name="type" title="类型" code="field.type">
+    		<required/>
+    	</ext_assettypeselect>
+    	
+		<!-- Catalog Related -->
+		<ext_catalogselect id="catalogParent" name="parentId"
+			title="所属分类目录" code="field.catalog.partner">
+		</ext_catalogselect>
+		<ext_product_sort_select id="productSortParent"
+			name="parentId" title="所属产品种类" code="field.product.sort.partner">
+		</ext_product_sort_select>
+	</fields>
+
+	<forms>
+		<!-- VALIDATION!!! -->
+		<form id="login">
+			<ref field="username" />
+			<ref field="password" />
+		</form>
+
+		<form id="username">
+			<ref field="username" mode="final" />
+		</form>
+
+		<form id="loginPartner">
+			<ref field="title" name="partner" title="合作伙伴" code="field.title.partner" />
+			<ref field="username" />
+			<ref field="password" />
+		</form>
+
+		<form id="loginClient">
+			<ref field="title" name="client" title="客户名称" code="client.title" />
+			<ref field="username" />
+			<ref field="password" />
+		</form>
+
+		<form id="user">
+			<ref field="image" name="image" title="头像" code="field.user.head.image" />
+			<ref field="title" name="title" title="姓名" code="field.name" />
+			<ref field="phone" />
+			<ref field="email" />
+			<bool name="enabled" title="状态" code="field.enabled" />
+			<ref field="description" />
+		</form>
+
+		<form id="sitevisit">
+		</form>
+		<form id="createPassword">
+			<ref field="password.verify" />
+		</form>
+
+		<form id="userName">
+			<ref field="username" />
+		</form>
+		<form id="deliveryaddress">
+		</form>
+		<form id="changePassword">
+			<password name="oldPassword" title="原密码" code="field.user.old.password">
+				<required />
+			</password>
+			<ref field="password.verify" title="新密码" code="field.user.new.password" />
+		</form>
+
+		<!-- VIEW GENERATION!!! -->
+		<!-- register -->
+		<form id="register">
+			<ref field="username" />
+			<ref field="title" />
+			<ref field="phone" />
+			<ref field="email" />
+			<ref field="password.verify" />
+			<verify />
+		</form>
+
+		<!-- User -->
+		<form id="userView">
+			<ref field="image" name="image" title="头像" code="field.user.head.image" />
+			<ref field="title" name="title" title="姓名" code="field.name" />
+			<ref field="phone" />
+			<ref field="email" />
+			<bool name="enabled" title="状态" code="field.enabled" />
+			<mainusertype name="type" title="用户类型" code="field.user.type">
+				<mainusertype />
+			</mainusertype>
+			<ref field="userview.password.verify" hint="若不需要修改密码，则请留空"
+				hintcode="form.message.password.change" />
+			<ref field="description" />
+		</form>
+
+		<form id="user.setting">
+		</form>
+
+		<form id="partnerUser">
+			<ref field="image" name="image" title="头像" code="field.user.head.image" />
+			<ref field="title" name="title" title="姓名" code="field.name" />
+			<ref field="phone" />
+			<ref field="email" />
+			<bool name="enabled" title="状态" code="field.enabled" />
+			<partnerusertype name="type" title="用户类型" code="field.user.type">
+				<partnerusertype />
+			</partnerusertype>
+			<ref field="description" />
+		</form>
+
+		<form id="clientUser">
+			<ref field="image" name="image" title="头像" code="field.user.head.image" />
+			<ref field="title" name="title" title="姓名" code="field.name" />
+			<ref field="phone" />
+			<ref field="email" />
+			<bool name="enabled" title="状态" code="field.enabled" />
+			<clientusertype name="type" title="用户类型" code="field.user.type">
+				<clientusertype />
+			</clientusertype>
+			<ref field="description" />
+		</form>
+
+		<form id="notice">
+			<text id="title" name="title" title="公告标题" code="field.notice.title">
+				<required />
+				<maxlength param="200" />
+			</text>
+			<ext_noticetypeselect name="type" title="公告范围"
+				code="field.notice.type">
+				<required />
+			</ext_noticetypeselect>
+			<bool name="status" title="状态" code="field.enabled" />
+			<kindedit name="detail" code="info.content"/>
+		</form>
+
+		<form id="partner">
+			<ref field="title" />
+			<ref field="title" name="contactName" title="联系人" code="field.contact" />
+			<ref field="phone" />
+			<ref field="email" />
+			<ref field="portal" />
+			<ref field="division" />
+			<ref field="image" name="logoUrl" title="Logo" />
+			<ref field="address" />
+			<ref field="description" />
+			<bool name="enabled" title="状态" code="field.enabled" />
+		</form>
+		<form id="profile">
+			<ref field="image" name="image" title="头像" code="field.user.head.image" />
+			<ref field="title" title="姓名" code="field.name" />
+			<ref field="phone" />
+			<ref field="email" />
+		</form>
+
+		<form id="client">
+			<ref field="title" code="field.client.title"/>
+			<ref field="clientType" />
+			<text name="contact" title="联系人" code="field.client.contact">
+				<required />
+				<maxlength param="20" />
+			</text>
+			<ref field="phone" code="field.client.phone"/>
+			<ref field="email" code="field.client.email"/>
+			<ref field="image" title="Logo" />
+			<bool name="enabled" title="状态" code="field.client.status" />
+		</form>
+
+		<form id="eclientregister">
+			<ref field="username" />
+			<ref field="title" />
+			<ref field="phone" />
+			<ref field="email" />
+			<ref field="password.verify" />
+			<verify />
+		</form>
+
+		<form id="clientUserView">
+			<ref field="image" name="image" title="头像" code="field.user.head.image" />
+			<ref field="title" name="title" title="姓名" code="field.name" />
+			<ref field="phone" />
+			<ref field="email" />
+			<clientusertype name="type" title="用户类型" code="field.user.type">
+				<clientusertype />
+			</clientusertype>
+			<ref field="userview.password.verify" hint="若不需要修改密码，则请留空"
+				hintcode="form.message.password.change" />
+			<bool name="enabled" title="状态" code="field.enabled" />
+			<ref field="description" />
+		</form>
+		
+		<form id="goodsDetailView">
+			<ref field="text" name="size" code="field.goods.size" />
+			<ref field="money" name="purPrice" code="field.goods.pur.price" />
+			<ref field="money" name="salePrice" code="field.goods.sale.price" />
+			<ref field="money" name="lcPrice" code="field.goods.lc.price" />
+			<ref field="money" name="maoli" code="field.goods.maoli" />
+			<ref field="text" name="unit" code="field.goods.unit" />
+			<ref field="text" name="hiddenInd" code="field.goods.hidden.ind" />
+			<ref field="date" name="deliverTime" code="field.goods.pur.deliver.time" />
+			<ref field="text" name="memo" code="field.goods.order.memo" />
+			<ref field="number" name="customInd" code="field.goods.customize.ind" />
+			<ref field="number" name="accessorInd" code="field.goods.accessories.ind" />
+			<ref field="number" name="type" code="field.goods.type" />
+			<ref field="text" name="updateBy" code="field.goods.update.by" />
+		</form>
+
+		<form id="partnerUserView">
+			<ref field="image" name="image" title="头像" code="field.user.head.image" />
+			<ref field="title" name="title" title="姓名" code="field.name" />
+			<ref field="phone" />
+			<ref field="email" />
+			<partnerusertype name="type" title="用户类型" code="field.user.type" />
+			<ref field="userview.password.verify" hint="若不需要修改密码，则请留空"
+				hintcode="form.message.password.change" />
+			<bool name="enabled" title="状态" code="field.enabled" />
+			<ref field="description" />
+		</form>
+		<form id="site">
+			<ref field="title" />
+			<ref field="description" />
+		</form>
+		<form id="siteSetting">
+		    <ref field="title" name="value" title="运费"/>
+		</form>
+		<form id="ownership">
+		</form>
+		<form id="serviceContract">
+		</form>
+
+		<form id="serviceUsageView">
+			<group id="client">
+				<text name="clientName" title="酒店名称" codel="client.title" />
+				<text name="clientEmail" title="邮箱" codel="field.email" />
+				<ref field="image" name="clientImage" title="头像"
+					code="field.user.head.image" />
+			</group>
+			<group id="usage">
+				<text name="siteName" title="站点名称" code="field.site.name">
+					<maxlength param="50" />
+				</text>
+				<datetime name="createdTime" title="创建时间" code="field.created.time"></datetime>
+				<datetime name="expiryTime" title="服务年限" code="field.service.year"></datetime>
+				<servicestatusselect name="status" title="状态"
+					code="field.status"></servicestatusselect>
+			</group>
+		</form>
+
+		<form id="upload">
+			<ref field="image" name="imageUrl" />
+		</form>
+		<form id="subject">
+			<ref field="title" />
+			<ref field="uniqueName" />
+		</form>
+		<form id="myTemplate">
+			<ref field="title" />
+			<images name="images" title="图册" code="field.product.images">
+			</images>
+			<ref field="templatesource" />
+			<ref field="description" />
+		</form>
+
+		<form id="myTemplateView">
+			<ref field="title" />
+			<images name="images" title="图册" code="field.product.images">
+			</images>
+			<ref field="description" />
+		</form>
+
+		<form id="asset">
+			<ref field="title" />
+			<lock name="name" title="code" code="field.unique.name">
+				<code />
+				<maxlength param="30" />
+			</lock>
+			<ref field="assetType" />
+			<ref field="m_remark" name="description" />
+		</form>
+		<form id="assetString">
+			<ref field="title" />
+			<text name="value" title="内容" code="info.content">
+				<required />
+				<maxlength param="200" />
+			</text>
+			<text name="url" title="url" code="field.site.nav.friendly.url">
+				<maxlength param="200" />
+			</text>
+			<shorttext name="position" title="排序" code="field.site.nav.position">
+				<required />
+				<integer />
+				<maxlength param="9" />
+			</shorttext>
+		</form>
+		
+		
+		<form id="template">
+			<ref field="title" />
+			<ref field="image" name="image" title="缩略图" code="field.thumbnail" />
+			<ref field="description" />
+		</form>
+
+		<form id="departmentView">
+			<ref field="title" name="deptCode" title="部门编号" code="field.dept.column.deptCode"/>
+			<ref field="title" name="deptName" title="部门名称" code="field.dept.column.deptName"/>
+			<ref field="phone" title="部门电话" code="field.dept.column.phone"/>
+			<ref field="address" title="部门地址" code="field.dept.column.address"/>
+			<bool name="open" title="启用状态" code="field.dept.open" />
+		</form>
+		
+		<form id="goodsCategoryView">
+			<ref field="title" name="code" title="类别代码" code="field.goods.category.column.code"/>
+			<ref field="title" name="name" title="类别名称" code="field.goods.category.column.name"/>
+		</form>
+		
+		<form id="areaView">
+			<ref field="title" name="city" title="城市" code="field.info.area.column.city"/>
+			<ref field="title" name="area" title="区域" code="field.info.area.column.area"/>
+		</form>
+		<form id="vendorView">
+			<ref field="title" name="code" title="厂家编号" code="field.info.vendor.column.code"/>
+			<ref field="title" name="name" title="厂家全称" code="field.info.vendor.column.name"/>
+			<ref field="title" name="shortName" title="厂家简称" code="field.info.vendor.column.shortName"/>
+			<ref field="title" name="habitat" title="所在地" code="field.info.vendor.column.habitat"/>
+			<ref field="title" name="address" title="详细地址" code="field.info.vendor.column.address"/>
+			<ref field="title" name="postCode" title="邮政编码" code="field.info.vendor.column.postCode"/>
+			<ref field="title" name="fax" title="传真号码" code="field.info.vendor.column.fax"/>
+			<ref field="title" name="phone" title="电话号码" code="field.info.vendor.column.phone"/>
+			<ref field="title" name="contact" title="联系人" code="field.info.vendor.column.contact"/>
+			<ref field="email" name="email" title="电子邮箱" code="field.info.vendor.column.email"/>
+			<ref field="title" name="brand" title="品牌" code="field.info.vendor.column.brand"/>
+			<ref field="description" name="memo" title="简介" code="field.info.vendor.column.memo"/>
+		</form>
+		<form id="goodsView">
+			<vendor name="vendorId" title="厂家代码" code="field.goods.info.column.vendor"/>
+			<category name="categoryId" title="商品类型" code="field.goods.info.column.category"/>
+			<ref field="title" name="code" title="商品编号" code="field.goods.info.column.code"/>
+			<ref field="title" name="name" title="商品名称" code="field.goods.info.column.name"/>
+			<ref field="title" name="color" title="颜色" code="field.goods.info.column.color"/>
+			<ref field="title" name="spec" title="尺寸" code="field.goods.info.column.spec"/>
+			<ref field="title" name="texture" title="商品材质" code="field.goods.info.column.texture"/>
+			<ref field="title" name="unit" title="单位" code="field.goods.info.column.unit"/>
+			<ref field="title" name="purDeliverTime" title="货期" code="field.goods.info.column.purDeliveryTime"/>
+			<ref field="title" name="saleDeliverTime" title="货期" code="field.goods.info.column.saleDeliveryTime"/>
+			<ref field="title" name="purPrice" title="进价" code="field.goods.info.column.purPrice"/>
+			<ref field="title" name="salePrice" title="售价" code="field.goods.info.column.salePrice"/>
+			<profit name="profit" title="毛利" code="field.goods.info.column.profit"/>
+			<ref field="title" name="lcPrice" title="乐从售价" code="field.goods.info.column.lcPrice"/>
+			<ref field="title" name="weight" title="重量" code="field.goods.info.column.weight"/>
+			<ref field="title" name="volume" title="体积" code="field.goods.info.column.volume"/>
+			<bool name="customize" title="订制" code="field.goods.info.column.customize" />
+			<bool name="accessories" title="配件" code="field.goods.info.column.accessories" />
+			<bool name="hidden" title="隐藏" code="field.goods.info.column.hidden" />
+			<ref field="description" name="orderMemo" title="订货详情" code="field.goods.info.column.orderMemo"/>
+		</form>
+		<form id="shopCarView">
+			<ref field="title" name="carNo" title="车牌号" code="field.info.car.column.carNo"/>
+			<ref field="title" name="models" title="车型" code="field.info.car.column.models"/>
+			<ref field="title" name="maxVolume" title="最大容量" code="field.info.car.column.maxVolume"/>
+			<ref field="title" name="mutiple" title="运费倍率" code="field.info.car.column.mutiple"/>
+			<ref field="price" name="price" title="每个点的运费价格" code="field.info.car.column.price"/>
+			<ref field="title" name="maxWeight" title="最大载重量" code="field.info.car.column.maxWeight"/>
+		</form>
+		<form id="startPriceView">
+			<ref field="price" name="price" title="价格" code="field.info.startprice.column.price"/>
+			<ref field="title" name="area" title="地址" code="field.info.startprice.column.area"/>
+		</form>
+		
+	</forms>
+</form-config>

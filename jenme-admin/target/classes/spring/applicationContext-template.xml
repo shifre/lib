@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd"
+	default-lazy-init="false">
+
+
+	<!-- **************************************************************** -->
+	<!-- THYMELEAF-SPECIFIC ARTIFACTS -->
+	<!-- TemplateResolver <- TemplateEngine <- ViewResolver -->
+	<!-- **************************************************************** -->
+
+	<bean id="templateResolver"
+		class="com.cantonsoft.framework.mvc.template.core.CmsFileTemplateResolver">
+		<property name="prefix" value="${templatebase}" />
+        <property name="suffix" value=".xhtml" />
+		<property name="cacheable" value="${cache.page.templates}" />
+		<property name="cacheTTLMs" value="${cache.page.templates.ttl}" />
+		<property name="characterEncoding" value="UTF-8" />
+        <property name="defaultContext" value="default" />
+	</bean>
+
+	<bean id="templateEngine" class="com.cantonsoft.framework.mvc.template.core.CmsTemplateEngine">
+		<property name="templateResolver" ref="templateResolver" />
+		<property name="messageSource" ref="messageSource" />
+		<property name="additionalDialects">
+			<set>
+				<ref bean="layoutDialect" />
+				<ref bean="extraCommentsDialect" />
+				<ref bean="esDialect" />
+				<ref bean="dataDialect" />
+				<ref bean="currentDialect" />
+			</set>
+		</property>
+	</bean>
+
+	<bean class="org.thymeleaf.spring3.view.ThymeleafViewResolver">
+		<property name="templateEngine" ref="templateEngine" />
+		<property name="characterEncoding" value="UTF-8" />
+		<property name="contentType" value="text/html; charset=UTF-8" />
+		<property name="staticVariables">
+			<map>
+				<entry key="utils" value-ref="utils" />
+			</map>
+		</property>
+	</bean>
+
+	<!-- Dialects -->
+	<bean id="extraCommentsDialect" class="org.thymeleaf.extras.conditionalcomments.dialect.ConditionalCommentsDialect" />
+	
+	<bean id="layoutDialect" class="nz.net.ultraq.thymeleaf.LayoutDialect" />
+	
+	<bean id="esDialect" class="com.cantonsoft.framework.mvc.template.core.AddtionalDialect">
+		<property name="prefix" value="es" />
+		<property name="processors">
+			<set>
+			    <ref bean="formProcessor"/>
+			</set>
+		</property>
+	</bean>
+	
+	<bean id="formProcessor" class="com.cantonsoft.framework.mvc.template.processor.FormProcessor" >
+	     <constructor-arg name="elementName" value="form" />
+	</bean>
+	
+	<!-- Data processors -->
+	<bean id="dataDialect" class="com.cantonsoft.admin.template.processor.data.DataDialect">
+		<property name="prefix" value="data" />
+		<property name="processors">
+			<set>
+			    <ref bean="userProcessor"/>
+			    <ref bean="usernameProcessor"/>
+			    <ref bean="partnerProcessor"/>
+			    <ref bean="clientProcessor"/>
+			    <ref bean="noticeProcessor"/>
+			    <ref bean="noticesProcessor"/>
+			    <ref bean="templateProcessor"/>
+			    <ref bean="templateListProcessor"/>
+			    <ref bean="clientSiteProcessor"/>
+			    <ref bean="siteProcessor"/>
+			    <ref bean="siteSettingProcessor"/> 
+			    <ref bean="departmentProcessor"/>
+			    <ref bean="goodsCategoryProcessor"/>
+			    <ref bean="goodsCategoryListProcessor"/>
+			    <ref bean="areaProcessor"/>
+			    <ref bean="vendorProcessor"/>
+			    <ref bean="vendorListProcessor"/>
+			    <ref bean="functionProcessor"/>
+			    <ref bean="goodsProcessor"/>
+			    <ref bean="goodsDetailListProcessor"/>
+			    <ref bean="shopCarProcessor"/>
+			    <ref bean="startPriceProcessor"/>
+			    <ref bean="deptmentListProcessor"/>
+			</set>
+		</property>
+	</bean>
+	
+	<bean id="partnerProcessor" class="com.cantonsoft.admin.template.processor.data.PartnerProcessor" >
+	     <constructor-arg name="elementName" value="partner" />
+	</bean>
+	<bean id="clientProcessor" class="com.cantonsoft.admin.template.processor.data.ClientProcessor" >
+	     <constructor-arg name="elementName" value="client" />
+	</bean>
+	<bean id="userProcessor" class="com.cantonsoft.admin.template.processor.data.UserProcessor" >
+	     <constructor-arg name="elementName" value="user" />
+	</bean>
+	<bean id="usernameProcessor" class="com.cantonsoft.admin.template.processor.data.UsernameProcessor" >
+	     <constructor-arg name="elementName" value="username" />
+	</bean>
+	<bean id="noticeProcessor" class="com.cantonsoft.admin.template.processor.data.NoticeProcessor">
+	     <constructor-arg name="elementName" value="notice"/>
+	</bean>
+	<bean id="noticesProcessor" class="com.cantonsoft.admin.template.processor.data.NoticesProcessor">
+	     <constructor-arg name="elementName" value="notices"/>
+	</bean>
+	<bean id="templateProcessor" class="com.cantonsoft.admin.template.processor.data.TemplateProcessor">
+	     <constructor-arg name="elementName" value="template"/>
+	</bean>
+	<bean id="templateListProcessor" class="com.cantonsoft.admin.template.processor.data.TemplateListProcessor">
+	     <constructor-arg name="elementName" value="templates"/>
+	</bean>
+	<bean id="clientSiteProcessor" class="com.cantonsoft.admin.template.processor.data.ClientSiteProcessor">
+	     <constructor-arg name="elementName" value="clientsite"/>
+	</bean>
+	<bean id="siteProcessor" class="com.cantonsoft.admin.template.processor.data.SiteProcessor">
+	     <constructor-arg name="elementName" value="site"/>
+	</bean>
+	<bean id="siteSettingProcessor" class="com.cantonsoft.admin.template.processor.data.SiteSettingProcessor">
+	    <constructor-arg name="elementName" value="sitesetting"/>
+	</bean>
+	<!-- For Jenme -->
+	<bean id="departmentProcessor" class="com.cantonsoft.admin.template.processor.data.DepartmentProcessor" >
+	     <constructor-arg name="elementName" value="department" />
+	</bean>
+	<bean id="goodsCategoryProcessor" class="com.cantonsoft.admin.template.processor.data.GoodsCategoryProcessor" >
+	     <constructor-arg name="elementName" value="goodscategory" />
+	</bean>
+	<bean id="goodsCategoryListProcessor" class="com.cantonsoft.admin.template.processor.data.GoodsCategoryListProcessor" >
+	     <constructor-arg name="elementName" value="goodscategorylist" />
+	</bean>
+	<bean id="areaProcessor" class="com.cantonsoft.admin.template.processor.data.AreaProcessor" >
+	     <constructor-arg name="elementName" value="area" />
+	</bean>
+	<bean id="vendorProcessor" class="com.cantonsoft.admin.template.processor.data.VendorProcessor" >
+	     <constructor-arg name="elementName" value="vendor" />
+	</bean>
+	<bean id="vendorListProcessor" class="com.cantonsoft.admin.template.processor.data.VendorListProcessor" >
+	     <constructor-arg name="elementName" value="vendorlist" />
+	</bean>
+	<bean id="functionProcessor" class="com.cantonsoft.admin.template.processor.data.FunctionProcessor" >
+	     <constructor-arg name="elementName" value="function" />
+	</bean>
+	<bean id="goodsProcessor" class="com.cantonsoft.admin.template.processor.data.GoodsProcessor" >
+	     <constructor-arg name="elementName" value="goods" />
+	</bean>
+	<bean id="goodsDetailListProcessor" class="com.cantonsoft.admin.template.processor.data.GoodsDetailListProcessor" >
+	     <constructor-arg name="elementName" value="goodsdetails" />
+	</bean>
+	<bean id="shopCarProcessor" class="com.cantonsoft.admin.template.processor.data.ShopCarProcessor" >
+	     <constructor-arg name="elementName" value="shopcar" />
+	</bean>
+	<bean id="startPriceProcessor" class="com.cantonsoft.admin.template.processor.data.StartPriceProcessor" >
+	     <constructor-arg name="elementName" value="startprice" />
+	</bean>
+	<bean id="deptmentListProcessor" class="com.cantonsoft.admin.template.processor.data.DeptmentListProcessor" >
+	     <constructor-arg name="elementName" value="deptmentlist" />
+	</bean>
+	<!-- Current processors -->
+	
+	<bean id="currentDialect" class="com.cantonsoft.admin.template.processor.current.CurrentDialect">
+		<property name="prefix" value="current" />
+		<property name="processors">
+			<set>
+			    <ref bean="userSettingProcessor"/>
+			    <ref bean="userCurrentProcessor"/>
+			    <ref bean="userMenuProcessor"/>
+			</set>
+		</property>
+	</bean>
+	<bean id="userSettingProcessor" class="com.cantonsoft.admin.template.processor.current.SettingProcessor" >
+	     <constructor-arg name="elementName" value="setting" />
+	</bean>
+	<bean id="userCurrentProcessor" class="com.cantonsoft.admin.template.processor.current.CurrentProcessor" >
+	     <constructor-arg name="elementName" value="user" />
+	</bean>
+	<bean id="userMenuProcessor" class="com.cantonsoft.admin.template.processor.current.MenuProcessor" >
+	     <constructor-arg name="elementName" value="menu" />
+	</bean>
+	
+	<!-- User defined functions -->
+	<bean id="utils" class="com.cantonsoft.admin.template.function.PlatformPageUtils" />
+</beans>

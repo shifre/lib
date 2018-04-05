@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorator="layout/partner">
+<head>
+   <data:client th:id="${utils.first(param.id)}" var="data"/>
+   <script th:inline="javascript">
+	/*<![CDATA[*/
+    $(document).ready(function() {
+        var uhInitData = 
+        {
+        	linkPrefix:"client"
+        }
+        window.uh = new UpdateHander(uhInitData);
+        
+        var initData = {
+                formId : 'formWillBeCreated',
+                url : [[@{/upload/file.json}]],
+                filehost: [[${utils.config('filehost')}]],
+                resultAt: $("input[name='image']"), 
+                previewAt: $("#img"),
+                promptOn: $("#form"),
+                btnFile:'.btn-file',
+                callback: function(resp){
+                }
+            };
+        $("#file").change(function(){
+            $(this).upload(initData);
+        });
+        
+        if($("input[name='image']").val() == '') {
+			$("#img").hide();
+		}
+    });
+    /*]]>*/
+	</script>        
+</head>
+<body>    
+<div layout:fragment="content">
+   <div class="contentpanel">
+       <form id="form" method="post" class="form-horizontal form-bordered">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title" th:text="#{field.client.info}"/>
+                </div>
+                <div class="panel-body nopadding">
+                    <div class="errorForm"></div>
+                    <input type="hidden" id="id" name="id" th:value="${data.id}"/>
+					<div th:replace="common/form::params('client', ${data}, '')" />
+                </div>
+                <div class="panel-footer">
+                    <button type="button" class="btn btnReturn btn-default" th:text="#{button.return}"></button>
+                </div>
+            </div>
+        </form>
+    </div>
+ </div>   
+</body>
+</html>

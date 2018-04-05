@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorator="layout/main">
+<head>
+	<data:template th:id="${utils.first(param.id)}" var="data"/>
+    <script th:inline="javascript">
+	/*<![CDATA[*/
+    $(document).ready(function() {
+        var updateOpts={
+                linkPrefix:"template"
+        }
+        window.uh = new UpdateHander(updateOpts);
+    });
+	/*]]>*/
+	</script>     
+</head>
+<body>    
+<div layout:fragment="content">
+   <div class="contentpanel">
+       <form id="form" method="post" class="form-horizontal form-bordered">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title" th:text="#{field.template.info}"></div>
+                </div>
+                <div class="panel-body nopadding">
+                    <div class="errorForm"></div>
+                    <input type="hidden" id="id" name="id" th:value="${data.id}"/>
+					<div th:replace="common/form::params('template', ${data}, 'readonly')" />
+                </div>
+                <div class="panel-footer">
+                 	 <button type="button" class="btn btnEdit btn-primary"  th:text="#{button.edit}" />
+                	 <button type="button" class="btn btnReturn btn-default"  th:text="#{button.return}" />
+               </div>
+            </div>
+        </form>
+    </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<div class="media profile-left">
+     <a class="pull-left profile-thumb">
+         <img class="img-circle" style="max-width: 50px; max-height: 50px;" th:src="${utils.file(user.image, '/assets/images/profile.png')}" alt="" />
+     </a>
+     <div class="media-body">
+         <h4 class="media-heading" th:text="${current.title}"></h4>
+     </div>
+</div>
+<current:menu />
+<ul class="nav nav-pills nav-stacked">
+	<div th:each="c,cstat:${menu.children}" th:remove="tag">
+		<div th:each="menuItem,dstat:${c.children}" th:remove="tag">
+			<li th:if="${#lists.isEmpty(menuItem.children)}">
+				<a th:href="@{${menuItem.mapping}}"><i class="fa" th:classappend="${menuItem.type}"></i> <span th:text="${menuItem.title}"></span></a>
+	        	<ul class="hide" th:if="${not #lists.isEmpty(menuItem.functions)}">
+	    			<li th:each="funcItem, estat:${menuItem.functions}"><a th:href="@{${funcItem.mapping}}"><span th:text="${funcItem.title}"></span></a></li>
+	        	</ul>
+	        </li>
+	       	<li th:unless="${#lists.isEmpty(menuItem.children)}" class="parent"><a href="#"><i class="fa" th:classappend="${menuItem.type}"></i> <span th:text="${menuItem.title}"></span></a>
+	            <ul class="children">
+	                <li th:each="menuItem2, estat:${menuItem.children}" th:id="${menuItem2.name}"><a th:href="@{${menuItem2.mapping}}" th:text="${menuItem2.title}"></a>
+	                  <ul class="hide" th:if="${not #lists.isEmpty(menuItem2.functions)}">
+	   				<li th:each="funcItem, estat:${menuItem2.functions}"><a th:href="@{${funcItem.mapping}}"><span th:text="${funcItem.title}"></span></a></li>
+	       		</ul>
+	                </li>
+	            </ul>
+	        </li>
+		</div>
+	</div>
+</ul>

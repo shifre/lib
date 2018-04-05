@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorator="layout/popup">
+<head>
+	<div th:if="${utils.first(param.type) == 'HTML'}">
+		<data:assettext th:id="${utils.first(param.id)}" var="data"/>
+	</div>
+     <div th:if="${utils.first(param.type) != 'HTML'}">
+		<data:assetstring th:id="${utils.first(param.id)}" var="data"/>
+	</div>
+     
+	<!-- kindedit -->
+	<link rel="stylesheet" th:href="@{/assets/js/kindeditor/themes/default/default.css}" />
+	<script charset="utf-8" th:src="@{/assets/js/kindeditor/kindeditor.js}"></script>
+	<script charset="utf-8" th:src="@{/assets/js/kindeditor/lang/zh_CN.js}"></script>
+	<script charset="utf-8" th:src="@{/assets/js/kindeditor/kindeditor-config.js}"></script>
+	<script>
+	    $(document).ready(function() {
+	    	<div th:utext="${utils.validate('assetText', '#form')}" th:remove="tag"></div>
+	    }); 
+    </script>
+    <script th:inline="javascript">
+	/*<![CDATA[*/
+    var editor;
+    $(document).ready(function() {
+    	
+    	updateTitle([[${utils.first(param.type)}]]);
+    	
+    	$(".btnClose").click(function(){
+    		$('.btnSearch', parent.document).click();
+        	var index = parent.layer.getFrameIndex(window.name);
+    		parent.layer.close(index);
+    	});
+    	
+    	var type = [[${utils.first(param.type)}]];
+    	if(type == "HTML")
+    	{
+    		$.kind_config.init.filePath = [[${utils.config('filehost')}]];
+			$.kind_config.init.uploadJson = [[@{/upload/file.json}]];
+			editor = KindEditor.create('.html', $.kind_config.init);
+    	}	
+    	
+    	 $(".btnSave").click(function(){
+    		var $form = $("#form");
+    		var action = "string";
+    		if([[${utils.first(param.type)}]] == "HTML")
+    		{
+    			action = "text";
+    		}	
+    		if($("#id").val() != "")
+    		{
+    			action += "/update.json?id="+$("#id").val();
+    		}
+    		else
+    		{
+    			action += "/add.json";	
+    		}	
+    		
+    		if([[${utils.first(param.type)}]] == "HTML")
+           	{
+           		$("textarea[name='value']").val(editor.html());
+           	}
+    		
+    		$($form).attr("action", action);
+    		$($form).ajax(true, null, callback, this);
+    	});
+    	
+    });
+    
+    function callback(resp)
+    {
+    	if(!resp.error)
+    	{
+    		$(".btnClose").click();
+    	}	
+    }
+    
+    $(document).ready(function() {
+    	var initData = {
+                formId : 'formWillBeCreated',
+                url : [[@{/upload/file.json}]],
+                filehost: [[${utils.config('filehost')}]],
+                resultAt: $("input[name='url']"), 
+                previewAt: $("#img"),
+                promptOn: $("#form"),
+                btnFile:'.btn-file',
+                callback: function(resp){
+                	if(!resp.error)
+                	{
+                		$("input[name='value']").val(resp.uri);
+                	}	
+                }
+            };
+	   	 	$("#file").change(function(){
+	    	
+	    	$(this).upload(initData);
+	    });  
+    });
+    
+    function updateTitle(type)
+    {
+    	if(type == "HTML")
+    	{
+    		$(".panel-title").text([[#{view.field.html.info}]]);
+    	}
+    	else if(type == "TEXT")
+    	{
+    		$(".panel-title").text([[#{view.field.text.info}]]);
+    	}	
+    	else if(type == "IMAGE")
+    	{
+    		$(".panel-title").text([[#{view.field.images.info}]]);
+    	}
+    	else if(type == "FILE")
+    	{
+    		$(".panel-title").text([[#{view.field.files.info}]]);
+    	}
+    }
+    /*]]>*/
+    </script>        
+</head>
+<body layout:fragment="content">  
+   <div class="contentpanel">
+       <form id="form" method="post" class="form-horizontal form-bordered">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title"></div>
+                </div>
+                <div class="panel-body nopadding">
+                    <div class="errorForm"></div>
+                    <input type="hidden" id="id" name="id" th:value="${utils.first(param.id)}"/>
+                    <input type="hidden" name="assetId" th:value="${utils.first(param.assetId)==null ? data.assetId : utils.first(param.assetId)}"/>
+                    <input type="hidden" name="type" th:value="${utils.first(param.type)}"/>
+                    <div class="form-group">
+					    <label class="col-sm-2 control-label" th:text="#{field.title}"/>
+					    <div class="col-sm-7">
+					        <input type="text" class="form-control" name="title" th:value="${data.title}"/>
+					    </div>
+					</div>
+                    <div class="form-group">
+                    	<div th:if="${utils.first(param.type) == 'HTML'}">
+                    		<label class="col-sm-2 control-label" th:text="#{info.content}"/>
+						    <div class="col-sm-10">
+						        <textarea class="form-control html" rows="10" id="textValue" name="value" th:text="${data.value}"></textarea>
+						    </div>
+                    	</div>
+	                    <div th:if="${utils.first(param.type) == 'TEXT'}">
+						    <label class="col-sm-2 control-label" th:text="#{info.content}"/>
+						    <div class="col-sm-10">
+						        <textarea class="form-control" rows="10" id="textValue" name="value" th:text="${data.value}"></textarea>
+						    </div>
+	                    </div>
+	                    <div th:if="${utils.first(param.type) == 'IMAGE'}">
+						    <label class="col-sm-2 control-label" th:text="#{view.field.images}"/>
+						    <div class="col-sm-10">
+						    	<div>
+						   	    	<img id="img" style="margin-bottom: 10px;" th:src="${utils.file(data.url, '/assets/images/empty.png')}" width="120px" height="100px"/>
+						   	    </div>
+						        <input type="text" class="form-control" name="url" th:value="${data.url}" style="width: 30%;float: left;" readonly="readonly" />
+						        <input type="hidden" name="value" th:value="${data.value}"/>
+						        <div class="btn btn-primary btn-file" style="margin-left: 5px;">
+							      <span class="fileupload-new" th:text="#{select.file}"/>
+							      <input type="file" accept="image/*" id="file" name="file" style="width: 200px;"/>
+						   	   </div>
+						    </div>
+	                    </div>
+	                    <div th:if="${utils.first(param.type) == 'FILE'}">
+						    <label class="col-sm-2 control-label"><fmt:message key="view.field.files" /></label>
+						    <div class="col-sm-10">
+						        <input type="text" class="form-control" name="url" th:value="${utils.first(data.url)}" style="width: 30%;float: left;" readonly="readonly" />
+						        <input type="hidden" name="value" th:value="${data.value}"/>
+						        <div class="btn btn-primary btn-file" style="margin-left: 5px;">
+							      <span class="fileupload-new" th:text="#{select.file}"/>
+							      <input type="file" accept="*" id="file" name="file" style="width: 200px;"/>
+						   	   </div>
+						    </div>
+	                    </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <button class="btnSave btn btn-primary mr5" th:text="#{button.save}" />
+                    <button type="button" class="btnClose btn btn-default" th:text="#{button.close}" />
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

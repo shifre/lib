@@ -1,0 +1,23 @@
+<div th:if="${mode == 'readonly'}" class="form-group">
+   <div class="form-group">
+    	<label class="col-sm-2 control-label" th:text="#{${field.title}}" />
+	    <div class="col-sm-3">
+	   	    <img id="img" style="margin-bottom: 10px;" th:src="${utils.file(data[field.name], '/assets/images/empty.png')}" width="120px" height="100px" />
+	    </div>
+	</div>
+</div>
+<div th:unless="${mode == 'readonly'}" class="form-group">
+ 	<div class="form-group">
+    <label class="col-sm-2 control-label" th:text="#{${field.title}}" />
+	    <div class="col-sm-10">
+	    	<div>
+	   	    	<img id="img" style="margin-bottom: 10px;" th:src="${utils.file(data[field.name], '/assets/images/empty.png')}" width="120px" height="100px" />
+	   	    </div>
+	        <input type="text" class="form-control" th:name="${field.name}" th:value="${data[field.name]}" style="width: 30%;float: left;" readonly="readonly" />
+	        <div class="btn btn-primary btn-file" style="margin-left: 5px;">
+		      <span class="fileupload-new" th:text="#{select.file}">选择文件</span>
+		      <input type="file" accept="image/*" id="file" name="file" style="width: 200px;" />
+	   	   </div>
+	    </div>
+	</div>
+</div>

@@ -1,0 +1,18 @@
+<div th:if="${mode == 'readonly'}" class="form-group">
+    <label class="col-sm-2 control-label" th:text="#{${field.title}}" />
+    <div class="col-sm-4">
+        <div class="well well-sm" th:text="${utils.dateFormat(data[field.name], 'yyyy-MM-dd')}"  >
+        </div>
+    </div>
+   	<div class="col-sm-6 form-hint" th:unless="${#strings.isEmpty(field.hint)}" th:text="#{${field.hint}}" />
+</div>
+<div th:unless="${mode == 'readonly'}"  class="form-group">
+    <label class="col-sm-2 control-label" th:text="#{${field.title}}" />
+    <div class="col-sm-4">
+         <div class="input-group datepicker">
+            <input type="text" class="form-control" th:name="${field.name}" th:value="${utils.dateFormat(data[field.name], 'yyyy-MM-dd')}" />
+            <span class="input-group-addon add-on"><i data-time-icon="glyphicon glyphicon-time" data-date-icon="glyphicon glyphicon-calendar"></i></span>
+		</div>
+    </div>
+   	<div class="col-sm-6 form-hint" th:unless="${#strings.isEmpty(field.hint)}" th:text="#{${field.hint}}" />
+</div>

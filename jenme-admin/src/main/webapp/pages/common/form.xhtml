@@ -1,0 +1,7 @@
+<div th:fragment="params (formId, data, mode)" th:remove="tag">
+	<es:form th:attr="formId=${formId}"/>
+	<div th:each="field,fieldStat:${form.fields}" th:remove="tag">
+		<div th:if="${field.mode == 'final' and not #strings.isEmpty(data[field.name])}" th:with="mode=readonly" />
+		<div th:replace="|common/form/${field.type}|" ></div>	
+	</div>
+</div>

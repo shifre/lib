@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="OrderReport" language="groovy" pageWidth="750" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ee5cec30-95a7-4d26-8e08-3dd41a77c80a">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF" hAlign="Center" vAlign="Middle" fontName="仿宋_GB2312" fontSize="12">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<parameter name="printTime" class="java.lang.String"/>
+	<parameter name="time" class="java.lang.String"/>
+	<parameter name="payer" class="java.lang.String"/>
+	<parameter name="reportTitle" class="java.lang.String"/>
+	<parameter name="reportName" class="java.lang.String"/>
+	<parameter name="sum" class="java.lang.String"/>
+	<parameter name="unit_page" class="java.lang.String"/>
+	<parameter name="orderNo" class="java.lang.String"/>
+	<parameter name="actualAmount" class="java.lang.String"/>
+	<parameter name="deliveryMethod" class="java.lang.String"/>
+	<parameter name="receiverName" class="java.lang.String"/>
+	<parameter name="receiverPhone" class="java.lang.String"/>
+	<parameter name="createdTime" class="java.lang.Date"/>
+	<parameter name="statusTitle" class="java.lang.String"/>
+	<field name="orderNo" class="java.lang.String"/>
+	<field name="actualAmount" class="java.math.BigDecimal"/>
+	<field name="deliveryMethod" class="java.lang.String"/>
+	<field name="receiverName" class="java.lang.String"/>
+	<field name="receiverPhone" class="java.lang.String"/>
+	<field name="createdTime" class="java.util.Date"/>
+	<field name="statusTitle" class="java.lang.String"/>
+	<variable name="SUM_ACTUAL_AMOUNT" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{actualAmount}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="90" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="710" height="40" uuid="c13a04a8-b8ae-4d2a-8d4d-414c5bdd068d"/>
+				<textElement textAlignment="Center">
+					<font fontName="仿宋_GB2312" size="24"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{reportTitle}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="40" width="710" height="50" uuid="e58ed62a-68cd-4cb3-97d0-50c27d6aa99b"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="仿宋_GB2312" size="12"/>
+					<paragraph rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{printTime}+"   "+$P{time}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="45" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="710" height="45" uuid="4153cfef-8453-4c3b-8662-a1f5101e1123"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="仿宋_GB2312" size="16"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{reportName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<textField>
+				<reportElement style="table_TH" x="0" y="0" width="133" height="30" uuid="ea05967a-581e-4bf6-9e42-dc7770303047"/>
+				<box>
+					<pen lineWidth="0.25" lineColor="#666666"/>
+					<topPen lineWidth="0.25" lineColor="#666666"/>
+					<leftPen lineWidth="0.25" lineColor="#666666"/>
+					<bottomPen lineWidth="0.25" lineColor="#666666"/>
+					<rightPen lineWidth="0.25" lineColor="#666666"/>
+				</box>
+				<textElement>
+					<font fontName="仿宋_GB2312"/>
+					<paragraph leftIndent="5" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{orderNo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TH" x="133" y="0" width="95" height="30" uuid="c74420b1-251a-4840-ae60-9eeffcef0ea7"/>
+				<box>
+					<pen lineWidth="0.25" lineColor="#666666"/>
+					<topPen lineWidth="0.25" lineColor="#666666"/>
+					<leftPen lineWidth="0.25" lineColor="#666666"/>
+					<bottomPen lineWidth="0.25" lineColor="#666666"/>
+					<rightPen lineWidth="0.25" lineColor="#666666"/>
+				</box>
+				<textElement>
+					<font fontName="仿宋_GB2312"/>
+					<paragraph leftIndent="5" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{actualAmount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TH" x="228" y="0" width="85" height="30" uuid="20b56e16-cc2f-468e-9ff2-73a3c93b470b"/>
+				<box>
+					<pen lineWidth="0.25" lineColor="#666666"/>
+					<topPen lineWidth="0.25" lineColor="#666666"/>
+					<leftPen lineWidth="0.25" lineColor="#666666"/>
+					<bottomPen lineWidth="0.25" lineColor="#666666"/>
+					<rightPen lineWidth="0.25" lineColor="#666666"/>
+				</box>
+				<textElement>
+					<font fontName="仿宋_GB2312"/>
+					<paragraph leftIndent="5" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{deliveryMethod}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TH" x="313" y="0" width="87" height="30" uuid="24759292-a5d4-413e-8239-ed7b5dc83c63"/>
+				<box>
+					<pen lineWidth="0.25" lineColor="#666666"/>
+					<topPen lineWidth="0.25" lineColor="#666666"/>
+					<leftPen lineWidth="0.25" lineColor="#666666"/>
+					<bottomPen lineWidth="0.25" lineColor="#666666"/>
+					<rightPen lineWidth="0.25" lineColor="#666666"/>
+				</box>
+				<textElement>
+					<font fontName="仿宋_GB2312"/>
+					<paragraph leftIndent="5" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{receiverName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TH" x="400" y="0" width="100" height="30" uuid="55026692-53d2-4c2f-81d0-ac1581b9664e"/>
+				<box>
+					<pen lineWidth="0.25" lineColor="#666666"/>
+					<topPen lineWidth="0.25" lineColor="#666666"/>
+					<leftPen lineWidth="0.25" lineColor="#666666"/>
+					<bottomPen lineWidth="0.25" lineColor="#666666"/>
+					<rightPen lineWidth="0.25" lineColor="#666666"/>
+				</box>
+				<textElement>
+					<font fontName="仿宋_GB2312"/>
+					<paragraph leftIndent="5" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{receiverPhone}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="table_TH" x="500" y="0" width="100" height="30" uuid="2699eb95-1268-455c-b6e0-31c4ed083a3d"/>
+				<box>
+					<pen lineWidth="0.25" lineColor="#666666"/>
+					<topPen lineWidth="0.25" lineColor="#666666"/>
+					<leftPen lineWidth="0.25" lineColor="#666666"/>
+					<bottomPen lineWidth="0.25" lineColor="#666666"/>
+					<rightPen lineWidth="0.25" lineColor="#666666"/>
+				</box>
+				<textElement>
+					<font fontName="仿宋_GB2312"/>
+					<paragraph leftIndent="5" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{statusTitle}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="133" height="20" uuid="7154a168-fd85-4860-a7cc-ba88e86b5240"/>
+				<box>
+					<pen lineWidth="0.25" lineColor="#666666"/>
+					<topPen lineWidth="0.25" lineColor="#666666"/>
+					<leftPen lineWidth="0.25" lineColor="#666666"/>
+					<bottomPen lineWidth="0.25" lineColor="#666666"/>
+					<rightPen lineWidth="0.25" lineColor="#666666"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="仿宋_GB2312"/>
+					<paragraph leftIndent="5" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{orderNo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="133" y="0" width="95" height="20" uuid="3d29ae49-7205-44cb-9f05-8a56effdc85d"/>
+				<box>
+					<pen lineWidth="0.25" lineColor="#666666"/>
+					<topPen lineWidth="0.25" lineColor="#666666"/>
+					<leftPen lineWidth="0.25" lineColor="#666666"/>
+					<bottomPen lineWidth="0.25" lineColor="#666666"/>
+					<rightPen lineWidth="0.25" lineColor="#666666"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="仿宋_GB2312"/>
+					<paragraph leftIndent="5" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{actualAmount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="228" y="0" width="85" height="20" uuid="e347df64-4831-4ad0-84d6-97b303e90c27"/>
+				<box>
+					<pen lineWidth="0.25" lineColor="#666666"/>
+					<topPen lineWidth="0.25" lineColor="#666666"/>
+					<leftPen lineWidth="0.25" lineColor="#666666"/>
+					<bottomPen lineWidth="0.25" lineColor="#666666"/>
+					<rightPen lineWidth="0.25" lineColor="#666666"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="仿宋_GB2312"/>
+					<paragraph leftIndent="5" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{deliveryMethod}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="313" y="0" width="87" height="20" uuid="bc7f2d03-f8e0-4443-8b27-038cec546c99"/>
+				<box>
+					<pen lineWidth="0.25" lineColor="#666666"/>
+					<topPen lineWidth="0.25" lineColor="#666666"/>
+					<leftPen lineWidth="0.25" lineColor="#666666"/>
+					<bottomPen lineWidth="0.25" lineColor="#666666"/>
+					<rightPen lineWidth="0.25" lineColor="#666666"/>
+				</box>
+				<textElement  verticalAlignment="Middle">
+					<font fontName="仿宋_GB2312"/>
+					<paragraph leftIndent="5" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{receiverName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="400" y="0" width="100" height="20" uuid="c6086b8d-40ad-4a9b-aabe-0c04b0ae6f33"/>
+				<box>
+					<pen lineWidth="0.25" lineColor="#666666"/>
+					<topPen lineWidth="0.25" lineColor="#666666"/>
+					<leftPen lineWidth="0.25" lineColor="#666666"/>
+					<bottomPen lineWidth="0.25" lineColor="#666666"/>
+					<rightPen lineWidth="0.25" lineColor="#666666"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="仿宋_GB2312"/>
+					<paragraph leftIndent="5" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{receiverPhone}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="500" y="0" width="100" height="20" uuid="4f9d4461-312e-4669-a93e-ed04af32d5c2"/>
+				<box>
+					<pen lineWidth="0.25" lineColor="#666666"/>
+					<topPen lineWidth="0.25" lineColor="#666666"/>
+					<leftPen lineWidth="0.25" lineColor="#666666"/>
+					<bottomPen lineWidth="0.25" lineColor="#666666"/>
+					<rightPen lineWidth="0.25" lineColor="#666666"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="仿宋_GB2312"/>
+					<paragraph leftIndent="5" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{statusTitle}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="133" height="20" uuid="3d6df8eb-c05f-4ba4-bfbb-35f6a1207a30"/>
+				<box>
+					<pen lineWidth="0.25" lineColor="#666666"/>
+					<topPen lineWidth="0.25" lineColor="#666666"/>
+					<leftPen lineWidth="0.25" lineColor="#666666"/>
+					<bottomPen lineWidth="0.25" lineColor="#666666"/>
+					<rightPen lineWidth="0.25" lineColor="#666666"/>
+				</box>
+				<textElement>
+					<font fontName="仿宋_GB2312"/>
+					<paragraph leftIndent="5" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{sum}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="133" y="0" width="95" height="20" uuid="8ce4b164-10b3-417c-a95c-b75b6db4385f"/>
+				<box>
+					<pen lineWidth="0.25" lineColor="#666666"/>
+					<topPen lineWidth="0.25" lineColor="#666666"/>
+					<leftPen lineWidth="0.25" lineColor="#666666"/>
+					<bottomPen lineWidth="0.25" lineColor="#666666"/>
+					<rightPen lineWidth="0.25" lineColor="#666666"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="仿宋_GB2312"/>
+					<paragraph leftIndent="5" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{SUM_ACTUAL_AMOUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="228" y="0" width="85" height="20" uuid="84d23af9-b3a7-4204-b198-de0113d68260"/>
+				<box>
+					<pen lineWidth="0.25" lineColor="#666666"/>
+					<topPen lineWidth="0.25" lineColor="#666666"/>
+					<leftPen lineWidth="0.25" lineColor="#666666"/>
+					<bottomPen lineWidth="0.25" lineColor="#666666"/>
+					<rightPen lineWidth="0.25" lineColor="#666666"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="仿宋_GB2312"/>
+					<paragraph leftIndent="5" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="313" y="0" width="87" height="20" uuid="e2878683-4f69-41d4-8d22-dfecbba55a15"/>
+				<box>
+					<pen lineWidth="0.25" lineColor="#666666"/>
+					<topPen lineWidth="0.25" lineColor="#666666"/>
+					<leftPen lineWidth="0.25" lineColor="#666666"/>
+					<bottomPen lineWidth="0.25" lineColor="#666666"/>
+					<rightPen lineWidth="0.25" lineColor="#666666"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="仿宋_GB2312"/>
+					<paragraph leftIndent="5" rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="400" y="0" width="100" height="20" uuid="68939334-8700-4948-adaf-7461ce1749e4"/>
+				<box>
+					<pen lineWidth="0.25" lineColor="#666666"/>
+					<topPen lineWidth="0.25" lineColor="#666666"/>
+					<leftPen lineWidth="0.25" lineColor="#666666"/>
+					<bottomPen lineWidth="0.25" lineColor="#666666"/>
+					<rightPen lineWidth="0.25" lineColor="#666666"/>
+				</box>
+				<textElement>
+					<font fontName="仿宋_GB2312"/>
+					<paragraph leftIndent="5" rightIndent="5"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="500" y="0" width="100" height="20" uuid="34c56a87-7f83-40e8-8506-346f4aa5f5c3"/>
+				<box>
+					<pen lineWidth="0.25" lineColor="#666666"/>
+					<topPen lineWidth="0.25" lineColor="#666666"/>
+					<leftPen lineWidth="0.25" lineColor="#666666"/>
+					<bottomPen lineWidth="0.25" lineColor="#666666"/>
+					<rightPen lineWidth="0.25" lineColor="#666666"/>
+				</box>
+				<textElement>
+					<font fontName="仿宋_GB2312"/>
+					<paragraph leftIndent="5" rightIndent="5"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="40">
+			<textField>
+				<reportElement x="0" y="0" width="710" height="40" uuid="973fa4ab-d29d-4c0c-9be5-fd431f6a39b2"/>
+				<box>
+					<pen lineWidth="0.0" lineColor="#333333"/>
+					<topPen lineWidth="0.0" lineColor="#333333"/>
+					<leftPen lineWidth="0.0" lineColor="#333333"/>
+					<bottomPen lineWidth="0.0" lineColor="#333333"/>
+					<rightPen lineWidth="0.0" lineColor="#333333"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font fontName="仿宋_GB2312" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}+$P{unit_page}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

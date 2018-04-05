@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorator="layout/client">
+<head>
+	<data:client th:id="${utils.first(param.clientId)}" var="client"/>
+	<data:templates  var="templateList"/>
+	<data:clientsite th:arr="clientId=${utils.first(param.clientId)}" th:id="${utils.first(param.clientId)}" var="data"/>
+	
+	<link th:href="@{/assets/js/plugins/layer/skin/layer.css}" rel="stylesheet"/>
+	<script th:inline="javascript" th:src="@{/assets/js/plugins/layer/layer.min.js}"></script>
+	<style type="text/css">
+		.xubox_layer{
+			top:0px;
+			margin: 1% auto;
+			border: solid #eee 1px;
+		}
+		.xubox_page{
+			width: 100%;
+		}
+		.results-list .media img{
+			height: 100px;
+			width: 120px;
+		}
+		.media .template{
+			margin-top: -40px;
+			display: block;
+			background-color: #000;
+			width: 120px;
+			position: absolute;
+			color: #fff;
+			text-align: center;
+			filter:alpha(opacity=50);  
+	       -moz-opacity:0.5;  
+	       -khtml-opacity: 0.5;  
+	       opacity: 0.5;  
+		}
+		.media .template_title{
+			margin-top: -20px;
+			width: 120px;
+			text-align: center;
+			color: #000;
+			overflow:hidden;
+		}
+	</style>
+	<script>
+	    $(document).ready(function() {
+	       <div th:utext="${utils.validate('site', '#form')}" th:remove="tag"></div>
+	    }); 
+    </script>
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+    	var cityJson = [[${utils.dict('city')}]];
+		var tag = 0;
+		
+		$(document).ready(function(){
+			$("#agreementBox").change(function(){
+				if($(this).attr("checked") == "checked")
+				{
+					$(".btnNext").attr("disabled", false); 
+				}
+				else
+				{
+					$(".btnNext").attr("disabled", true); 
+				}
+			});
+			
+			$(".btnNext").click(function(){
+				tag ++;
+				if(showView())	
+				{
+					$(".nav-justified .active").attr("class", "done");
+					var li = $(".nav-justified li")[tag];
+					$(li).attr("class", "active");
+					$(".btnUp").show();
+					$(".btnFinish").show();
+					$(".btnNext").hide();
+				}				
+			});
+			
+			$(".btnUp").click(function(){
+				tag --;
+				if(showView())
+				{
+					$(".nav-justified .active").attr("class", "");
+					var li = $(".nav-justified li")[tag];
+					$(li).attr("class", "active");
+					$(".btnNext").show();
+					$(".btnFinish").hide();
+				}
+			});
+			
+			$(".btnFinish").click(function(){
+				if($("#templateId").val() == "")
+				{
+					removeErrorMessage();
+					addErrorMessage(".errorMessage3",[[#{error.template.selectd.please}]]);
+					return;
+				}
+				
+				var $form = $("#form");
+				$form.attr("action", "add/site.json?clientId=" + $("#clientId").val() + "&templateId=" + $("#templateId").val());
+	    		$form.ajax(false, null, function(resp)
+	    		{
+	    			if(!resp.error)
+	    			{
+	    				location.href = "../servicesearch.xhtml?id="+[[${utils.first(param.clientId)}]]+"&amp;type="+[[${utils.first(param.type)}]];
+	    			}
+	    			else
+	    			{
+	    				$(".nav-justified .active").attr("class", "done");
+						var li = $(".nav-justified li")[0];
+						$(li).attr("class", "active");
+						
+						$("#siteView").show();
+						$("#templateView").hide();
+						
+						$(".btnFinish").hide();
+						$(".btnNext").show();
+						$(".btnUp").hide();
+						
+						tag = 0;
+	    			}	
+	    		}, $(".btnFinish")[0]);
+			});
+		})
+		
+		function showView()
+		{
+			if(tag == 0)
+			{
+				$(".btnUp").hide();
+				$(".btnNext").show();
+				
+				$("#siteView").show();
+				$("#templateView").hide();
+				
+				return true;
+			}
+			else if(tag == 1)
+			{
+				if($("#form").validate().form())
+				{
+					$("#siteView").hide();
+    				$("#templateView").show();
+    				
+					return true;
+				}
+				else
+				{
+					tag --;
+				}	
+			}
+			/* else if(tag == 2)
+			{
+				if($("#templateId").val() == "")
+				{
+					tag--;
+					removeErrorMessage();
+					addErrorMessage(".errorMessage3", "${es:local('error.template.selectd.please')}");
+					return;
+				}	
+				$("#templateView").hide();
+				$("#finishView").show();
+				
+				$(".btnNext").hide();
+				$(".btnFinish").show();
+				
+				return true;
+			}	 */
+		}
+		
+		function showTemplate(templateId, url, obj)
+		{
+			var currentHeight = $(window).height();
+			currentHeight = currentHeight * 0.8;
+			var pageii = $.layer({
+			    type: 1,
+			    title: false,
+			    area: ['90%', '90%'],
+			    border: [0],
+			    shade: [1],
+			    closeBtn: [0, false],
+			    shift: 'left',
+			    page: {
+			        html: '<Iframe th:src="' + url + '"; width="100%" height="'+currentHeight+'"></iframe></div>' +
+			        	  '<div class="panel-footer" th:style="text-align: center;">' + 
+			        	  '<button type="button" class="btnUse btn btn-success mr5">' + bundle["use"] + '</button>' + 
+			        	  '<button type="button" class="btn btnCloseLayer btn-default mr5">' + bundle["close"] + '</button></div>'	
+			    }
+			});
+			
+			$('.btnCloseLayer').on('click', function(){
+			    layer.close(pageii);
+			});
+			
+			$(".btnUse").click(function(){
+				layer.close(pageii);
+				
+				var oldId = $("#templateId").val();
+				if(oldId != "")
+				{
+					var old = $(".perImg" + oldId).find(".template");
+					$(old).remove();
+				}	
+				$(".perEmpty").remove();
+				$("#templateId").val(templateId);
+				$(".perImg"+templateId).append('<div class="template">' + bundle["current.template"] + '</div>');
+			});
+		}
+		
+		function selectedTemplate(templateId,obj){
+			var oldId = $("#templateId").val();
+			if(oldId != "")
+			{
+				var old = $(".perImg" + oldId).find(".template");
+				$(old).remove();
+			}	
+			$(".perEmpty").remove();
+			$("#templateId").val(templateId);
+			$(".perImg"+templateId).append('<div class="template">' + bundle["current.template"] + '</div>');
+		}
+		
+		
+		/*]]>*/
+		</script>
+</head>
+<body layout:fragment="content">  
+	<div class="contentpanel">
+		<div class="row">
+		    <div class="col-sm-4 col-md-3">
+		        <div class="text-center">
+		            <img th:src="${utils.file(client.image, '/assets/images/profile.png')}" class="img-circle img-offline img-responsive img-profile" alt="" />
+		            <h4 class="profile-name mb5" th:text="${client.title}"></h4>
+		        </div>
+		    </div>
+		    <div class="col-sm-8 col-md-9">
+		        <ul class="nav nav-tabs nav-line">
+		           <li><a th:href="|../clientview.xhtml?id=${utils.first(param.clientId)}|"><strong th:text="#{field.client.ref.info}"></strong></a></li>
+		           <li class="active"><a href="javascript:void(0);"><strong th:text="#{field.client.ref.service}"></strong></a></li>
+		        </ul>
+		        <div class="tab-content nopadding noborder">
+                    <ul class="nav nav-justified nav-wizard nav-disabled-click">
+                        <li class="active"><a href="javascript:void(0);" data-toggle="tab"><strong th:text="#{field.client.site.created}">1.</strong></a></li>
+                        <li class=""><a href="javascript:void(0);" data-toggle="tab"><strong th:text="#{field.selected.template}">2.</strong></a></li>
+                    </ul>
+                    <form method="post" id="form" class="form-horizontal form-bordered">
+                    	<div class="panel panel-default">
+	           				<input type="hidden" id="clientId" name="clientId" th:value="${client.id}"/>
+	           				<input type="hidden" id="templateId" th:value="''"/>
+		                    <div id="siteView">
+		                    	<div class="errorForm"></div>
+		                    	<input type="hidden" id="id" name="id" th:value="${data.id}"/>
+								<div th:replace="common/form::params('site', ${data}, '')" />
+		                    	<div class="form-group">
+				                    <div class="ckbox ckbox-primary">
+					                   <input type="checkbox" value="1" id="agreementBox" checked="checked" />
+					                   <label for="agreementBox" th:text="#{field.read.and.agree}"></label>
+					             	</div>
+				             	</div> 
+		                   	</div>
+		                   	<div id="templateView" style="display: none;">
+			                   	<div class="panel">
+			                   		<div class="panel-heading">
+					                    <div class="panel-title" th:text="#{field.template.my}"></div>
+					                </div>
+			                   		<div class="results-list">
+			                   			<div class="errorMessage3"></div>
+				                        <div class="media" style="margin: 10px 0 0 10px;min-height: 100px;">
+				                            <div th:each="template, status : ${templateList}" th:remove="tag">
+				                            	<div th:class="'pull-left'" th:classappend="'perImg' + ${utils.first(template.id)}">
+				                            		<a href="javascript:void(0);" th:onclick="|selectedTemplate('${template.id}', this);|" th:title="#{'field.template.select'}">
+						                               <img th:src="${utils.file(template.image, '/assets/images/empty.png')}" class="media-object thumbnail" />
+						                               <div class="template_title" th:text="${template.title}"></div>
+					                            	</a> 
+					                            	<!-- <a href="javascript:void(0);" class="icon" rel="tooltip" th:title="#{'field.template.preview'}" onclick="showTemplate('${template.id}','${template.url}', this);">
+														<i class="glyphicon glyphicon-search"></i>
+													</a>  -->
+												</div>
+				                            </div>
+				                        </div>
+				                    </div>
+			                    </div>
+		                   	</div>
+	                   	</div>
+                   	</form>
+                   	<div class="panel">
+		                <label class="col-sm-2 control-label"></label>
+	                    <button type="button" class="btnUp btn btn-primary mr5" style="display: none;" th:text="#{button.up}"></button>
+	                    <button type="button" class="btnNext btn btn-primary mr5" th:text="#{button.next}"></button>
+	                    <button type="button" class="btnFinish btn btn-primary mr5" style="display: none;" th:text="#{button.finish}"></button>
+			        </div>
+		    	</div>
+		    </div>
+		</div> 
+	</div>
+</body>
+</html>

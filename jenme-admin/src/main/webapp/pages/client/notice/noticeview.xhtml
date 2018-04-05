@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorator="layout/popup">
+<head>
+	<data:notice th:id="${utils.first(param.id)}" var="data"/>
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+    $(document).ready(function() {
+        var updateOpts={
+                linkPrefix:"notice"
+        }
+        window.uh = new UpdateHander(updateOpts);
+        
+        $(".btnClose").click(function(){
+        	closeView();
+        });
+    });
+	
+    function closeView()
+	{
+		$('.btnSearch', parent.document).click();
+    	var priceDiv = $("#price-setting", window.parent.document);
+    	$(priceDiv).attr("class tab-pane active");
+    	var index = parent.layer.getFrameIndex(window.name);
+		parent.layer.close(index);
+	}
+	/*]]>*/
+	</script>
+</head>
+<body>    
+	<div layout:fragment="content">
+		<div class="contentpanel">
+		    <form id="form" method="post" class="form-horizontal form-bordered">
+		         <div class="panel panel-default">
+		             <div class="panel-heading">
+		                 <div class="panel-title" th:text="#{field.notice.info}" />
+		             </div>
+		             <div class="panel-body nopadding">
+		                 <div class="errorForm" />
+		                 <div class="form-group">
+	                    	<input type="hidden" id="id" name="id" th:value="${data.id}"/>
+						 	<div th:replace="common/form::params('notice', ${data}, 'readonly')" />
+		             	</div>
+			             <div class="panel-footer">
+			                 <button type="button" class="btn btnClose btn-default"  th:text="#{button.close}" />
+			             </div>
+			          </div>
+		         </div>
+		     </form>
+		 </div>
+	</div>
+</body>
+</html>

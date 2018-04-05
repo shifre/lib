@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorator="layout/partner">
+<head>
+	<div th:replace="common/datatable" />
+	<data:goods th:id="${utils.first(param.id)}" var="data"/>
+	<data:goodsdetails th:id="${utils.first(param.id)}" var="details"/>
+	<data:goodscategorylist var="categorylist"/>
+	<data:vendorlist var="vendorlist"/>
+    <script th:inline="javascript">
+    /*<![CDATA[*/
+    $(document).ready(function() {
+        var updateOpts={
+                linkPrefix:"goodsinfo",
+                updateAction: "updateGoods.json?id="
+        }
+        window.uh = new UpdateHander(updateOpts);
+        
+        $(".btnAudit").click(function(){
+        	var dh = new DialogHandler();
+    		dh.confirm(bundle["goods.audit.hint"] , function(){
+        		var action = "../goods/audit.json?goodsId=" + [[${data.goodsId}]];
+                $.newform(action, "post", ".errorForm").ajax(false, null,function(){
+                }, null, false);
+                $(".btnReturn").click();
+	        	return true;
+    		});
+        	
+        });
+        
+        $("#purDeliverTimeSelect").change((function(){
+        	var purDeliverTimeSelect = $("#purDeliverTimeSelect").val();
+        	var saleDeliverTimeSelect = $("#saleDeliverTimeSelect").val();
+        	$("#saleDeliverTimeSelect").val(purDeliverTimeSelect).change();  
+       	}));
+        
+        $("#saleDeliverTimeSelect").change((function(){
+        	var purDeliverTimeSelect = $("#purDeliverTimeSelect").val();
+        	var saleDeliverTimeSelect = $("#saleDeliverTimeSelect").val();
+        	if (purDeliverTimeSelect - saleDeliverTimeSelect > 0) {
+        		alert("销售货期须大于等于采购货期！");
+        		$("#purDeliverTimeSelect").val(saleDeliverTimeSelect).change();
+        	} 
+       	}));
+        
+        $("input[name='purPrice']").change((function(){
+        	priceChange(this.name);
+       	}));
+        $("input[name='salePrice']").change((function(){
+        	priceChange(this.name);
+       	}));
+        
+        $("input[name='customize']").change((function(){
+        	var checked = this.checked;
+        	if (checked) {
+        		document.getElementById("accessories").disabled = true; 
+        	} else {
+        		document.getElementById("accessories").disabled = false; 
+        	};  
+       	}));
+        
+        $("input[name='accessories']").change((function(){
+        	var checked = this.checked;
+        	if (checked) {
+        		document.getElementById("customize").disabled = true; 
+        	} else {
+        		document.getElementById("customize").disabled = false; 
+        	};  
+       	}));
+        
+        $("#typeSelect").change((function(){
+        	var typeSelect = $("#typeSelect").val();
+        	if (typeSelect == 'goods') {
+        		document.getElementById("customize").disabled = false;
+        		document.getElementById("accessories").disabled = false; 
+        	} else {
+        		$("#customize").prop("checked",false); 
+        		document.getElementById("customize").disabled = true;
+        		$("#accessories").prop("checked",false); 
+        		document.getElementById("accessories").disabled = true; 
+        	}
+       	}));
+        
+	});
+    
+    function loadGoodsDetail1(){
+		var aoColumn = [
+            { "mDataProp": "refGoodsId", "bSortable": false, "sWidth" : "10%",
+            	"mRender": function ( data, type, full ) {
+              		/* var a = '<input type="hidden" id="id" name="details.refGoodsId" th:value="'+ data +'"/>';
+              		return $.es.encodeHtml(data) + a; */
+              		return $.es.encodeHtml(data);
+            	}	  
+            },
+            { "mDataProp": "goodsName", "bSortable": false, "sWidth" : "20%", "sClass": "wrapable",
+               	"mRender": function ( data, type, full ) {
+              		/* var a = '<input type="hidden" id="id" name="details.goodsName" th:value="'+ data +'"/>';
+              		return $.es.encodeHtml(data) + a; */
+              		return $.es.encodeHtml(data);
+               	}
+             },
+            { "mDataProp": "quantity", "bSortable": false, "sWidth" : "2%", "sClass": "wrapable",
+            	"mRender": function ( data, type, full ) {
+              		/* var a = '<input type="hidden" id="id" name="details.quantity" th:value="'+ data +'"/>';
+              		return $.es.encodeHtml(data) + a; */
+              		return $.es.encodeHtml(data);
+            	}	  
+            }
+        ];
+		var t = $("#resultTable").dataTable( {
+		    oLanguage : {
+ 				"sLengthMenu" : bundle['sLengthMenu'],
+ 				"sInfo" : bundle['sInfo'],
+ 				"sInfoEmpty": "",
+ 				"sInfoFiltered" : bundle['sInfoFiltered'],
+ 				"oPaginate" : {
+ 					"sFirst" : bundle['sFirst'],
+ 					"sPrevious" : bundle['sPrevious'],
+ 					"sNext" : bundle['sNext'],
+ 					"sLast" : bundle['sLast']
+ 				},
+ 				"sZeroRecords" : "<p class='dataTables_empty'>"+bundle['sZeroRecords']+"</p>",
+ 			    "sSearch":bundle['sSearch']
+ 			},
+ 	     bPaginate :true,
+ 		 sPaginationType: "full_numbers",
+ 	     headerClickable:true,
+ 	     bFilter: false,
+ 	     bLengthChange: false,
+ 	     iDisplayLength: 10,
+ 	     bProcessing: false,
+ 	     scrollX: true,
+ 	     aoColumns: aoColumn,
+ 	     bAutoWidth:true,
+		} );
+    	var counter = 1;
+		
+		$(".btnAddDetail").click(function(){
+			var data = [[${details}]];
+			
+			/* var row = {};
+			row.refGoodsId = 2;
+			row.quantity = 3;
+			window.sh.addRow(row); */
+	        t.api().row.add( data[0] ).draw( false );
+     
+            counter++;
+		})
+    }
+    
+    function loadGoodsDetail(){
+    	var rowIndex = 0;
+		var aoColumn = [
+		                { "mDataProp": "refGoodsId", "bSortable": false, "sWidth" : "10%",
+		                	"mRender": function ( data, type, full ) {
+		                  		var a = '<input type="hidden" id="id" name="details.' + rowIndex + '.refGoodsId" value="'+ data +'"/>';
+		                  		return $.es.encodeHtml(data) + a;
+		                	}	  
+		                },
+		                { "mDataProp": "goodsName", "bSortable": false, "sWidth" : "20%", "sClass": "wrapable",
+		                   	"mRender": function ( data, type, full ) {
+		                  		var a = '<input type="hidden" id="id" name="details.' + rowIndex + '.goodsName" value="'+ data +'"/>';
+		                  		return $.es.encodeHtml(data) + a;
+		                   	}
+		                 },
+		                { "mDataProp": "quantity", "bSortable": false, "sWidth" : "2%", "sClass": "wrapable",
+		                	"mRender": function ( data, type, full ) {
+		                  		var a = '<input type="hidden" id="id" name="details.' + rowIndex + '.quantity" value="'+ data +'"/>';
+		                  		rowIndex ++;
+		                  		return $.es.encodeHtml(data) + a;
+		                	}	  
+		                }
+		            ];
+        
+		var shInitData={
+	           	tableExtraOpt:{
+	           		"remote": false,
+	            	"bAutoWidth":true
+	            },
+				aoColumn:aoColumn,
+				retrieveData: function(sSource, aoData, fnCallback, oTable){
+					var data = [[${details}]];
+ 	 				var tabledata = {};
+ 	 				tabledata.iTotalRecords = data.length;
+ 	 				tabledata.iTotalDisplayRecords = data.length;
+ 	 				tabledata.aaData = data;
+ 	 				fnCallback(tabledata);
+				}
+		};
+
+		window.sh = new SearchHandler(shInitData);
+		
+		$(".btnAddDetail").click(function(){
+			var data = [[${details}]];
+			var row = {};
+			row.refGoodsId = 2;
+			row.goodsName = "23";
+			row.quantity = 3;
+			window.sh.addRow(row);
+		})
+    }
+    
+    function priceChange(str) {
+    	var purPrice = $("input[name='purPrice']").val();
+    	var salePrice = $("input[name='salePrice']").val();
+    	var profit = $("input[name='profit']").val();
+    	if (str == "purPrice") {
+    		$("input[name='salePrice']").val(purPrice);
+    	}
+    	
+    	purPrice = $("input[name='purPrice']").val();
+    	salePrice = $("input[name='salePrice']").val();
+    	profit = $("input[name='profit']").val();
+    	$("input[name='profit']").val(((salePrice != "0" ?  1 - purPrice/salePrice : 0) * 100).toFixed(0) + "%");
+    }
+    /*]]>*/
+    </script>        
+</head>
+<body>    
+<div layout:fragment="content">
+   <div class="contentpanel">
+   	  <form id="form" method="post" class="form-horizontal form-bordered">
+	          <div class="panel panel-default">
+	                <div class="panel-heading">
+	                    <div class="panel-title" th:text="#{field.goods.info.info}" />
+	                </div>
+	                <div class="panel-body nopadding">
+	                	<div class="errorForm"/>
+                        	<div class="form-group">
+                        	<input type="hidden" id="id" name="goodsId" th:value="${data.goodsId}"/>
+							<div class="form-group">
+								<div>
+								    <label class="col-sm-1 control-label" th:text="#{field.goods.info.column.vendor}" />
+								    <div class="col-sm-4">
+								    	<select class="select" id="vendorSelect" name="vendorId" th:attr="data-select-value=${data.vendorId}" >
+								    		<div th:each="vendors,itemStat:${vendorlist}" th:remove="tag">
+								    			<option th:value="${vendors.id}" th:text="${vendors.code}" th:selected="${data.vendorId} == ${vendors.id}" />
+								    		</div>
+								        </select>
+								    </div>
+								</div>
+								<div>
+								    <label class="col-sm-1 control-label" th:text="#{field.goods.info.column.category}" />
+								    <div class="col-sm-4">
+								    	<select class="select" id="categorySelect" name="categoryId" th:attr="data-select-value=${data.categoryId}" >
+								    		<div th:each="categorys,itemStat:${categorylist}" th:remove="tag">
+								    			<option th:value="${categorys.id}" th:text="${categorys.code + ' ' + categorys.name}" th:selected="${data.categoryId} == ${categorys.id}" />
+								    		</div>
+								        </select>
+								    </div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div>
+								    <label class="col-sm-1 control-label" th:text="#{field.goods.info.column.code}" />
+								    <div class="col-sm-4">
+										<input type="text" class="form-control" name="code" th:value="${data.code}" />
+								    </div>
+								</div>
+								<div>
+								    <label class="col-sm-1 control-label" th:text="#{field.goods.info.column.name}" />
+								    <div class="col-sm-4">
+								        <input type="text" class="form-control" name="name" th:value="${data.name}" />
+								    </div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div>
+								    <label class="col-sm-1 control-label" th:text="#{field.goods.info.column.color}" />
+								    <div class="col-sm-4">
+								        <input type="text" class="form-control" name="color" th:value="${data.color}" />
+								    </div>
+								</div>
+								<div>
+								    <label class="col-sm-1 control-label" th:text="#{field.goods.info.column.spec}" />
+								    <div class="col-sm-4">
+								        <input type="text" class="form-control" name="spec" th:value="${data.spec}" />
+								    </div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div>
+								    <label class="col-sm-1 control-label" th:text="#{field.goods.info.column.weight}" />
+								    <div class="col-sm-4">
+								        <input type="text" class="form-control" name="weight" th:value="${data.weight}" />
+								    </div>
+								</div>
+								<div>
+								    <label class="col-sm-1 control-label" th:text="#{field.goods.info.column.volume}" />
+								    <div class="col-sm-4">
+								        <input type="text" class="form-control" name="volume" th:value="${data.volume}" />
+								    </div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div>
+								    <label class="col-sm-1 control-label" th:text="#{field.goods.info.column.texture}" />
+								    <div class="col-sm-4">
+								        <input type="text" class="form-control" name="texture" th:value="${data.texture}" />
+								    </div>
+								</div>
+								<div>
+								    <label class="col-sm-1 control-label" th:text="#{field.goods.info.column.unit}" />
+								    <div class="col-sm-4">
+								    	<select class="select" id="unitSelect" name="unit" th:attr="data-select-value=${data.unit}">
+								    		<option th:value="张" th:text="张" th:selected="${data.unit} == '张'"/>
+								    		<option th:value="个" th:text="个" th:selected="${data.unit} == '个'"/>
+								    		<option th:value="件" th:text="件" th:selected="${data.unit} == '件'"/>
+								    		<option th:value="套" th:text="套" th:selected="${data.unit} == '套'"/>
+								    		<option th:value="支" th:text="支" th:selected="${data.unit} == '支'"/>
+								    		<option th:value="盏" th:text="盏" th:selected="${data.unit} == '盏'"/>
+								    		<option th:value="付" th:text="付" th:selected="${data.unit} == '付'"/>
+								        </select>
+								    </div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div>
+								    <label class="col-sm-1 control-label" th:text="#{field.goods.info.column.purDeliverTime}" />
+								    <div class="col-sm-4">
+								    	<select class="select" id="purDeliverTimeSelect" name="purDeliverTime" th:attr="data-select-value=${data.purDeliverTime}">
+								    		<option th:value="5" th:text="5" th:selected="${data.purDeliverTime} == 5"/>
+								    		<option th:value="10" th:text="10" th:selected="${data.purDeliverTime} == 10"/>
+								    		<option th:value="15" th:text="15" th:selected="${data.purDeliverTime} == 15"/>
+								    		<option th:value="20" th:text="20" th:selected="${data.purDeliverTime} == 20"/>
+								    		<option th:value="25" th:text="25" th:selected="${data.purDeliverTime} == 25"/>
+								    		<option th:value="30" th:text="30" th:selected="${data.purDeliverTime} == 30"/>
+								    		<option th:value="35" th:text="35" th:selected="${data.purDeliverTime} == 35"/>
+								    		<option th:value="40" th:text="40" th:selected="${data.purDeliverTime} == 40"/>
+								    		<option th:value="45" th:text="45" th:selected="${data.purDeliverTime} == 45"/>
+								        </select>
+								    </div>
+								</div>
+								<div>
+								    <label class="col-sm-1 control-label" th:text="#{field.goods.info.column.saleDeliverTime}" />
+								    <div class="col-sm-4">
+								    	<select class="select" id="saleDeliverTimeSelect" name="saleDeliverTime" th:attr="data-select-value=${data.saleDeliverTime}">
+								    		<option th:value="5" th:text="5" th:selected="${data.saleDeliverTime} == 5"/>
+								    		<option th:value="10" th:text="10" th:selected="${data.saleDeliverTime} == 10"/>
+								    		<option th:value="15" th:text="15" th:selected="${data.saleDeliverTime} == 15"/>
+								    		<option th:value="20" th:text="20" th:selected="${data.saleDeliverTime} == 20"/>
+								    		<option th:value="25" th:text="25" th:selected="${data.saleDeliverTime} == 25"/>
+								    		<option th:value="30" th:text="30" th:selected="${data.saleDeliverTime} == 30"/>
+								    		<option th:value="35" th:text="35" th:selected="${data.saleDeliverTime} == 35"/>
+								    		<option th:value="40" th:text="40" th:selected="${data.saleDeliverTime} == 40"/>
+								    		<option th:value="45" th:text="45" th:selected="${data.saleDeliverTime} == 45"/>
+								        </select>
+								    </div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div>
+								    <label class="col-sm-1 control-label" th:text="#{field.goods.info.column.purPrice}" />
+								    <div class="col-sm-4">
+								        <input type="text" class="form-control" name="purPrice" th:value="${data.purPrice}" />
+								    </div>
+								</div>
+								<div>
+								    <label class="col-sm-1 control-label" th:text="#{field.goods.info.column.salePrice}" />
+								    <div class="col-sm-4">
+								        <input type="text" class="form-control" name="salePrice" th:value="${data.salePrice}" />
+								    </div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div>
+								    <label class="col-sm-1 control-label" th:text="#{field.goods.info.column.profit}" />
+								    <div class="col-sm-4">
+								        <input type="text" class="form-control" name="profit" disabled="disabled" th:value="${!data ? 0 : (1 - data.purPrice/data.salePrice) * 100} + '%'" />
+								    </div>
+								</div>
+								<div>
+								    <label class="col-sm-1 control-label" th:text="#{field.goods.info.column.lcPrice}" />
+								    <div class="col-sm-4">
+								        <input type="text" class="form-control" name="lcPrice" th:value="${data.lcPrice}" />
+								    </div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div>
+								    <label class="col-sm-1 control-label" th:text="#{field.goods.info.column.orderMemo}" />
+								    <div class="col-sm-7">
+								        <textarea class="form-control" name="orderMemo" rows="3" th:utext="${data.orderMemo}"></textarea>
+								    </div>
+								</div>
+
+							</div>
+							<div class="form-group">
+								<div>
+								    <label class="col-sm-1 control-label" th:text="#{field.goods.info.column.type}" />
+								    <div class="col-sm-4">
+								    	<select class="select" id="typeSelect" name="type" th:attr="data-select-value=${data.type}">
+								    		<option th:value="goods" th:text="商品类" th:selected="${data.type} == 'goods'"/>
+								    		<option th:value="service" th:text="服务类" th:selected="${data.type} == 'service'"/>
+								        </select>
+								    </div>
+								</div>
+								<div>
+									<label class="col-sm-1 control-label"></label>
+								    <div class="col-sm-1">
+										<input type="checkbox" style="float: left;height: 30px;" th:disabled="${!data ? false : data.accessories}" id="customize" name="customize" value="true" th:checked="${!data ? false : data.customize}" />
+										<label class="control-label" th:text="#{field.goods.info.column.customize}" />
+								    </div>
+								    <div class="col-sm-1">
+										<input type="checkbox" style="float: left;height: 30px;" th:disabled="${!data ? false : data.customize}" id="accessories" name="accessories" value="true" th:checked="${!data ? false : data.accessories}" />
+										<label class="control-label" th:text="#{field.goods.info.column.accessories}" />
+								    </div>
+								</div>
+								<div>
+								    <label class="col-sm-1 control-label" th:text="#{field.goods.info.column.count}" />
+								    <div class="col-sm-2">
+								        <input type="text" class="form-control" name="count" th:value="${data.count}" />
+								    </div>
+								</div>
+							</div>
+							<div class="form-group">
+							    <label class="col-sm-1 control-label" th:text="#{field.goods.info.column.hidden}" />
+							   	<div class="col-sm-4 control-label">
+							        <div class="toggle toggle-success" th:attr="data-toggle-checkbox=${'#hidden'}" name="hidden"></div>
+							        <input class="hide" type="checkbox" value="true" id="hidden" name="hidden" th:checked="${data.hidden}" />
+							    </div>
+							</div>
+					     </div>
+	             	</div> 
+	                <div class="panel-footer">
+	                	<button type="button" class="btn btnAudit btn-primary" th:disabled="${data.customizeAudit}" th:text="#{field.goods.info.button.audit}" />
+	                	<button class="btnSave btn btn-primary mr5" th:text="#{button.save}" />
+	                	<button type="button" class="btn btnReturn btn-default"  th:text="#{button.return}" />
+			        </div>
+	           	</div>
+        	</form>
+    	</div>
+	</div>
+</body>
+</html>

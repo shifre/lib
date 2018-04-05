@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorator="layout/client">
+<head>
+	<div th:replace="common/datatable" />
+	<style type="text/css">
+		.template {
+		  width: 25px;
+		  height: 25px;
+		  border: solid 1px #398439;
+		  size: 8px;
+		  color: #fff;
+		  background-color: #428bca;
+    	  border-color: #357ebd;
+		  font-size: 14px;
+		  padding: 2px;
+		  margin-right: 5px;
+		}
+	</style>
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	$(document).ready(function() {
+		var aoColumn = [
+           { "mDataProp": "title", "bSortable": true, "sWidth" : "30%",
+           	"mRender": function ( data, type, full ) {
+           		var ret = $.es.encodeHtml(data);
+           		if(full.templateField){
+           			ret = '<span class="template">'+[[#{field.template}]]+'</span>' + ret;
+           		}
+           		
+           		return ret;
+           	}	  
+           },
+           { "mDataProp": "name", "bSortable": false, "sWidth" : "25%", "sClass": "wrapable",
+           	"mRender": function ( data, type, full ) {
+           		return $.es.encodeHtml(data);
+           	}	  
+           },
+           { "mDataProp": "type", "bSortable": true, "sWidth" : "25%", "sClass": "wrapable",
+           	"mRender": function ( data, type, full ) {
+           		var ret = "";
+           		if(data == "HTML")
+           		{
+           			ret = [[#{view.field.html}]];
+           		}
+           		else if(data == "TEXT")
+           		{
+           			ret = [[#{view.field.text}]];
+           		}
+           		else if(data == "IMAGE")
+           		{
+           			ret = [[#{view.field.images}]];
+           		}
+           		else if(data == "FILE")
+           		{
+           			ret = [[#{view.field.files}]];
+           		}
+           		
+           		return ret;
+           	}	  
+           },
+           { "mDataProp": "id", "bSortable": false, "sWidth" : "15%",
+           	"mRender": function ( data, type, full ) {
+                       return new ActionBuilder().start()
+                       .add(bundle['detail'], "javascript:sh.showItem(" + full.id + ");", "glyphicon glyphicon-search")
+                       .add(bundle['edit'], "javascript:sh.editItem(" + full.id + ");", "glyphicon glyphicon-pencil")
+                       .add(bundle['remove'], "javascript:sh.delItem(" + full.id + ", '" + full.title + "');", "fa fa-trash-o")
+                       .end();
+             }
+           }
+       ];
+		
+		var shInitData = {
+	            linkPrefix:"asset",
+				aoColumn:aoColumn,
+				passConds: function(){
+					var cb = new CondBuilder();
+					cb.where("title", "%", $("#title").val());
+					return cb.json;
+				}
+			};
+		window.sh = new SearchHandler(shInitData);
+			
+
+		var initData = {
+            formId : 'form',
+            url : [[@{/asset/improt.json}]],
+            promptOn: $(".errorForm"),
+            callback: function(resp){
+            	if(!resp.error){
+            		window.sh.refreshTable();
+            	}
+            }
+         }
+		
+		$("#uploadFile").change(function(){
+			$(this).upload(initData);
+    	});
+		
+	});
+	/*]]>*/
+	</script>
+</head>
+<body>
+<div layout:fragment="content">
+	<div class="contentpanel">
+		<div class="panel  panel-default">
+            <div class="panel-heading">
+            	<div class="panel-btns col-sm-10">
+            		<form id="form">
+						<button type="button" class="btn btnAdd btn-success right" th:text="#{field.asset.add}"/>
+	             		<button type="submit" class="btn btn-primary mr5 btnSearch right ladda-button" th:text="#{button.search}"/>
+		                <div class="col-sm-3 right">
+		             		 <input type="text" class="form-control" id="title" th:placeholder="#{field.title}"/>
+		             	</div>
+	            	</form>
+             	</div>
+                <div class="panel-title" th:text="#{field.asset.list}">
+                	<div class="errorForm mt10"></div>
+                </div>
+            </div>
+		</div>
+		<table id="resultTable" class="table table-bordered table-hover">
+		      <thead class="">
+		          <tr>
+		             <th th:text="#{field.title}" />
+		             <th th:text="#{field.unique.name}" />
+		             <th th:text="#{field.type}" />
+		             <th th:text="#{field.op}" />
+		         </tr>
+		      </thead>
+		      <tbody>
+		      </tbody>
+		</table>
+	 </div>
+  </div>
+</body>
+</html>

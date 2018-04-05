@@ -1,0 +1,18 @@
+<div th:unless="${mode == 'readonly'}" class="form-group">
+    <label class="col-sm-2 control-label" th:text="#{${field.title}}" />
+    <div class="col-sm-4">
+    	<select th:name="${field.name}" class="usertype select" th:attr="data-select-value=${data[field.name]}" >
+            <option value="ADMIN" th:selected="${data[field.name]} == 'ADMIN'" th:text="#{field.type.admin}"></option>
+            <option value="GENERIC" th:selected="${data[field.name]} == 'GENERIC'" th:text="#{field.type.generic}"></option>
+        </select>
+    </div>
+   	<div class="col-sm-6 form-hint" th:unless="${#strings.isEmpty(field.hint)}" th:text="#{${field.hint}}" />
+</div>
+<div th:if="${mode == 'readonly'}" class="form-group">
+    <label class="col-sm-2 control-label" th:text="#{${field.title}}" />
+    <div class="col-sm-4">
+        <div class="well well-sm" th:if="${data[field.name]} == 'ADMIN'" th:text="#{field.type.admin}" />
+        <div class="well well-sm" th:if="${data[field.name]} == 'GENERIC'" th:text="#{field.type.generic}" />
+    </div>
+   	<div class="col-sm-6 form-hint" th:unless="${#strings.isEmpty(field.hint)}" th:text="#{${field.hint}}" />
+</div>

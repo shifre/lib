@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+	<head>
+		<current:user var="current" />
+		<div th:replace="common/head" />
+		<div th:replace="common/script" />
+	</head>
+	<body>
+		<div th:replace="layout/main_header" />
+	    <section>
+	         <div class="mainwrapper ${theme == 'COMPACT' ? 'collapsed' : ''}">
+                 <div class="leftpanel">
+					<div th:replace="layout/main_menu" />
+                 </div>
+	             <div class="mainpanel">
+	             	<div layout:fragment="content" th:remove="tag"></div>
+	             </div>
+	         </div>
+	     </section>
+	</body>
+</html>

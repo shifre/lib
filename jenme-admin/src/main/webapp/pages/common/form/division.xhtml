@@ -1,0 +1,16 @@
+<div th:if="${mode == 'readonly'}" class="form-group">
+    <label class="col-sm-2 control-label" th:text="#{${field.title}}" />
+    <div class="col-sm-4">
+    	<div class="well well-sm" th:text="${utils.dict('city', data[field.name]).value}" />
+    </div>
+   	<div class="col-sm-6 form-hint" th:unless="${#strings.isEmpty(field.hint)}" th:text="#{${field.hint}}" />
+</div>
+<div th:unless="${mode == 'readonly'}"  class="form-group">
+    <label class="col-sm-2 control-label" th:text="#{${field.title}}" />
+    <div class="col-sm-4">
+        <select th:name="${field.name}" data-placeholder="Choose One" class="city select" th:attr="data-select-value=${data[field.name]}">
+	        <option value="" th:text="#{please.select}" />
+	    </select>
+    </div>
+   	<div class="col-sm-6 form-hint" th:unless="${#strings.isEmpty(field.hint)}" th:text="#{${field.hint}}" />
+</div>

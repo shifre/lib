@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorator="layout/partner">
+<head>
+	<data:client th:id="${utils.first(param.id)}" var="data"/>
+	<script type="text/javascript">
+	var uh;
+	$(document).ready(function() {
+	    var uhInitData = {
+	        linkPrefix:"client"
+	    }
+	    window.uh = new UpdateHander(uhInitData);
+	});
+	</script>
+</head>
+<body layout:fragment="content"> 
+	<div class="contentpanel">
+		<div class="row">
+		    <div class="col-sm-12 col-md-12">
+		        <ul class="nav nav-tabs nav-line">
+		            <li class="active"><a href="javascript:void(0);"><strong th:text="#{field.client.ref.info}"></strong></a></li>
+		            <li><a th:href="|servicesearch.xhtml?id=${utils.first(param.id)}&amp;type=view|"><strong th:text="#{field.client.ref.service}"></strong></a></li>
+		        </ul>
+		        <div class="tab-content nopadding noborder">
+		            <div class="tab-pane active">
+		                <form id="form" method="post" class="form-horizontal form-bordered">
+				            <div class="panel panel-default">
+				                <div class="panel-heading">
+				                    <div class="panel-title" th:text="#{field.client.info}"></div>
+				                </div>
+				                <div class="panel-body nopadding">
+				                    <div class="errorForm"></div>
+				                    <input type="hidden" id="id" name="id" th:value="${data.id}"/>
+				                    <div th:replace="common/form::params('client', ${data}, 'readonly')" />
+				                </div>
+				                <div class="panel-footer">
+			                    	<button type="button" class="btn btnEdit btn-primary" th:text="#{button.edit}"></button>
+			                        <button type="button" class="btn btnRemove btn-danger" th:text="#{button.delete}"></button>
+			                        <button type="button" class="btn btnReturn btn-default" th:text="#{button.return}"></button>
+			                    </div>
+				            </div>
+				        </form>
+		            </div>
+		    	</div>
+		    </div>
+		</div>
+	</div>
+</body>
+</html>

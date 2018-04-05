@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:util="http://www.springframework.org/schema/util"  
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.2.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.2.xsd"
+	default-lazy-init="false">
+    <bean id="dictionaryManager" class="com.cantonsoft.framework.util.DictionaryManager" scope="singleton" >
+        <property name="file" value="classpath:dictionary.xml"/>
+    </bean>
+    <util:set id="allowedTemplateFiles" set-class="java.util.HashSet">
+        <value>html</value>
+        <value>js</value>
+        <value>css</value>
+        <value>png</value>
+        <value>jpg</value>
+        <value>bmp</value>
+        <value>gif</value>
+        <value>ico</value>
+        <value>svg</value>
+        <value>otf</value>
+        <value>eot</value>
+        <value>ttf</value>
+        <value>woff</value>
+        <value>dat</value>
+        <value>txt</value>
+        <value>json</value>
+        <value>wav</value>
+        <value>swf</value>
+        <value>flv</value>
+        <value>mp4</value>
+        <value>ogv</value>
+        <value>ogg</value>
+        <value>webm</value>
+        <value>less</value>
+    </util:set>
+    
+	<bean id="uploadFileStore" class="com.cantonsoft.framework.upload.LocalFileStore" init-method="init" scope="singleton" lazy-init="false">
+		<property name="docBase" value="${docbase}"/>
+		<property name="folder" value="files"/>
+		<property name="deniedFiles">  
+            <set>  
+                <value>html</value>
+                <value>htm</value>
+                <value>php</value>
+                <value>php2</value>
+                <value>php3</value>
+                <value>php4</value>
+                <value>php5</value>
+                <value>phtml</value>
+                <value>pwml</value>
+                <value>inc</value>
+                <value>asp</value>
+                <value>aspx</value>
+                <value>ascx</value>
+                <value>jsp</value>
+                <value>cfm</value>
+                <value>cfc</value>
+                <value>pl</value>
+                <value>bat</value>
+                <value>sh</value>
+                <value>exe</value>
+                <value>com</value>
+                <value>dll</value>
+                <value>vbs</value>
+                <value>js</value>
+                <value>reg</value>
+                <value>cgi</value>
+                <value>htaccess</value>
+                <value>asis</value>
+                <value>ftl</value>
+            </set>  
+        </property>
+	</bean>
+	<!--  bean id="structureService" class="com.cantonsoft.sitecloud.partner.my.structure.StructureService">
+        <property name="docBase" value="${docbase}"/>
+    </bean-->
+</beans>

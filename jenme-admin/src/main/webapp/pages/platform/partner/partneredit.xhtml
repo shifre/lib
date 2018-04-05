@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorator="layout/main">
+<head>
+	<data:partner th:id="${utils.first(param.id)}" var="data"/>
+    <script>
+	    $(document).ready(function() {
+	       <div th:utext="${utils.validate('partner', '#form')}" th:remove="tag"></div>
+	    }); 
+    </script>
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	var cityJson = [[${utils.dict('city')}]];
+    $(document).ready(function() {
+        var updateOpts={
+                linkPrefix:"partner"
+        }
+        window.uh = new UpdateHander(updateOpts);
+    });
+    
+    $(document).ready(function() {
+	   	 $("#file").change(function(){
+	     	var opts = {
+	                url : [[@{/upload/file.json}]],
+	                filehost: [[${utils.config('filehost')}]],
+	                resultAt: $("input[name='logoUrl']"), 
+	                previewAt: $("#img"),
+	                promptOn: $("#form"),
+	                loadingOn:'.btn-file',
+	                callback: null
+	         };
+	    	 $(this).upload(opts);
+	    });  
+    });
+	/*]]>*/
+	</script>
+</head>
+<body>
+	<div layout:fragment="content">
+	   <div class="contentpanel">
+	       <form id="form" method="post" class="form-horizontal form-bordered">
+	            <div class="panel panel-default">
+	                <div class="panel-heading">
+	                    <div class="panel-title" th:text="#{field.partner.info}" />
+	                </div>
+	                <div class="panel-body nopadding">
+	                    <div class="errorForm" />
+	                    <input type="hidden" id="id" name="id" th:value="${data.id}"/>
+						<div th:replace="common/form::params('partner', ${data}, '')" />
+	                </div>
+	                <div class="panel-footer">
+	                    <button class="btnSave btn btn-primary" th:text="#{button.save}" />
+	                    <button type="button" class="btnReturn btn btn-default" th:text="#{button.return}" />	
+	                </div>
+	            </div>
+	        </form>
+	    </div>
+	 </div>
+</body>
+</html>

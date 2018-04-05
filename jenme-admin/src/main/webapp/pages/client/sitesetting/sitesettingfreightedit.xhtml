@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorator="layout/client">
+<head>
+	<data:sitesetting var="data" />
+	<script>
+	    $(document).ready(function() {
+	       <div th:utext="${utils.validate('siteSetting', '#form2')}" th:remove="tag"></div>
+	    }); 
+    </script>
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+		$(document).ready(function() {
+	
+	    	var updateOpts={
+                linkPrefix:"sitesetting",
+                addAction:"",
+                updateAction:"?id=",
+	        }
+	        window.uh = new UpdateHander(updateOpts);
+	    	
+	    	$(".btnSave2").click(function(){
+	         	var $form = $("#form2");
+	         	var action = [[@{/client/sitesetting/freight/update.json}]] + "?id=" + $("input[name=id]").val() + "&value=" + $("input[name=value]").val();
+	         	$("#form2").attr("action", action);
+	         	$("#form2").ajax(false, null, null, null, false);
+	         });
+		});
+
+	/*]]>*/
+	</script>
+</head>
+<body>
+	<div layout:fragment="content">
+	   <div class="contentpanel">
+	     <form id="form2" method="post" class="form-horizontal form-bordered">
+	          <div class="panel panel-default">
+	                <div class="panel-heading">
+	                   <div class="panel-title" th:text="#{field.site.setting.freight}" />
+	                </div>
+	                <div class="panel-body nopadding">
+	                   <div class="panel-body nopadding">
+		                    <div class="errorForm" />
+		                    <input type="hidden" id="id" name="id" th:value="${data.id}"/>
+							<div th:replace="common/form::params('siteSetting', ${data}, '')" />
+		                </div>
+		                <div class="panel-footer">
+		                    <button class="btnSave2 btn btn-primary mr5" th:text="#{button.save}" />
+		                </div>
+				  </div>
+		  	  </div>
+		  	</form>
+	    </div>
+	</div>
+</body>
+</html>

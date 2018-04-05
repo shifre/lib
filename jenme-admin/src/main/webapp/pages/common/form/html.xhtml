@@ -1,0 +1,15 @@
+<div th:if="${mode == 'readonly'}" class="form-group">
+    <label class="col-sm-2 control-label" th:text="#{${field.title}}" />
+    <div class="col-sm-7">
+        <div class="well well-sm" th:text="${data[field.name]}" >
+        </div>
+    </div>
+   	<div class="col-sm-3 form-hint" th:unless="${#strings.isEmpty(field.hint)}" th:text="#{${field.hint}}" />
+</div>
+<div th:unless="${mode == 'readonly'}"  class="form-group">
+    <label class="col-sm-2 control-label" th:text="#{${field.title}}" />
+    <div class="col-sm-7">
+         <textarea class="form-control html" rows="10" th:name="${field.name}" th:text="${data[field.name]}"/>
+    </div>
+   	<div class="col-sm-3 form-hint" th:unless="${#strings.isEmpty(field.hint)}" th:text="#{${field.hint}}" />
+</div>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorator="layout/partner">
+<head>
+<div th:replace="common/datatable" />
+<script th:inline="javascript">
+	/*<![CDATA[*/
+	$(document).ready(
+			function() {
+				var aoColumn = [
+						{
+							"mDataProp" : "title",
+							"bSortable" : true,
+							"sWidth" : "20%",
+							"mRender" : function(data, type, full) {
+								return $.es.encodeHtml(data);
+							}
+						},
+						{
+							"mDataProp" : "contact",
+							"bSortable" : false,
+							"sWidth" : "15%",
+							"sClass" : "wrapable",
+							"mRender" : function(data, type, full) {
+								return $.es.encodeHtml(data);
+							}
+						},
+						{
+							"mDataProp" : "phone",
+							"bSortable" : false,
+							"sWidth" : "15%",
+							"sClass" : "wrapable",
+							"mRender" : function(data, type, full) {
+								return $.es.encodeHtml(data);
+							}
+						},
+						{
+							"mDataProp" : "email",
+							"bSortable" : false,
+							"sWidth" : "15%",
+							"sClass" : "wrapable",
+							"mRender" : function(data, type, full) {
+								return $.es.encodeHtml(data);
+							}
+						},
+						{
+							"mDataProp" : "id",
+							"bSortable" : false,
+							"sWidth" : "20%",
+							"mRender" : function(data, type, full) {
+								return new ActionBuilder().start().add(
+										bundle['detail'],
+										"javascript:sh.showItem(" + full.id
+												+ ");",
+										"glyphicon glyphicon-search").add(
+										bundle['edit'],
+										"javascript:sh.editItem(" + full.id
+												+ ");",
+										"glyphicon glyphicon-pencil").add(
+										bundle['remove'],
+										"javascript:sh.delItem(" + full.id
+												+ ", '" + full.title + "');",
+										"fa fa-trash-o").end();
+							}
+						} ];
+
+				var shInitData = {
+					linkPrefix : "client",
+					aoColumn : aoColumn,
+					passConds : function() {
+						var cb = new CondBuilder();
+						cb.where("title", "%", $("#title").val());
+						cb.where("type", "=", $("#type").val());
+						return cb.json;
+					}
+				};
+
+				window.sh = new SearchHandler(shInitData);
+			});
+
+	function choose(currentLi, val) {
+		if (null == val) 
+		{
+			$("#type").val("");
+		}
+		else
+		{
+			$("#type").val(val);
+		}
+		$(".nav-contacts li").removeClass("active");
+		$(currentLi).addClass("active");
+		$(".btnSearch").click();
+	}
+	/*]]>*/
+</script>
+</head>
+<body layout:fragment="content">
+	<div class="contentpanel">
+		<div class="panel  panel-default">
+			<div class="panel-heading">
+				<div class="panel-btns col-sm-5">
+					<form>
+						<button type="button" class="btn btnAdd btn-success right" th:text="#{field.client.add}"></button>
+						<button type="submit" class="btn btn-primary mr5 btnSearch right ladda-button" th:text="#{button.search}"></button>
+						<div class="col-sm-5 right">
+							<input type="hidden" class="form-control" id="type" th:attr="placeholder=#{field.client.title}" />
+							<input type="text" class="form-control" id="title" th:attr="placeholder=#{field.client.title}" />
+						</div>
+					</form>
+				</div>
+				<div class="panel-title" th:text="#{field.client.list}">
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-3">
+				<ul class="nav nav-pills nav-stacked nav-contacts">
+					<li id="vipAll" class="active"><a href="javascript:choose('#vipAll');" th:text="#{field.client.all}"></a></li>
+					<li id="vip1"><a href="javascript:choose('#vip1', 'VIP1');" th:text="#{field.client.type.vip1}"></a></li>
+					<li id="vip2"><a href="javascript:choose('#vip2', 'VIP2');" th:text="#{field.client.type.vip2}"></a></li>
+					<li id="vip3"><a href="javascript:choose('#vip3', 'VIP3');" th:text="#{field.client.type.vip3}"></a></li>
+				</ul>
+				<br />
+			</div>
+			<div class="col-sm-9">
+				<table id="resultTable" class="table table-bordered table-hover">
+					<thead class="">
+						<tr>
+							<th th:text="#{field.client.title}" />
+							<th th:text="#{field.client.contact}" />
+							<th th:text="#{field.client.phone}" />
+							<th th:text="#{field.client.email}" />
+							<th th:text="#{field.op}" />
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

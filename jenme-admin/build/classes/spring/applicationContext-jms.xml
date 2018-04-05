@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jms="http://www.springframework.org/schema/jms"
+       xmlns:amq="http://activemq.apache.org/schema/core"
+       xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd
+		http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd
+        http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core-5.9.0.xsd"
+        default-lazy-init="false">
+    
+    <!--  Embedded ActiveMQ Broker -->
+	<bean id="messagePub" class="com.cantonsoft.framework.event.jms.ObjectMessagePublisher" >
+	</bean>
+	
+	<broker id="broker" xmlns="http://activemq.apache.org/schema/core" brokerName="localhost" dataDirectory="${jms.data}">
+        <destinationPolicy>
+            <policyMap>
+              <policyEntries>
+                <policyEntry topic=">" producerFlowControl="true">
+                  <pendingMessageLimitStrategy>
+                    <constantPendingMessageLimitStrategy limit="1000"/>
+                  </pendingMessageLimitStrategy>
+                </policyEntry>
+                <policyEntry queue=">" producerFlowControl="true" memoryLimit="1mb">
+                
+                </policyEntry>
+              </policyEntries>
+            </policyMap>
+        </destinationPolicy>
+ 
+        <managementContext>
+            <managementContext createConnector="false"/>
+        </managementContext>
+ 
+        <persistenceAdapter>
+            <kahaDB directory="${jms.data}/kahadb"/>
+        </persistenceAdapter>
+     
+	     <plugins>
+	        <!-- Configure authentication; Username, passwords and groups -->
+	        <simpleAuthenticationPlugin>
+	            <users>
+	                <authenticationUser username="${jms.user}" password="${jms.user.password}" groups="users"/>
+	                <authenticationUser username="${jms.admin}" password="${jms.admin.password}" groups="users,admins"/>
+	            </users>
+	        </simpleAuthenticationPlugin>
+	
+	      <!--  Lets configure a destination based authorization mechanism -->
+	      <authorizationPlugin>
+	        <map>
+	          <authorizationMap>
+	            <authorizationEntries>
+	              <authorizationEntry topic=">" read="users" write="admins" admin="admins" />
+	              <authorizationEntry queue=">" read="users" write="admins" admin="admins" />
+              	  <authorizationEntry topic="ActiveMQ.Advisory.>" read="admins,users" write="admins,users" admin="admins"/>
+	            </authorizationEntries>
+	          </authorizationMap>
+	        </map>
+	      </authorizationPlugin>
+	    </plugins>
+	    
+        <systemUsage>
+            <systemUsage>
+                <memoryUsage>
+                    <memoryUsage limit="10 mb"/>
+                </memoryUsage>
+                <storeUsage>
+                    <storeUsage limit="1 gb"/>
+                </storeUsage>
+                <tempUsage>
+                    <tempUsage limit="100 mb"/>
+                </tempUsage>
+            </systemUsage>
+        </systemUsage>
+ 
+        <transportConnectors>
+            <transportConnector name="openwire" uri="nio://${jms.server}:${jms.port}?useAsyncSend=true" />
+        </transportConnectors>
+ 
+        <shutdownHooks>
+            <bean xmlns="http://www.springframework.org/schema/beans" class="org.apache.activemq.hooks.SpringContextHook" />
+        </shutdownHooks>
+ 
+    </broker>
+    <!--  ActiveMQ Destination  -->
+    <amq:topic id="sitecache" physicalName="site.cache" name="site.cache"/>
+
+    <!-- JMS ConnectionFactory to use, configuring the embedded broker using XML -->
+    <amq:connectionFactory id="jmsFactory" brokerURL="vm://localhost" userName="${jms.admin}" password="${jms.admin.password}" />
+
+    <!-- JMS Producer Configuration -->
+    <bean id="jmsProducerConnectionFactory" 
+          class="org.springframework.jms.connection.SingleConnectionFactory"
+          depends-on="broker"
+          p:targetConnectionFactory-ref="jmsFactory" />
+
+    <bean id="jmsProducerTemplate" class="org.springframework.jms.core.JmsTemplate"
+          p:connectionFactory-ref="jmsProducerConnectionFactory"/>
+    
+    <!-- JMS Consumer Configuration -->
+    <bean id="jmsConsumerConnectionFactory" 
+          class="org.springframework.jms.connection.SingleConnectionFactory"
+          depends-on="broker"
+          p:targetConnectionFactory-ref="jmsFactory" />
+        
+    <jms:listener-container container-type="default" 
+                            connection-factory="jmsConsumerConnectionFactory"
+                            acknowledge="auto"
+                            destination-type="topic"
+                            >
+        <!-- 
+        <jms:listener destination="site.cache" ref="siteCacheManager" method="notifyUpdate" />
+         -->
+    </jms:listener-container>
+</beans>

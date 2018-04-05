@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorator="layout/main">
+<head>
+	<style type="text/css">
+		input{
+			width:70px;
+		}
+	</style>
+	<div th:replace="common/datatable" />
+	<data:vendorlist var="vendorlist"/>
+   <data:template th:id="${utils.first(param.id)}" var="data"/>
+    <script>
+	    $(document).ready(function() {
+	       <div th:utext="${utils.validate('template', '#form')}" th:remove="tag"></div>
+	    }); 
+    </script>
+    <script th:inline="javascript">
+	/*<![CDATA[*/
+	var updateOpts;
+	var tempPath;
+	var dataTable;
+	
+    $(document).ready(function() {
+        updateOpts={
+        		linkPrefix:"template",
+                callbackSave:callbackSave
+        }
+        window.uh = new UpdateHander(updateOpts);
+        
+        if($("input[name='image']").val() == '') {
+			$("#img").hide();
+		}
+        
+        if($("#id").val() == "")
+		{
+        	$("#tempPath").show();
+		}
+    });
+	
+    function callbackSave(resp)
+    {
+    	if(!resp.error)
+    	{
+    		if(resp.data != null)
+    		{
+    			if($("#id").val() == "")
+    			{
+    				$("#id").val(resp.data.id);
+    			}	
+    		}
+    		location.href= "templatesearch.xhtml";
+    	}	
+    }
+    
+    $(document).ready(function() {
+    	dataTable = $("#importTable").DataTable({
+    		"oLanguage" : {
+ 				"sLengthMenu" : bundle['sLengthMenu'],
+ 				"sInfo" : bundle['sInfo'],
+ 				"sInfoEmpty": "",
+ 				"sInfoFiltered" : bundle['sInfoFiltered'],
+ 				"oPaginate" : {
+ 					"sFirst" : bundle['sFirst'],
+ 					"sPrevious" : bundle['sPrevious'],
+ 					"sNext" : bundle['sNext'],
+ 					"sLast" : bundle['sLast']
+ 				},
+ 				"sZeroRecords" : "<p class='dataTables_empty'>"+bundle['sZeroRecords']+"</p>",
+ 			    "sSearch":bundle['sSearch']
+ 			},
+    		"bAutoWidth": true,
+    	     "bPaginate": false,
+    	     "bSort": true,
+    	     "headerClickable": true,
+    	     "bFilter": false,
+    	     "bLengthChange": false,
+    	     "iDisplayLength": 10,
+    	     "bProcessing": false,
+    	     "scrollX": false,
+    		"columnDefs": [
+               {
+                   // The `data` parameter refers to the data for the cell (defined by the
+                   // `data` option, which defaults to the column being worked with, in
+                   // this case `data: 0`.
+                   "render": function ( data, type, row ) {
+                       return "<input disabled=\"disabled\" name=\"orderMemo\" value=\""+(data==null?'':data)+"\" />";
+                   },
+                   "targets": 0
+               },{
+                   "render": function ( data, type, row ) {
+                	   return "<input name=\"code\" value=\""+(data==null?'':data)+"\" />";
+                   },
+                   "targets": 1
+               },{
+                   "render": function ( data, type, row ) {
+                	   return "<input name=\"texture\" value=\""+(data==null?'':data)+"\" />";
+                   },
+                   "targets": 2
+               },{
+                   "render": function ( data, type, row ) {
+                	   return "<input name=\"color\" value=\""+(data==null?'':data)+"\" />";
+                   },
+                   "targets": 3
+               },{
+                   "render": function ( data, type, row ) {
+                	   return "<input name=\"size\" value=\""+(data==null?'':data)+"\" />";
+                   },
+                   "targets": 4
+               },{
+                   "render": function ( data, type, row ) {
+                	   return "<input name=\"spec\" value=\""+(data==null?'':data)+"\" />";
+                   },
+                   "targets": 5
+               },{
+                   "render": function ( data, type, row ) {
+                	   if(row[6] == null || row[6].length ==0 ){
+                		   return "<button class=\"btnSave btn btn-primary mr5\">查找</button>"; 
+                	   }else{
+	                	   return "<input disabled=\"disabled\" name=\"id\" value=\""+data+"\" />";
+                	   }
+                   },
+                   "targets": 6
+               },{
+                   "render": function ( data, type, row ) {
+                	   return "<input disabled=\"disabled\" name=\"name\" value=\""+(data==null?'':data)+"\" />";
+                   },
+                   "targets": 7
+               }
+           ]
+    	});
+
+	   	 $("#file").change(function(){
+	     	var opts = {
+	                url : [[@{/upload/file.json}]],
+	                filehost: [[${utils.config('filehost')}]],
+	                resultAt: $("input[name='image']"), 
+	                previewAt: $("#img"),
+	                promptOn: $("#form"),
+	                loadingOn:'.btn-file',
+	                callback:null
+	         };
+	    	 $(this).upload(opts);
+	    });  
+	   	 
+	   	 
+	   var initTemplateData = {
+	                formId : 'formWillBeCreated',
+	                url : 'add/upload.json',
+	                promptOn: ".errorForm",
+	                inputId:'#template',
+	                callback: function(resp){
+	                	if(!resp.error)
+	                	{
+	                		if(resp.data.tempUri != null)
+	                		{
+	                			$("#tempUri").val(resp.data.tempUri);
+	                			$("#tempPath").val(resp.data.tempUri);
+	                		}
+	                		
+	                		if(resp.data.goods != null){
+	                			/* dataTable.cleanData(); */
+	                			var goods = resp.data.goods;
+	                			
+	                			$.each(goods, function(i){
+	                				dataTable.row.add( [
+                 			            goods[i].orderMemo,
+                 			            goods[i].code,
+                 			            goods[i].texture,
+                 			           	goods[i].color,
+                 			            goods[i].spec,
+                 			            goods[i].unit,
+                 			            goods[i].goodsId,
+                 			            goods[i].name
+   	              			        ] ).draw( false );  	
+	                			});
+	                		}
+	                	}
+	                }
+	            };
+	   	
+	      
+	   	var isIE = /msie/i.test(navigator.userAgent) && !window.opera; 
+	   	 $("#template").change(function(e)
+	   	 {
+	   		var fileSize = 0;        
+	        if (isIE && ! e.target.files) {    
+		          var filePath = e.target.value;    
+		          var fileSystem = new ActiveXObject("Scripting.FileSystemObject");       
+		          var file = fileSystem.GetFile (filePath);    
+		          fileSize = file.Size;   
+	        } 
+	        else 
+	        {   
+	            fileSize = e.target.files[0].size;    
+	        }  
+	         
+	        var size = fileSize / 1024;   
+	        
+	         if(size>10000){ 
+	        	 addErrorMessage(".errorForm", "上传文件不能大于10M");
+	        	 return false;
+	         }else{
+	        	 if($("#id").val() != "")
+	 		   	{
+	 		   		initTemplateData.url = "update/upload.json?id=" + $("#id").val();
+	 		   		initTemplateData.callback=function(resp){
+		 		   		if(!resp.error)
+	                	{
+		 		   			$("#tempPath").show();
+			 		   		$("#version").val(resp.data.data.version);
+		 		   			$("#tempPath").val(resp.data.tempUri);
+	                	}
+	 		   		}
+	 		   	}
+	 	   		$(this).upload(initTemplateData);
+	         }
+	   		
+	   	 }); 
+	   	 
+   });
+	/*]]>*/
+  </script>     
+</head>
+<body>    
+  <div layout:fragment="content">
+   <div class="contentpanel">
+       <form id="form" method="post" class="form-horizontal form-bordered">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title" th:text="#{field.template.info}"></div>
+                </div>
+                <div class="panel-body nopadding">
+                    <div class="errorForm" />
+	                <input type="hidden" id="id" name="id" th:value="${data.id}"/>
+	                <input type="hidden" id="tempUri" name="tempUri" th:value="''"/>
+	                <input type="hidden" id="version" name="version" th:value="${data.version}"/>
+					<!-- <div th:replace="common/form::params('template', ${data}, '')" /> -->
+                    <div class="form-group">
+					    <label class="col-sm-2 control-label" th:text="#{field.goods.info.column.vendor}"></label>
+					    <div class="col-sm-10">
+	                       <select class="select form-control" id="vendorSelect" style="width: 30%;float: left;" >
+					    		<option th:value="null" th:text="#{field.goods.info.column.vendor}"/>
+					    		<div th:each="vendors,itemStat:${vendorlist}" th:remove="tag">
+					    			<option th:value="${vendors.id}" th:text="${vendors.code}" />
+					    		</div>
+					        </select>
+					    </div>
+					</div>
+                    <div class="form-group">
+					    <label class="col-sm-2 control-label" th:text="#{field.template}"></label>
+					    <div class="col-sm-10">
+	                       <input type="text" class="form-control" id="tempPath" style="width: 30%;float: left; display: none;" disabled='disabled'/>
+					        <div class="btn btn-warning btn-file" style="margin-left: 5px;">
+						      <span class="fileupload-new" th:text="#{field.template.select}"></span>
+						      <input type="file" id="template" name="file" style="width: 200px;"/>
+					   	   </div>
+					    </div>
+					</div>
+                </div>
+                <div class="panel-footer">
+	            </div>
+            </div>
+        </form>
+        <table id="importTable" class="table table-bordered table-hover">
+        	<thead>
+        		<th>订单号</th>
+        		<th>商品编号</th>
+        		<th>商品材质</th>
+        		<th>颜色</th>
+        		<th>尺寸</th>
+        		<th>条形码</th>
+        		<th>商品索引号</th>
+        		<th>商品名称</th>
+        	</thead>
+        	<tbody></tbody>
+        </table>
+        <div>
+        	<button class="btnSave btn btn-primary mr5" style="float:right;" th:text="#{button.save}" />
+        </div>
+    </div>
+   </div>
+</body>
+</html>

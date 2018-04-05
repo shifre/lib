@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorator="layout/main">
+<head>
+	<div th:replace="common/datatable" />
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	$(document).ready(function() {
+		var aoColumn = [
+           { "mDataProp": "code", "bSortable": true, "sWidth" : "30%",
+           	"mRender": function ( data, type, full ) {
+           		return $.es.encodeHtml(data);
+           	}	  
+           },
+           { "mDataProp": "name", "bSortable": true, "sWidth" : "30%", "sClass": "wrapable",
+              	"mRender": function ( data, type, full ) {
+              		return $.es.encodeHtml(data);
+              	}
+            },
+           { "mDataProp": "operate", "bSortable": false, "sWidth" : "40%",
+           	"mRender": function ( data, type, full ) {
+                return new ActionBuilder().start()
+                .add(bundle['detail'], "javascript:sh.showItem(" + full.id + ");", "glyphicon glyphicon-search")
+                .add(bundle['edit'], "javascript:sh.editItem(" + full.id + ");", "glyphicon glyphicon-pencil")
+                .add(bundle['remove'], "javascript:sh.delItem(" + full.id + ", '" + full.name + "');", "fa fa-trash-o")
+                .end();
+             }
+           }
+       ];
+
+		var shInitData={
+	            linkPrefix:"goodscategory",
+				aoColumn:aoColumn,
+				passConds: function(){
+					var cb = new CondBuilder();
+					cb.where("name", "%", $("#name").val());
+					return cb.json;
+				}
+		};
+
+		window.sh = new SearchHandler(shInitData);
+	});
+	/*]]>*/
+	</script>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="contentpanel">
+			<div class="panel  panel-default">
+				<div class="panel-heading">
+	            	<div class="panel-btns col-sm-5">
+	            		<form>
+	            			<button type="button" class="btn btnAdd btn-success right" th:text="#{field.goods.category.button.add}"/>
+		             		<button type="submit" class="btn btn-primary mr5 btnSearch right ladda-button" th:text="#{button.search}" />
+			                <div class="col-sm-5 right">
+			             		 <input type="text" class="form-control" id="name" th:placeholder="#{field.goods.category.column.name}" />
+			             	</div>
+		             	</form>
+	             	</div>
+	                <div class="panel-title" th:text="#{field.goods.category.list}" />
+	            </div>
+			</div>
+			<div class="row">
+			   <div class="col-sm-12">
+					<table id="resultTable" class="table table-bordered table-hover">
+					      <thead class="">
+					          <tr>
+					             <th th:text="#{field.goods.category.column.code}" />
+					             <th th:text="#{field.goods.category.column.name}" />
+					             <th th:text="#{field.op}" />
+					         </tr>
+					      </thead>
+					      <tbody>
+					      </tbody>
+					</table>
+			   </div>
+			</div>  
+		</div>
+	</div>
+</body>
+</html>

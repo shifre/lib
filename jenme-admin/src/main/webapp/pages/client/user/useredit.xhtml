@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorator="layout/client">
+<head>
+    <data:user th:attr="domain=CLIENT" th:id="${utils.first(param.id)}" var="data"/>
+	<data:username th:attr="domain=CLIENT" th:id="${data.id}" />
+	<script>
+	    $(document).ready(function() {
+	       <div th:utext="${utils.validate('clientUserView', '#form')}" th:remove="tag"></div>
+	    }); 
+    </script>
+    <script th:inline="javascript">
+	/*<![CDATA[*/
+    $(document).ready(function() {
+
+    	var updateOpts={
+                linkPrefix:"user"
+        }
+        window.uh = new UpdateHander(updateOpts);
+        
+        if($("#id").val() == "")
+        {
+            $(".nav-hide").hide();
+        }	 
+        
+		if($("input[name='image']").val() == '') {
+			$("#img").hide();
+		}
+		
+		
+	});
+ 
+    $(document).ready(function() {
+	   	 $("#file").change(function(){
+	     	var opts = {
+	                url : [[@{/upload/file.json}]],
+	                filehost: [[${utils.config('filehost')}]],
+	                resultAt: $("input[name='image']"), 
+	                previewAt: $("#img"),
+	                promptOn: $("#form"),
+	                loadingOn:'.btn-file',
+	                callback: null
+	         };
+	    	 $(this).upload(opts);
+	    });  
+   });
+	/*]]>*/
+    </script>        
+</head>
+<body>    
+	<div layout:fragment="content">
+	   <div class="contentpanel">
+	     <form id="form" method="post" class="form-horizontal form-bordered">
+	          <div class="panel panel-default">
+	                <div class="panel-heading">
+	                   <div class="panel-title" th:text="#{field.user.info}" />
+	                </div>
+	                <div class="panel-body nopadding">
+	                   <div class="panel-body nopadding">
+		                    <div class="errorForm" />
+		                    <input type="hidden" id="id" name="id" th:value="${data.id}"/>
+							<div th:replace="common/form::params('username', ${username}, '')" />
+							<div th:replace="common/form::params('clientUserView', ${data}, '')" />
+		                </div>
+		                <div class="panel-footer">
+		                    <button class="btnSave btn btn-primary mr5" th:text="#{button.save}" />
+		                    <button type="button" class="btnReturn btn btn-default" th:text="#{button.return}" />
+		                </div>
+				  </div>
+		  	  </div>
+		  	</form>
+	    </div>
+	</div>
+</body>
+</html>

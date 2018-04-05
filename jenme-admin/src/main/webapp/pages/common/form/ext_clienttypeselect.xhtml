@@ -1,0 +1,20 @@
+<div th:unless="${mode == 'readonly'}" class="form-group">
+    <label class="col-sm-2 control-label" th:text="#{${field.title}}" />
+    <div class="col-sm-4">
+    	<select th:name="${field.name}" class="usertype select" th:attr="data-select-value=${data[field.name]}" >
+    	    <option value="VIP1" th:selected="${data[field.name]} == 'VIP1'" th:text="#{field.client.type.vip1}"></option>
+            <option value="VIP2" th:selected="${data[field.name]} == 'VIP2'" th:text="#{field.client.type.vip2}"></option>
+            <option value="VIP3" th:selected="${data[field.name]} == 'VIP3'" th:text="#{field.client.type.vip3}"></option>
+        </select>
+    </div>
+   	<div class="col-sm-6 form-hint" th:unless="${#strings.isEmpty(field.hint)}" th:text="#{${field.hint}}" />
+</div>
+<div th:if="${mode == 'readonly'}" class="form-group">
+    <label class="col-sm-2 control-label" th:text="#{${field.title}}" />
+    <div class="col-sm-4">
+        <div class="well well-sm" th:if="${data[field.name]} == 'VIP1'" th:text="#{field.client.type.vip1}" />
+        <div class="well well-sm" th:if="${data[field.name]} == 'VIP2'" th:text="#{field.client.type.vip2}" />
+        <div class="well well-sm" th:if="${data[field.name]} == 'VIP3'" th:text="#{field.client.type.vip3}" />
+    </div>
+   	<div class="col-sm-6 form-hint" th:unless="${#strings.isEmpty(field.hint)}" th:text="#{${field.hint}}" />
+</div>

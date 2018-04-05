@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorator="layout/partner">
+<head>
+	<data:client th:id="${utils.first(param.id)}" var="data"/>
+    <script>
+	    $(document).ready(function() {
+	       <div th:utext="${utils.validate('client', '#form')}" th:remove="tag"></div>
+	    }); 
+    </script>
+    <script th:inline="javascript">
+	/*<![CDATA[*/
+    $(document).ready(function() {
+        var uhInitData = 
+        {
+        	linkPrefix:"client",
+        	callbackSave:callbackSave
+        }
+        window.uh = new UpdateHander(uhInitData);
+        
+		if($("#id").val() == "")
+		{
+			$(".li-hide").hide();
+		}
+		
+		$("#file").change(function(){
+	     	var opts = {
+	                url : [[@{/upload/file.json}]],
+	                filehost: [[${utils.config('filehost')}]],
+	                resultAt: $("input[name='image']"), 
+	                previewAt: $("#img"),
+	                promptOn: $("#form"),
+	                loadingOn:'.btn-file',
+	                callback: null
+	         };
+	    	 $(this).upload(opts);
+	    });  
+    });
+    
+    function callbackSave(resp)
+    {
+    	if(!resp.error){
+			if(resp.data != null){
+				if ($("#id").val() == "")
+				{
+					$("#id").val(resp.data.id);
+					$(".li-hide").show();
+				}
+			}
+		}
+    }
+    
+    function showView(view, type)
+    {
+    	location.href = view + "?id=" + $("#id").val() + "&type=" + type;
+    }
+    /*]]>*/
+	</script>        
+</head>
+<body layout:fragment="content">    
+   <div class="contentpanel">
+       <div class="row">
+		    <div class="col-sm-12 col-md-12">
+		        <ul class="nav nav-tabs nav-line">
+		            <li class="active li-hide"><a href="javascript:void(0);"><strong th:text="#{field.client.ref.info}"></strong></a></li>
+		            <li class="li-hide"><a href="javascript:void(0)" onclick="showView('servicesearch.xhtml', 'edit')"><strong th:text="#{field.client.ref.service}"></strong></a></li>
+		        </ul>
+		        <div class="tab-content nopadding noborder">
+		            <div class="tab-pane active">
+				       <form id="form" method="post" class="form-horizontal form-bordered">
+				            <div class="panel panel-default">
+				                <div class="panel-heading">
+				                    <div class="panel-title" th:text="#{field.client.info}"></div>
+				                </div>
+				                <div class="panel-body nopadding">
+				                    <div class="errorForm"/>
+				                    <input type="hidden" id="id" name="id" th:value="${data.id}"/>
+									<div th:replace="common/form::params('client', ${data}, '')" />
+				                </div>
+				                <div class="panel-footer">
+				                    <button  class="btnSave btn btn-primary mr5" th:text="#{button.save}"></button>
+				                    <button type="button" class="btnReturn btn btn-default" th:text="#{button.return}"></button>	
+				                </div>
+				            </div>
+				        </form>
+        			</div>
+        		</div>
+        	</div>
+        </div>
+    </div>
+</body>
+</html>

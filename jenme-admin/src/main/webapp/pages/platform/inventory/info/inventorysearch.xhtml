@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorator="layout/main">
+<head>
+<STYLE type="text/css">
+.control-label {
+	/* text-align: right; */
+	margin-top: 4px;
+	width: 70px;
+	float: left;
+	padding-left: 5px;
+	line-height: 30px;
+}
+</STYLE>
+	<div th:replace="common/datatable" />
+	<data:vendorlist var="vendorlist"/>
+	<data:deptmentlist th:attr="storeInd=Y" var="deptmentlist"/>
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	$(document).ready(function() {		
+		var aoColumn = [
+           { "mDataProp": "operate", "bSortable": false, "sWidth" : "2%",
+           	"mRender": function ( data, type, full ) {
+           		var a = '<input type="checkbox" id="goodsId" name="goodsId" value="'+ full.goodsId +'"/>';
+           		if (full.salingPurPriceSum) {
+           			$("#salingPurPriceSum").html(full.salingPurPriceSum);
+           		}
+           		if (full.salingSalePriceSum) {
+           			$("#salingSalePriceSum").html(full.salingSalePriceSum);
+           		}
+           		if (full.exhibitPurPriceSum) {
+           			$("#exhibitPurPriceSum").html(full.exhibitPurPriceSum);
+           		}
+           		if (full.availablePurPriceSum) {
+           			$("#availablePurPriceSum").html(full.availablePurPriceSum);
+           		}
+           		if (full.samplePurPriceSum) {
+           			$("#samplePurPriceSum").html(full.samplePurPriceSum);
+           		}
+           		if (full.borkenPurPriceSum) {
+           			$("#borkenPurPriceSum").html(full.borkenPurPriceSum);
+           		}
+           		if (full.withdrawPurPriceSum) {
+           			$("#withdrawPurPriceSum").html(full.withdrawPurPriceSum);
+           		}
+           		return a;
+            }
+           },
+           { "mDataProp": "deptId", "bSortable": true, "sWidth" : "6%",
+           	"mRender": function ( data, type, full ) {
+           		return $.es.encodeHtml(data);
+           	}	  
+           },
+           { "mDataProp": "goodsId", "bSortable": true, "sWidth" : "6%",
+           	"mRender": function ( data, type, full ) {
+           		return $.es.encodeHtml(data);
+           	}	  
+           },
+           { "mDataProp": "goodsCode", "bSortable": true, "sWidth" : "10%",
+           	"mRender": function ( data, type, full ) {
+           		return $.es.encodeHtml(data);
+           	}	  
+           },
+           { "mDataProp": "goodsName", "bSortable": false, "sWidth" : "10%",
+           	"mRender": function ( data, type, full ) {
+           		return $.es.encodeHtml(data);
+           	}	  
+           },
+           { "mDataProp": "color", "bSortable": false, "sWidth" : "10%",
+           	"mRender": function ( data, type, full ) {
+           		return $.es.encodeHtml(data);
+           	}	  
+           },
+           { "mDataProp": "spec", "bSortable": false, "sWidth" : "10%",
+           	"mRender": function ( data, type, full ) {
+           		return $.es.encodeHtml(data);
+           	}	  
+           },
+           { "mDataProp": "weight", "bSortable": false, "sWidth" : "10%",
+           	"mRender": function ( data, type, full ) {
+           		return $.es.encodeHtml(data);
+           	}	  
+           },
+           { "mDataProp": "volume", "bSortable": false, "sWidth" : "10%",
+           	"mRender": function ( data, type, full ) {
+           		return $.es.encodeHtml(data);
+           	}	  
+           },
+           { "mDataProp": "texture", "bSortable": false, "sWidth" : "20%",
+           	"mRender": function ( data, type, full ) {
+           		return $.es.encodeHtml(data);
+           	}	  
+           },
+           { "mDataProp": "purPrice", "bSortable": true, "sWidth" : "10%",
+           	"mRender": function ( data, type, full ) {
+           		return $.es.encodeHtml(data);
+           	}	  
+           },
+           { "mDataProp": "salePrice", "bSortable": true, "sWidth" : "10%",
+           	"mRender": function ( data, type, full ) {
+           		return $.es.encodeHtml(data);
+           	}	  
+           },
+           { "mDataProp": "", "bSortable": false, "sWidth" : "4%",
+           	"mRender": function ( data, type, full ) {
+           		var margin = full.availableNum + full.purchaseNum - full.forSaleNum
+           		return $.es.encodeHtml(margin);
+           	}	  
+           },
+           { "mDataProp": "exhibitNum", "bSortable": false, "sWidth" : "4%",
+           	"mRender": function ( data, type, full ) {
+           		return $.es.encodeHtml(data);
+           	}	  
+           },
+           { "mDataProp": "availableNum", "bSortable": false, "sWidth" : "4%",
+           	"mRender": function ( data, type, full ) {
+           		return $.es.encodeHtml(data);
+           	}	  
+           },
+           { "mDataProp": "sampleNum", "bSortable": false, "sWidth" : "4%",
+           	"mRender": function ( data, type, full ) {
+           		return $.es.encodeHtml(data);
+           	}	  
+           },
+           { "mDataProp": "borkenNum", "bSortable": false, "sWidth" : "4%",
+           	"mRender": function ( data, type, full ) {
+           		return $.es.encodeHtml(data);
+           	}	  
+           },
+           { "mDataProp": "withdrawNum", "bSortable": false, "sWidth" : "4%",
+           	"mRender": function ( data, type, full ) {
+           		return $.es.encodeHtml(data);
+           	}	  
+           },
+           { "mDataProp": "salingNum", "bSortable": false, "sWidth" : "4%",
+           	"mRender": function ( data, type, full ) {
+           		return $.es.encodeHtml(data);
+           	}	  
+           },
+           { "mDataProp": "sampleSaleNum", "bSortable": false, "sWidth" : "4%",
+           	"mRender": function ( data, type, full ) {
+           		return $.es.encodeHtml(data);
+           	}	  
+           },
+           { "mDataProp": "forSaleNum", "bSortable": false, "sWidth" : "4%",
+           	"mRender": function ( data, type, full ) {
+           		return $.es.encodeHtml(data);
+           	}	  
+           },
+           { "mDataProp": "purchaseNum", "bSortable": false, "sWidth" : "4%",
+              	"mRender": function ( data, type, full ) {
+              		return $.es.encodeHtml(data);
+          	}
+           },
+           { "mDataProp": "moveInNum", "bSortable": false, "sWidth" : "4%",
+           	"mRender": function ( data, type, full ) {
+           		return $.es.encodeHtml(data);
+           	}	  
+           },
+           { "mDataProp": "moveOutNum", "bSortable": false, "sWidth" : "4%",
+           	"mRender": function ( data, type, full ) {
+           		return $.es.encodeHtml(data);
+           	}	  
+           },
+           { "mDataProp": "remark", "bSortable": false, "sWidth" : "20%", "sClass": "wrapable",
+           	"mRender": function ( data, type, full ) {
+           		return $.es.encodeHtml(data);
+           	}	  
+           }
+       ];
+
+		var shInitData={
+	            linkPrefix:"inventory",
+	           	tableExtraOpt:{
+	            	"scrollX":true,
+	            	"bAutoWidth":true,
+	            	"defaultSorting":[[ 2, "asc" ]]
+	            },
+				aoColumn:aoColumn,
+				passConds: function(){
+					var cb = new CondBuilder();
+					cb.where("vendorId", "=", $("#vendorSelect").val());
+					cb.where("deptId", "=", $("#deptmentSelect").val());
+					cb.where("goodsId", "=", $("#goodsId").val());
+					cb.where("goodsCode", "*", $("#goodsCode").val());
+					cb.where("goodsName", "*", $("#goodsName").val());
+					cb.where("color", "*", $("#color").val());
+					cb.where("spec", "*", $("#spec").val());
+					cb.where("texture", "*", $("#texture").val());
+					
+					if (!($("#routine").prop('checked') && $("#customize").prop('checked'))) {
+						if ($("#routine").prop('checked')) {
+							cb.where("customizeInd", "=", "N");
+						}
+						if ($("#customize").prop('checked')) {
+							cb.where("customizeInd", "=", "Y");
+						}
+					}
+					
+					if (!($("#routine").prop('checked') && $("#accessories").prop('checked'))) {
+						if ($("#routine").prop('checked')) {
+							cb.where("accessoriesInd", "=", "N");
+						}
+						if ($("#accessories").prop('checked')) {
+							cb.where("accessoriesInd", "=", "Y");
+						}
+					}
+					if ($("#exhibitNum").prop('checked')) {
+						cb.where("exhibitNum", ">", 0);
+					}
+					if ($("#availableNum").prop('checked')) {
+						cb.where("availableNum", ">", 0);
+					}
+					if ($("#sampleNum").prop('checked')) {
+						cb.where("sampleNum", ">", 0);
+					}
+					if ($("#borkenNum").prop('checked')) {
+						cb.where("borkenNum", ">", 0);
+					}
+					if ($("#withdrawNum").prop('checked')) {
+						cb.where("withdrawNum", ">", 0);
+					}
+					if ($("#purchaseNum").prop('checked')) {
+						cb.where("purchaseNum", ">", 0);
+					}
+					if ($("#salingNum").prop('checked')) {
+						cb.where("salingNum", ">", 0);
+					}
+					return cb.json;
+				}
+		};
+
+		window.sh = new SearchHandler(shInitData);
+	});
+	
+    function loadGoodsDetail(){
+    	var rowIndex = 0;
+		var aoColumn = [
+		                { "mDataProp": "operate", "bSortable": false, "sWidth" : "10%",
+		                	"mRender": function ( data, type, full ) {
+		                  		var a = '<input type="hidden" id="id" name="details.' + rowIndex + '.refGoodsId" value="'+ data +'"/>';
+		                  		return $.es.encodeHtml(data) + a;
+		                	}	  
+		                },
+		                { "mDataProp": "refGoodsId", "bSortable": false, "sWidth" : "10%",
+		                	"mRender": function ( data, type, full ) {
+		                  		var a = '<input type="hidden" id="id" name="details.' + rowIndex + '.refGoodsId" value="'+ data +'"/>';
+		                  		return $.es.encodeHtml(data) + a;
+		                	}	  
+		                },
+		                { "mDataProp": "goodsName", "bSortable": false, "sWidth" : "20%", "sClass": "wrapable",
+		                   	"mRender": function ( data, type, full ) {
+		                  		var a = '<input type="hidden" id="id" name="details.' + rowIndex + '.goodsName" value="'+ data +'"/>';
+		                  		return $.es.encodeHtml(data) + a;
+		                   	}
+		                 },
+		                { "mDataProp": "quantity", "bSortable": false, "sWidth" : "2%", "sClass": "wrapable",
+		                	"mRender": function ( data, type, full ) {
+		                  		var a = '<input type="hidden" id="id" name="details.' + rowIndex + '.quantity" value="'+ data +'"/>';
+		                  		rowIndex ++;
+		                  		return $.es.encodeHtml(data) + a;
+		                	}	  
+		                }
+		            ];
+        
+		var shInitData={
+	           	tableExtraOpt:{
+	           		"remote": false,
+	            	"bAutoWidth":true,
+	            	"bPaginate":false
+	            },
+				aoColumn:aoColumn,
+				retrieveData: function(sSource, aoData, fnCallback, oTable){
+					var data = [[${details}]];
+ 	 				var tabledata = {};
+ 	 				tabledata.iTotalRecords = data.length;
+ 	 				tabledata.iTotalDisplayRecords = data.length;
+ 	 				tabledata.aaData = data;
+ 	 				fnCallback(tabledata);
+				}
+		};
+
+		window.sh = new SearchHandler(shInitData);
+		
+		$(".btnAddDetail").click(function(){
+			var data = [[${details}]];
+			var row = {};
+			row.refGoodsId = 2;
+			row.goodsName = "23";
+			row.quantity = 3;
+			window.sh.addRow(row);
+		})
+    }
+	/*]]>*/
+	</script>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="contentpanel">
+			<div class="panel  panel-default">
+				<div class="panel-heading">
+	                <div class="panel-title" th:text="#{field.inventory.info.list}" />
+	            </div>
+	            <div class="panel-filter">
+					<form class="searchForm">
+	   		            <div class="row">
+			                <div class="col-sm-3">
+			                	<label class="control-label" th:text="#{field.inventory.info.filter.vendor}"></label>
+								<div class="col-lg-8 col-md-8 col-sm-8">
+							    	<select class="select" id="vendorSelect" >
+							    		<option th:value="null" th:text="#{field.inventory.info.filter.vendor}"/>
+							    		<div th:each="vendors,itemStat:${vendorlist}" th:remove="tag">
+							    			<option th:value="${vendors.id}" th:text="${vendors.code}" />
+							    		</div>
+							        </select>
+								</div>
+			             	</div>
+			             	<div class="col-sm-3">
+			             		<label class="control-label" th:text="#{field.inventory.info.filter.deptment}"></label>
+			             		<div class="col-lg-8 col-md-8 col-sm-8">
+							    	<select class="select" id="deptmentSelect" >
+							    		<option th:value="null" th:text="#{field.inventory.info.filter.deptment}"/>
+							    		<div th:each="deptments,itemStat:${deptmentlist}" th:remove="tag">
+							    			<option th:value="${deptments.id}" th:text="${deptments.deptName}"/>
+							    		</div>
+							        </select>
+			             		</div>
+			             	</div>
+		   	             	<div class="col-sm-3">
+		   	             		<label class="control-label" th:text="#{field.inventory.info.filter.goodsId}"></label>
+			             		<div class="col-lg-8 col-md-8 col-sm-8">
+			             			<input type="text" class="form-control" id="goodsId" th:placeholder="#{field.inventory.info.filter.goodsId}" />
+			             		</div>
+			             	</div>
+			             	<div class="col-sm-3">
+		   	             		<label class="control-label" th:text="#{field.inventory.info.filter.goodsCode}"></label>
+			             		<div class="col-lg-8 col-md-8 col-sm-8">
+			             			<input type="text" class="form-control" id="goodsCode" th:placeholder="#{field.inventory.info.filter.goodsCode}" />
+			             		</div>
+			             	</div>
+			            </div>
+			            <div class="row">
+			             	<div class="col-sm-3">
+		   	             		<label class="control-label" th:text="#{field.inventory.info.filter.goodsName}"></label>
+			             		<div class="col-lg-8 col-md-8 col-sm-8">
+			             			<input type="text" class="form-control" id="goodsName" th:placeholder="#{field.inventory.info.filter.goodsName}" />
+			             		</div>
+			             	</div>
+			             	<div class="col-sm-3">
+		   	             		<label class="control-label" th:text="#{field.inventory.info.filter.goodsName}"></label>
+			             		<div class="col-lg-8 col-md-8 col-sm-8">
+			             			<input type="text" class="form-control" id="color" th:placeholder="#{field.inventory.info.filter.color}" />
+			             		</div>
+			             	</div>
+			             	<div class="col-sm-3">
+		   	             		<label class="control-label" th:text="#{field.inventory.info.filter.goodsName}"></label>
+			             		<div class="col-lg-8 col-md-8 col-sm-8">
+			             			<input type="text" class="form-control" id="spec" th:placeholder="#{field.inventory.info.filter.spec}" />
+			             		</div>
+			             	</div>
+			            </div>
+			            <div class="row">
+			             	<div class="col-sm-6">
+		   	             		<label class="control-label" th:text="#{field.goods.info.column.texture}"></label>
+			             		<div class="col-lg-10 col-md-10 col-sm-10">
+			             			<input type="text" class="form-control" id="texture" th:placeholder="#{field.goods.info.column.texture}" />
+			             		</div>
+			             	</div>
+			             	<div class="col-sm-6">
+							    <div class="col-sm-2">
+									<input type="checkbox" style="float: left;height: 30px;" id="accessories" name="accessories" value="true" />
+									<label class="control-label" th:text="#{field.inventory.info.filter.accessories}" />
+							    </div>
+							    <div class="col-sm-2">
+									<input type="checkbox" style="float: left;height: 30px;" id="routine" name="routine" value="true" />
+									<label class="control-label" th:text="#{field.inventory.info.filter.routine}" />
+							    </div>
+							    <div class="col-sm-2">
+									<input type="checkbox" style="float: left;height: 30px;" id="customize" name="customize" value="true" />
+									<label class="control-label" th:text="#{field.inventory.info.filter.customize}" />
+							    </div>
+			             	</div>
+			            </div>
+			            <div class="row">
+			             	<div class="col-sm-12">
+			             		<label class="col-sm-1 control-label" th:text="#{field.inventory.info.filter.notZero}"></label>
+							    <div class="col-sm-1">
+									<input type="checkbox" style="float: left;height: 30px;" id="exhibitNum" name="exhibitNum" value="true" />
+									<label class="control-label" th:text="#{field.inventory.info.column.exhibitNum}" />
+							    </div>
+							    <div class="col-sm-1">
+									<input type="checkbox" style="float: left;height: 30px;" id="availableNum" name="availableNum" value="true" />
+									<label class="control-label" th:text="#{field.inventory.info.column.availableNum}" />
+							    </div>
+							    <div class="col-sm-1">
+									<input type="checkbox" style="float: left;height: 30px;" id="sampleNum" name="sampleNum" value="true" />
+									<label class="control-label" th:text="#{field.inventory.info.column.sampleNum}" />
+							    </div>
+							    <div class="col-sm-1">
+									<input type="checkbox" style="float: left;height: 30px;" id="borkenNum" name="borkenNum" value="true" />
+									<label class="control-label" th:text="#{field.inventory.info.column.borkenNum}" />
+							    </div>
+							    <div class="col-sm-1">
+									<input type="checkbox" style="float: left;height: 30px;" id="withdrawNum" name="withdrawNum" value="true" />
+									<label class="control-label" th:text="#{field.inventory.info.column.withdrawNum}" />
+							    </div>
+							    <div class="col-sm-1">
+									<input type="checkbox" style="float: left;height: 30px;" id="purchaseNum" name="purchaseNum" value="true" />
+									<label class="control-label" th:text="#{field.inventory.info.column.purchaseNum}" />
+							    </div>
+							    <div class="col-sm-1">
+									<input type="checkbox" style="float: left;height: 30px;" id="salingNum" name="salingNum" value="true" />
+									<label class="control-label" th:text="#{field.inventory.info.column.salingNum}" />
+							    </div>
+								<div class="col-sm-2 right">
+									<button type="submit" class="btn btn-primary mr5 btnSearch" th:text="#{button.search}" />
+									<button type="button" class="btn btnAdd btn-success" th:text="#{field.goods.info.button.add}" />
+								</div>
+			             	</div>
+			            </div>
+					</form>
+           		</div>
+			</div>
+			<div class="row">
+			   <div class="col-sm-12">
+					<table id="resultTable" class="table table-bordered table-hover">
+					      <thead class="">
+					          <tr>
+					          	 <th/>
+					             <th th:text="#{field.inventory.info.column.deptId}" />
+					             <th th:text="#{field.inventory.info.column.goodsId}" />
+					             <th th:text="#{field.inventory.info.column.goodsCode}" />
+					             <th th:text="#{field.inventory.info.column.goodsName}" />
+					             <th th:text="#{field.inventory.info.column.color}" />
+					             <th th:text="#{field.inventory.info.column.spec}" />
+					             <th th:text="#{field.inventory.info.column.weight}" />
+					             <th th:text="#{field.inventory.info.column.volume}" />
+					             <th th:text="#{field.inventory.info.column.texture}" />
+					             <th th:text="#{field.inventory.info.column.purPrice}" />
+					             <th th:text="#{field.inventory.info.column.salePrice}" />
+					             <th th:text="#{field.inventory.info.column.margin}" />
+					             <th th:text="#{field.inventory.info.column.exhibitNum}" />
+					             <th th:text="#{field.inventory.info.column.availableNum}" />
+					             <th th:text="#{field.inventory.info.column.sampleNum}" />
+					             <th th:text="#{field.inventory.info.column.borkenNum}" />
+					             <th th:text="#{field.inventory.info.column.withdrawNum}" />
+					             <th th:text="#{field.inventory.info.column.salingNum}" />
+					             <th th:text="#{field.inventory.info.column.sampleSaleNum}" />
+					             <th th:text="#{field.inventory.info.column.forSaleNum}" />
+					             <th th:text="#{field.inventory.info.column.purchaseNum}" />
+					             <th th:text="#{field.inventory.info.column.moveInNum}" />
+					             <th th:text="#{field.inventory.info.column.moveOutNum}" />
+					             <th th:text="#{field.inventory.info.column.remark}" />
+					         </tr>
+					      </thead>
+					      <tbody>
+					      </tbody>
+					</table>
+			   </div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12" style="background-color: #CCFFFF;">
+					<label th:text="#{field.inventory.info.label.salingPurPriceSum}" /><label id="salingPurPriceSum" th:text="0"/>;
+					<label th:text="#{field.inventory.info.label.salingSalePriceSum}" /><label id="salingSalePriceSum" th:text="0"/>;
+					<label th:text="#{field.inventory.info.label.exhibitPurPriceSum}" /><label id="exhibitPurPriceSum" th:text="0"/>;
+					<label th:text="#{field.inventory.info.label.availablePurPriceSum}" /><label id="availablePurPriceSum" th:text="0"/>;
+					<label th:text="#{field.inventory.info.label.samplePurPriceSum}" /><label id="samplePurPriceSum" th:text="0"/>;
+					<label th:text="#{field.inventory.info.label.borkenPurPriceSum}" /><label id="borkenPurPriceSum" th:text="0"/>;
+					<label th:text="#{field.inventory.info.label.withdrawPurPriceSum}" /><label id="withdrawPurPriceSum" th:text="0"/>;
+				</div>
+			</div>
+			<div class="panel  panel-default">
+				<div class="panel-heading">
+	                <div class="panel-title" th:text="#{field.goods.detail.info.list}" />
+	            </div>
+			</div>
+			<div class="row">
+			   <div class="col-sm-12">
+					<table id="purchaseTable" class="table table-bordered table-hover">
+				      <thead class="">
+				          <tr>
+				             <th th:text="#{field.goods.detail.column.goodsId}" />
+				             <th th:text="#{field.goods.detail.column.name}" />
+				             <th th:text="#{field.goods.detail.column.quantity}" />
+				         </tr>
+				      </thead>
+					</table>
+			   </div>
+			</div>   
+		</div>
+	</div>
+</body>
+</html>

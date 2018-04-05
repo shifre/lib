@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache updateCheck="false" name="adminCache">
+	<diskStore path="java.io.tmpdir/cache/fang/admin" />
+    <cache
+        name="indexCache"
+        maxEntriesLocalHeap="100000" 
+        eternal="true" 
+        timeToIdleSeconds="0" 
+        timeToLiveSeconds="0"
+        overflowToDisk="true" 
+        maxEntriesLocalDisk="0" 
+        diskSpoolBufferSizeMB="5"
+        memoryStoreEvictionPolicy="LRU"
+    >
+    </cache>
+    
+    <cache
+        name="flashCache"
+        maxEntriesLocalHeap="100000" 
+        eternal="false" 
+        timeToIdleSeconds="1800" 
+        timeToLiveSeconds="900"
+        overflowToDisk="true" 
+        maxEntriesLocalDisk="0" 
+        diskSpoolBufferSizeMB="1"
+        memoryStoreEvictionPolicy="LRU"
+    >
+    </cache>
+    
+    <cache
+        name="dayCache"
+        maxEntriesLocalHeap="10000000" 
+        eternal="false" 
+        timeToIdleSeconds="43200" 
+        timeToLiveSeconds="28800"
+        overflowToDisk="true" 
+        maxEntriesLocalDisk="0" 
+        diskSpoolBufferSizeMB="5"
+        memoryStoreEvictionPolicy="LRU"
+    >
+    </cache>
+    
+     <cache
+        name="hourCache"
+        maxEntriesLocalHeap="100000" 
+        eternal="false" 
+        timeToIdleSeconds="3600" 
+        timeToLiveSeconds="3200"
+        overflowToDisk="true" 
+        maxEntriesLocalDisk="0" 
+        diskSpoolBufferSizeMB="1"
+        memoryStoreEvictionPolicy="LRU"
+    >
+    </cache>
+    
+    <cache
+        name="stableCache"
+        maxEntriesLocalHeap="10000000" 
+        eternal="true" 
+        timeToIdleSeconds="0" 
+        timeToLiveSeconds="0"
+        overflowToDisk="true" 
+        maxEntriesLocalDisk="0" 
+        diskSpoolBufferSizeMB="5"
+        memoryStoreEvictionPolicy="LRU"
+    >
+    </cache>
+</ehcache>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"  
+	xmlns:jee="http://www.springframework.org/schema/jee" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.2.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd"
+	default-lazy-init="false">
+    
+    <bean id="formManager" class="com.cantonsoft.framework.validation.form.FormManager" scope="singleton" lazy-init="false">
+        <property name="configFiles">
+            <array>
+                <value>classpath:form-config.xml</value>
+            </array>
+        </property>
+        <property name="ruleMap">
+            <map>
+                <entry key="minlength" value-ref="minlength"/>
+                <entry key="maxlength" value-ref="maxlength"/>
+                <entry key="maxasialength" value-ref="maxasialength"/>
+                <entry key="minasialength" value-ref="minasialength"/>
+                <entry key="min" value-ref="min"/>
+                <entry key="max" value-ref="max"/>
+                <entry key="required" value-ref="required"/>
+                <entry key="loginname" value-ref="loginname"/>
+                <entry key="email" value-ref="email"/>
+                <entry key="integer" value-ref="integer"/>
+                <entry key="equals" value-ref="equals"/>
+                <entry key="name" value-ref="name"/>
+                <entry key="notequals" value-ref="notequals"/>
+                <entry key="code" value-ref="code"/>
+                <entry key="phonenumber" value-ref="phonenumber"/>
+                <entry key="numeric" value-ref="numeric"/>
+                <entry key="pmoney" value-ref="pmoney"/>
+                <entry key="date" value-ref="date"/>
+                <entry key="datetime" value-ref="datetime"/>
+                <entry key="compare" value-ref="compare"/>
+                <entry key="numbercompare" value-ref="numbercompare"/>
+                <entry key="range" value-ref="range"/>
+                <entry key="englishName" value-ref="englishName"/>
+
+                <entry key="path" value-ref="path"/>
+                <entry key="host" value-ref="host"/>
+                <entry key="gpsSource" value-ref="gpsSource"/>
+                <entry key="link" value-ref="link"/>
+                
+                <entry key="userdomain" value-ref="userdomain"/>
+                <entry key="mainusertype" value-ref="mainusertype"/>
+                <entry key="partnerusertype" value-ref="partnerusertype"/>
+                <entry key="clientusertype" value-ref="clientusertype"/>
+                
+                <entry key="fieldtype" value-ref="fieldtype"/>
+                <entry key="friendlyurl" value-ref="friendlyurl"/>
+                <entry key="sku" value-ref="sku"/>
+            </map>
+        </property>
+    </bean>
+	<bean id="vDirector" class="com.cantonsoft.framework.validation.form.FormValidationDirector" scope="singleton" lazy-init="false">
+	</bean>
+	<bean id="compare" class="com.cantonsoft.framework.validation.rule.Compare" scope="singleton" />
+	<bean id="numbercompare" class="com.cantonsoft.framework.validation.rule.NumberCompare" scope="singleton" />
+	<bean id="range" class="com.cantonsoft.framework.validation.rule.Range" scope="singleton" />
+	<bean id="equals" class="com.cantonsoft.framework.validation.rule.Equals" scope="singleton" />
+	<bean id="notequals" class="com.cantonsoft.framework.validation.rule.NotEquals" scope="singleton" />
+	<bean id="minlength" class="com.cantonsoft.framework.validation.rule.MinLength" scope="singleton" />
+	<bean id="maxlength" class="com.cantonsoft.framework.validation.rule.MaxLength" scope="singleton"/>
+	<bean id="maxasialength" class="com.cantonsoft.framework.validation.rule.MaxAsiaLength" scope="singleton"/>
+	<bean id="minasialength" class="com.cantonsoft.framework.validation.rule.MinAsiaLength" scope="singleton"/>
+	<bean id="min" class="com.cantonsoft.framework.validation.rule.MinInteger" scope="singleton" />
+	<bean id="max" class="com.cantonsoft.framework.validation.rule.MaxInteger" scope="singleton"/>
+	<bean id="required" class="com.cantonsoft.framework.validation.rule.Required" scope="singleton" />
+	<bean id="loginname" class="com.cantonsoft.framework.validation.rule.Match" p:expression="^[0-9a-zA-Z\_\.]*$" scope="singleton" />
+	<bean id="email" class="com.cantonsoft.framework.validation.rule.Match" p:expression="^[a-zA-Z0-9_+\.-]+\@([a-zA-Z0-9-\.])+$" scope="singleton" />
+	<bean id="integer" class="com.cantonsoft.framework.validation.rule.Match" p:expression="^([1-9][0-9]*|0)$" scope="singleton" />
+	<bean id="name" class="com.cantonsoft.framework.validation.rule.Match" p:expression="^[a-zA-Z0-9\(\)\_\.\uff08-\uff09\u4e00-\u9fa5]*$" scope="singleton"/>
+	<bean id="code" class="com.cantonsoft.framework.validation.rule.Match" p:expression="^[0-9a-zA-Z\.]*$" scope="singleton" />
+	<bean id="phonenumber" class="com.cantonsoft.framework.validation.rule.Match" p:expression="^[0-9\-]*$" scope="singleton" />
+	<bean id="numeric" class="com.cantonsoft.framework.validation.rule.Match" p:expression="^(-?[1-9][0-9]*|0)(\.[0-9]+)?$" scope="singleton" />
+	<bean id="pmoney" class="com.cantonsoft.framework.validation.rule.Match" p:expression="(?!^0\d+$)^[0-9]{1,8}(\.[0-9]{1,2})?$|^0$" scope="singleton" />
+	<bean id="date" class="com.cantonsoft.framework.validation.rule.Match" p:expression="^(([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]{1}|[0-9]{1}[1-9][0-9]{2}|[1-9][0-9]{3})-(((0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))|((0[469]|11)-(0[1-9]|[12][0-9]|30))|(02-(0[1-9]|[1][0-9]|2[0-8]))))|((([0-9]{2})(0[48]|[2468][048]|[13579][26])|((0[48]|[2468][048]|[3579][26])00))-02-29)$" scope="singleton" />
+	<bean id="datetime" class="com.cantonsoft.framework.validation.rule.Match" p:expression="^(([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]{1}|[0-9]{1}[1-9][0-9]{2}|[1-9][0-9]{3})-(((0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))|((0[469]|11)-(0[1-9]|[12][0-9]|30))|(02-(0[1-9]|[1][0-9]|2[0-8]))))|((([0-9]{2})(0[48]|[2468][048]|[13579][26])|((0[48]|[2468][048]|[3579][26])00))-02-29)(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$" scope="singleton" />
+	
+	<bean id="englishName" class="com.cantonsoft.framework.validation.rule.Match" p:expression="^[a-zA-Z][a-zA-Z0-9]*$" scope="singleton" />
+	<bean id="path" class="com.cantonsoft.framework.validation.rule.Match" p:expression="^[/][0-9a-zA-Z\_\.\-/]*$" scope="singleton" />
+	<bean id="host" class="com.cantonsoft.framework.validation.rule.Match" p:expression="^[0-9a-zA-Z\_\.\-]*$" scope="singleton" />
+	<bean id="gpsSource" class="com.cantonsoft.framework.validation.rule.Match" p:expression="^(BAIDU|GOOGLE)$" scope="singleton" />
+	<bean id="link" class="com.cantonsoft.framework.validation.rule.Match" p:expression="(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?" scope="singleton" />
+	
+	<bean id="userdomain" class="com.cantonsoft.framework.validation.rule.Match" p:expression="^(MAIN|PARTNER|CLIENT)$" scope="singleton"/>
+    <bean id="mainusertype" class="com.cantonsoft.framework.validation.rule.Match" p:expression="^(ADMIN|GENERIC)$" scope="singleton"/>
+    <bean id="partnerusertype" class="com.cantonsoft.framework.validation.rule.Match" p:expression="^(ADMIN|DEVELOPER|GENERIC)$" scope="singleton"/>
+    <bean id="clientusertype" class="com.cantonsoft.framework.validation.rule.Match" p:expression="^(ADMIN|GENERIC)$" scope="singleton"/>
+	
+	<bean id="fieldtype" class="com.cantonsoft.framework.validation.rule.Match" p:expression="^(text|textarea|html|images|files|refs|bool|multiple|datetime)$" scope="singleton"/>
+	<bean id="friendlyurl" class="com.cantonsoft.framework.validation.rule.Match" p:expression="^[/][0-9a-zA-Z\-/]*$" scope="singleton"/>
+	<bean id="sku" class="com.cantonsoft.framework.validation.rule.Match" p:expression="^[a-zA-Z][0-9a-zA-Z\-]*$" scope="singleton" />
+</beans>

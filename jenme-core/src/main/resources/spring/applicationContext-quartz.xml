@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd"
+	default-lazy-init="false">
+
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean" lazy-init="false">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="transactionManager">
+			<ref bean="transactionManager" /> 
+		</property>
+		<property name="startupDelay" value="60" />
+		<property name="schedulerContextAsMap">
+			<map>
+				<description>schedulerContextAsMap</description>
+				<entry key="roomorderService" value-ref="roomorderService" />
+				<entry key="orderCashbackService" value-ref="orderCashbackService" />
+			</map>
+		</property>
+		<property name="applicationContextSchedulerContextKey" value="applicationContextKey" />
+		<property name="configLocation" value="classpath:quartz.properties" />
+		<property name="triggers">
+			<list>
+				<ref bean="tgRetriever" />
+			</list>
+		</property>
+	</bean>
+	<bean id="jobRetriever" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass">
+			<value>com.cantonsoft.mobigo.roomorder.cashback.OrderCashbackQuartz</value>
+		</property>
+		<property name="durability" value="true"></property>
+	</bean>
+	<bean id="tgRetriever"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="jobRetriever" />
+		<property name="cronExpression" value="0 0/10 8-0 * * ?" /><!--早上8点到24点 每10分钟执行一次 -->
+		<!-- <property name="cronExpression" value="0/10 * * * * ?" /> --><!-- 测试 10秒一次 -->
+	</bean>
+</beans>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorator="layout/popup">
+<head>
+	<div th:replace="common/datatable" />
+	<style type="text/css">
+		.current {
+		  width: 25px;
+		  height: 25px;
+		  border: solid 1px #398439;
+		  size: 8px;
+		  color: #fff;
+		  background-color: #449d44;
+		  border-color: #398439;
+		  font-size: 14px;
+		  padding: 2px;
+		  margin-right: 5px;
+		}
+	</style>	
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	$(document).ready(function() {
+		var aoColumn = [
+           { "mDataProp": "title", "bSortable": true, "sWidth" : "40%",
+           	"mRender": function ( data, type, full ) {
+           		var ret = $.es.encodeHtml(data);
+           		if(full.id == "${param.templateId}")
+           		{
+           			ret = '<span class="current">' + bundle["current.template"] + '</span>' + ret
+           		}	
+           		return ret;
+           	}	  
+           },
+           { "mDataProp": "version", "bSortable": true, "sWidth" : "20%", "sClass": "wrapable",
+           	"mRender": function ( data, type, full ) {
+           		return "V" + $.es.encodeHtml(data);
+           	}	  
+           },
+           { "mDataProp": "createdTime", "bSortable": true, "sWidth" : "30%", "sClass": "wrapable",
+              	"mRender": function ( data, type, full ) {
+           		return $.es.datetime(data);
+           	}	  
+           },
+           { "mDataProp": "id", "bSortable": false, "sWidth" : "10%",
+           	"mRender": function ( data, type, full ) {
+           	   var checked = "";
+           	   var templateId = [[${utils.first(param.templateId)}]];
+	   		   if(data == templateId)
+	   		   {
+	   		   	    checked = "checked";
+	   		   }	  
+               return '<div class="ckbox ckbox-primary">' +
+                      '<input type="checkbox" onclick="selectTemplate(this)" value="' + data + '" id="checkbox_'+ data +'" ' + checked + '>' + 
+                      '<label for="checkbox_'+ data +'"></label></div>';
+               }
+           }
+       ];
+		
+		var shInitData = {
+	            linkPrefix:"template",
+				aoColumn:aoColumn,
+				passConds: function(){
+					var cb = new CondBuilder();
+					cb.where("title", "%", $("#title").val());
+					return cb.json;
+				}
+			};
+			window.sh = new SearchHandler(shInitData);
+	});
+	
+	function selectTemplate(obj)
+	{
+		if(!$(obj).attr("checked"))
+		{
+			$(obj).attr("checked", true);
+			return;
+		}	
+
+		$.newform("change.json", "post", ".panel-heading").ajax(false, {"siteId":[[${utils.first(param.siteId)}]],"templateId":$(obj).val()}, function(resp){
+			if(!resp.error)
+			{
+				$("input[type='checkbox']").attr("checked", false);
+				$(obj).attr("checked", true);
+				
+				var tr = $(obj).closest("tr");
+				var firstTd = $(tr).find("td:first");
+				$(".current").remove();
+				$(firstTd).prepend('<span class="current">' + bundle["current.template"] + '</span>');
+			}
+			else
+			{
+				$(obj).attr("checked", false);
+			}	
+		}, null, {mute: false});
+	}
+	/*]]>*/
+	</script>
+</head>
+<body layout:fragment="content">
+	<div class="contentpanel">
+		<div class="panel  panel-default">
+            <div class="panel-heading">
+            	<div class="panel-btns col-sm-8">
+            		<form>
+	             		<button type="submit" class="btn btn-primary mr5 btnSearch right ladda-button" th:text="#{button.search}"/>
+		                <div class="col-sm-5 right">
+		             		 <input type="text" class="form-control" id="title" th:placeholder="#{'field.title'}"/>
+		             	</div>
+	            	</form>
+             	</div>
+                <div class="panel-title" th:text="#{field.template.list}"/>
+            </div>
+		</div>
+		<table id="resultTable" class="table table-bordered table-hover">
+		      <thead class="">
+		          <tr>
+		             <th th:text="#{field.title}"/>
+		             <th th:text="#{info.version.num}"/>
+		             <th th:text="#{field.created.time}"/>
+		             <th th:text="#{field.op}"/>
+		         </tr>
+		      </thead>
+		      <tbody>
+		      </tbody>
+		</table>
+	 </div>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorator="layout/custom">
+    <head>
+        <link th:href="@{/assets/css/style.default.css}" rel="stylesheet" />
+        <!--[if lt IE 9]>
+        <script th:src="@{/assets/js/html5shiv.js}"></script>
+        <script th:src="@{/assets/js/respond.min.js}"></script>
+        <![endif]-->
+    </head>
+    <body layout:fragment="content">
+        <section >
+            <div class="text-center" style="margin-top:20%;">
+                <h2>哥特云平台</h2>
+                <a th:href="@{/platform/}" ><button class="btn btn-default"><i class="fa fa-home "></i> 平台登录</button></a>
+                <a th:href="@{/partner/}" ><button class="btn btn-primary"><i class="fa fa-home "></i> 渠道商登录</button></a>
+                <a th:href="@{/client/}" ><button class="btn btn-info"><i class="fa fa-home "></i> 客户登录</button></a>
+            </div>
+        </section>
+    </body>
+</html>
+

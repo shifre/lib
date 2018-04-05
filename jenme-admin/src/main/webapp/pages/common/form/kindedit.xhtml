@@ -1,0 +1,36 @@
+<!-- kindedit -->
+<link rel="stylesheet" th:href="@{/assets/js/kindeditor/themes/default/default.css}" />
+<script charset="utf-8" th:src="@{/assets/js/kindeditor/kindeditor-min.js}"></script>
+<script charset="utf-8" th:src="@{/assets/js/kindeditor/lang/zh_CN.js}"></script>
+<script charset="utf-8" th:src="@{/assets/js/kindeditor/kindeditor-config.js}"></script>
+
+<script th:inline="javascript">
+   $(document).ready(function(){
+	   $("#div_01").html($("#div_01").text());
+   });
+   var filehost = [[${utils.config('filehost')}]];
+   var url = [[@{/upload/file.json}]];
+   var editor;
+
+   KindEditor.ready(function(K) {
+	  $.kind_config.init.filePath = filehost;
+	  $.kind_config.init.uploadJson = url;
+	  editor = K.create('.html', $.kind_config.init);
+   });
+</script>
+
+<div th:if="${mode == 'readonly'}" class="form-group">
+    <label class="col-sm-2 control-label" th:text="#{${field.title}}" />
+    <div class="col-sm-7">
+        <div class="well well-sm" id="div_01" th:text="${data[field.name]}" >
+        </div>
+    </div>
+   	<div class="col-sm-3 form-hint" th:unless="${#strings.isEmpty(field.hint)}" th:text="#{${field.hint}}" />
+</div>
+<div th:unless="${mode == 'readonly'}"  class="form-group">
+    <label class="col-sm-2 control-label" th:text="#{${field.title}}" />
+    <div class="col-sm-7">
+         <textarea class="form-control html" rows="10" th:name="${field.name}" th:text="${data[field.name]}"/>
+    </div>
+   	<div class="col-sm-3 form-hint" th:unless="${#strings.isEmpty(field.hint)}" th:text="#{${field.hint}}" />
+</div>

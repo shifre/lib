@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorator="layout/client">
+<head>
+    <data:asset th:id="${utils.first(param.id)}" var="data"/>
+
+    <div th:replace="common/datatable" />
+	<link th:href="@{/assets/js/plugins/layer/skin/layer.css}" rel="stylesheet"/>
+	<script th:inline="javascript" th:src="@{/assets/js/plugins/layer/layer.min.js}"></script>
+	
+	<!-- prettyPhoto -->
+	<link th:href="@{/assets/css/prettyPhoto.css}" rel="stylesheet"/>
+	<script th:inline="javascript" th:src="@{/assets/js/jquery.prettyPhoto.js}"></script>
+	<style type="text/css">
+		.td-hide-text
+		{
+			overflow: hidden;
+		    text-overflow: ellipsis;
+		    white-space: nowrap;
+		    width: 30%;
+		}
+		.td-hide-text img{
+			width: 30px;
+			height: 20px;
+			cursor: pointer;
+		}
+	</style>
+	<script>
+	    $(document).ready(function() {
+	    	<div th:utext="${utils.validate('asset', '#form')}" th:remove="tag"></div>
+	    }); 
+    </script>
+    
+    <script th:inline="javascript">
+	/*<![CDATA[*/
+    var filehost = [[${utils.config('filehost')}]];
+    var templateField = [[${data.templateField}]];
+    
+    $(document).ready(function() {
+
+        var updateOpts={
+        	linkPrefix:"asset",
+            callbackSave:callbackSave
+        }
+        window.uh = new UpdateHander(updateOpts);
+        
+        if($("#id").val() != "")
+        {
+        	$("select[name='type']").attr('readonly', true);
+        	intiSearch($("#id").val());
+        	updateTitle($("select[name='type']").val());
+        	
+        	if(templateField==true)
+        	{
+        		$("input[name='name']").attr("readonly", true);
+        		$("#btnLock").attr("data-original-title", bundle['deblocking']);
+            	$("#btnLock").html('<i class="fa fa-lock" style="font-size: 15px;"></i>');
+        	}	
+        }
+        else
+        {
+        	$(".assetTable").hide();
+        	var $div = $(".well-sm").closest(".form-group");
+        	$($div).hide();
+        }
+        
+        $("#resultTable_wrapper").css("margin-right","-20px");
+    });
+    
+    function assetLock(obj, name)
+    {
+    	if(templateField==true)
+    	{
+			triggerNotification(bundle['hint'], [[#{field.asset.code.hint}]]);
+			return;
+		}
+    	
+    	if($("input[name='"+ name +"']").attr("readonly"))
+    	{
+    		$("input[name='"+ name +"']").attr("readonly", false);
+        	$(obj).attr("data-original-title", bundle['locking']);
+        	$(obj).html('<i class="fa fa-unlock" style="font-size: 15px;"></i>');
+    	}	
+    	else
+    	{
+    		$("input[name='"+ name +"']").attr("readonly", true);
+        	$(obj).attr("data-original-title", bundle['deblocking']);
+        	$(obj).html('<i class="fa fa-lock" style="font-size: 15px;"></i>');
+    	}	
+    }
+    
+    function callbackSave(resp)
+    {
+    	if(!resp.error)
+    	{
+    		if($("#id").val() == "")
+    		{
+    			if(resp.data != null)
+    			{
+    				$("#id").val(resp.data.id);
+    				$("input[name='name']").val(resp.data.name);
+        			$(".assetTable").show();
+        			var $div = $(".well-sm").closest(".form-group");
+                	$($div).show();
+                	$(".well-sm").html(resp.data.name);
+        			$("select[name='type']").attr('readonly', true);
+        			intiSearch(resp.data.id);
+    			}	
+    		}
+			$("select[name='type']").attr('readonly', true);
+			updateTitle($("select[name='type']").val());
+    	}	
+    }
+    
+    function intiSearch(id)
+    {
+    	$(".addBtn").click(function(){
+         	openModaless("view.xhtml?assetId=" + id + "&amp;type=" + $("select[name='type']").val(), bundle["title.dialog"]);
+        });
+    	
+    	var aoColumn = [
+    	                { "mDataProp": "position", "bSortable": true, "sWidth" : "20%",
+    	                	"mRender": function ( data, type, full ) {
+    	                		return $.es.encodeHtml(full.title) + "<input type='hidden' value='" + full.id + "'>";
+    	                	}	  
+    	                },
+    	                { "mDataProp": "id", "bSortable": false, "sWidth" : "60%", "sClass": "td-hide-text",
+    	                	"mRender": function ( data, type, full ) {
+    	                		if($("select[name='type']").val() == "IMAGE")
+    	                		{
+    	                			var preview = bundle['preview'];
+    	                			return '<a href="' + filehost + full.url + '" data-rel="prettyPhoto" class="img-single" title="' + preview + '">'
+									+ '<img src="' + filehost + full.url + '" onload="imgLoad();"/></a>'
+    	                		}	
+    	                		return $.es.encodeHtml(full.value);
+    	                	}	  
+    	                },
+    	                { "mDataProp": "id", "bSortable": false, "sWidth" : "20%",
+    	                	"mRender": function ( data, type, full ) {
+    	                            return new ActionBuilder().start()
+    	                            .add(bundle['moveup'], "javascript:void(0);", "fa fa-arrow-up", "upItem(this)")
+    	                            .add(bundle['movedown'], "javascript:void(0);", "fa fa-arrow-down", "downItem(this)")
+    	                            .add(bundle['edit'], "javascript:editItem(" + full.id + ");", "glyphicon glyphicon-pencil")
+    	                            .add(bundle['remove'], "javascript:sh.delItem(" + full.id + ", '" + full.title + "');", "fa fa-trash-o")
+    	                            .end();
+    	                  }
+    	                }
+    	            ];
+    	     		
+    	var linkPrefix = "string";
+    	var searchAction = "string/search.json";
+    	var removeAction = "string/delete.json?id=";
+    	if($("select[name='type']").val() == "HTML")
+    	{
+    		linkPrefix = "text";
+    		searchAction = "text/search.json";
+    		removeAction = "text/delete.json?id=";
+    	}
+    	
+   		var shInitData = {
+   	            linkPrefix: linkPrefix,
+   	            searchAction: searchAction,
+   	            removeAction: removeAction,
+   				aoColumn:aoColumn,
+   				tableExtraOpt:{"defaultSorting":[[ 0, "desc" ]]},
+   				passConds: function(){
+   					var cb = new CondBuilder();
+   					cb.where("title", "%", $("#title").val());
+   					cb.where("assetId", "=", id);
+   					return cb.json;
+   				}
+   			};
+   		window.sh = new SearchHandler(shInitData);
+
+    }
+
+	function imgLoad(){
+		$("a[data-rel^='prettyPhoto']").prettyPhoto();
+	}
+	 
+    function upItem(obj)
+    {
+    	var tr = $(obj).closest("tr");
+        var prev = tr.prev(); 
+        var index = tr.index();
+        if(index > 0)  
+        {  
+        	var id1 = $(tr).find("input[type='hidden']");
+            var id2 = $(prev).find("input[type='hidden']");
+            var action = "string/move.json?id1="+$(id1).val() + "&id2="+$(id2).val();
+            if($("select[name='type']").val() == "HTML")
+            {
+            	action = "text/move.json?id1="+$(id1).val() + "&id2="+$(id2).val();
+            }	
+            $.newform(action, "post", ".panel-default").ajax(false, null, function(){
+            	tr.insertBefore(prev); 
+    		}, null, {mute: false});
+        }  
+    }
+	    
+    function downItem(obj)
+    {
+    	var tr = $(obj).closest("tr");
+    	var next = tr.next();  
+        var index = tr.index();
+        
+        if(next.index() != -1)  
+        {  
+        	var id1 = $(tr).find("input[type='hidden']");
+            var id2 = $(next).find("input[type='hidden']");
+            var action = "string/move.json?id1="+$(id1).val() + "&id2="+$(id2).val();
+            
+            if($("select[name='type']").val() == "HTML")
+            {
+            	action = "text/move.json?id1="+$(id1).val() + "&id2="+$(id2).val();
+            }	
+            $.newform(action, "post", ".panel-default").ajax(false, null, function(){
+            	tr.insertAfter(next); 
+    		}, null, {mute: false});
+        }  
+    }
+    
+    
+    function editItem(id)
+    {
+    	openModaless("view.xhtml?id=" + id + "&amp;type=" + $("select[name='type']").val(), bundle["title.dialog"]);
+    }
+    
+    function updateTitle(type)
+    {
+    	if(type == "HTML")
+    	{
+    		$(".addBtn").text([[#{view.field.html.add}]]);
+    	}
+    	else if(type == "TEXT")
+    	{
+    		$(".addBtn").text([[#{view.field.text.add}]]);
+    	}	
+    	else if(type == "IMAGE")
+    	{
+    		$(".addBtn").text([[#{view.field.images.add}]]);
+    	}
+    	else if(type == "FILE")
+    	{
+    		$(".addBtn").text([[#{view.field.files.add}]]);
+    	}
+    }
+    /*]]>*/
+    </script>        
+</head>
+<body layout:fragment="content">   
+   		<div class="contentpanel">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title" th:text="#{field.asset.content.info}"/>
+                </div>
+                <div class="panel-body" style="padding: 5px;">
+	              	<form id="form" method="post" style="border: solid 1px #ccc;" class="form-horizontal form-bordered col-md-12">
+	                    <div class="errorForm"></div>
+	                    <input type="hidden" id="id" name="id" th:value="${data.id}"/>
+						<div th:replace="common/form::params('asset', ${data}, '')" />
+	                    <div class="panel-footer" style="margin: 0 -10px;">
+		                    <button class="btnSave btn btn-primary mr5" th:text="#{button.save}" />
+	                    	<button type="button" class="btnReturn btn btn-default" th:text="#{button.return}" />
+		                </div>
+                    </form>
+                    <div class="col-md-12 assetTable mt10" style="margin-left:-10px">
+						<div class="panel  panel-default" style="margin-right:-20px">
+				            <div class="panel-heading">
+				            	<div class="panel-btns col-sm-8">
+				            		<form>
+										<button type="button" class="btn addBtn btn-success right" th:text="#{field.asset.content.add}" />
+					             		<button type="submit" class="btn btn-primary mr5 btnSearch right ladda-button" th:text="#{button.search}" />
+						                <div class="col-sm-5 right">
+						             		 <input type="text" class="form-control" id="title" th:placeholder="#{field.title}"/>
+						             	</div>
+					            	</form>
+				             	</div>
+				                <div class="panel-title" style="height: 36px;">
+				                </div>
+				            </div>
+						</div>
+						<table id="resultTable" class="table table-bordered table-hover">
+						      <thead class="">
+						          <tr>
+						             <th th:text="#{field.title}" />
+						             <th th:text="#{info.content}"/>
+						             <th th:text="#{field.op}"/>
+						         </tr>
+						      </thead>
+						      <tbody>
+						      </tbody>
+						</table>
+					 </div>
+                </div>
+            </div>
+    	</div>
+	</body>
+</html>

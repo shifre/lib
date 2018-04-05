@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorator="layout/partner">
+<head>
+	<div th:replace="common/datatable" />
+	<link th:href="@{/assets/js/plugins/layer/skin/layer.css}" rel="stylesheet"/>
+	<script th:inline="javascript" th:src="@{/assets/js/plugins/layer/layer.min.js}"></script>
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+	    $(document).ready(function() {
+			loadNotice();
+		});
+		
+	    function loadNotice(){
+		   	var aoColumn = [
+		   	                { "mDataProp": "title", "bSortable": true, "sWidth" : "25%",
+		   	                	"mRender": function ( data, type, full ) {
+		   	                		return $.es.encodeHtml(data);
+		   	                	}	  
+		   	                },
+		   	                { "mDataProp": "detail", "bSortable": true, "sWidth" : "45%","sClass": "wrapable",
+		   	                   	"mRender": function ( data, type, full ) {
+		   	                   		return $.es.encodeHtml(data);
+	   	                   	 }	  
+	   	                    },
+		   	                { "mDataProp": "type", "bSortable": true, "sWidth" : "15%","sClass": "wrapable",
+		   	                	"mRender": function ( data, type, full ) {
+		   	                		var ret = "";
+		   	                		switch(data){
+		   	                			case 1 :  ret = [[#{field.notice.type.one}]]; break;
+		   	                			case 2 :  ret = [[#{field.notice.type.two}]]; break;
+		   	                		} 
+		   	                		return ret;
+		   	                	}	  
+		   	                },
+		   	                { "mDataProp": "id", "bSortable": false, "sWidth" : "15%",
+		   	                	"mRender": function ( data, type, full ) {
+		   	                            return new ActionBuilder().start()
+		   	                            .add(bundle['detail'], "javascript:mainShowNotice(" + full.id + ");", "glyphicon glyphicon-search")
+		   	                            .end();
+		   	                  }
+		   	                }
+		   	            ];
+		   	     		var shInitData={
+		   	     	            linkPrefix:"notice",
+		   	     	            searchAction:[[@{/partner/notice/search.json}]],
+		   	     				aoColumn:aoColumn,
+		   	     				passConds: function(){
+		   	     					var cb = new CondBuilder();
+		   	     					cb.where("title", "*", $("#title").val());
+		   	     					return cb.json;
+		   	     				}
+		   	     		};
+		   	     		window.sh = new SearchHandler(shInitData);
+	    }
+	    
+	    /* function showItem(id){
+	    	openModaless("notice/noticeview.xhtml?id=" + id, bundle["title.dialog"]);
+	    } */
+	    
+	  /*]]>*/
+	  </script>
+</head>
+<body layout:fragment="content">
+	<div class="contentpanel">
+      <div class="row">
+			<div class="col-md-12">
+	            <div class="panel panel-default" style="margin-top: 10px;">
+					<div class="panel-heading">
+		            	<div class="panel-btns col-sm-5">
+		            		<form>
+			             		<button type="submit" class="btn btn-primary mr5 btnSearch right" th:text="#{button.search}"></button>
+				                <div class="col-sm-5 right">
+				             		 <input type="text" class="form-control" id="title" th:placeholder="#{field.name}" />
+				             	</div>
+			             	</form>
+		             	</div>
+		                <div class="panel-title" th:text="#{field.notice.list}"></div>
+		            </div>
+				</div>
+				<table id="resultTable" class="table table-bordered table-hover">
+				      <thead class="">
+				          <tr>
+				             <th th:text="#{field.notice.title}" ></th>
+				             <th th:text="#{field.notice.detail}" ></th>
+				             <th th:text="#{field.notice.type}"></th>
+				             <th th:text="#{field.op}"></th>
+				         </tr>
+				      </thead>
+				      <tbody>
+				      </tbody>
+				</table>
+	        </div>
+		</div><!-- row -->
+    </div>
+</body>
+</html>

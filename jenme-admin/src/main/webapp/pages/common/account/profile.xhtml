@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorator="layout/main">
+<head>
+<script th:inline="javascript">
+/*<![CDATA[*/
+    $(document).ready(function() {
+        $(".btnSave").click(function(){
+        	$("#form").ajax(true, null, callbackSave, this);
+        });
+    });
+
+    function callbackSave(resp)
+    {
+
+    }
+
+    $(document).ready(function() {
+	   	 $("#file").change(function(){
+	     	var opts = {
+	                url : [[@{/upload/file.json}]],
+	                filehost: [[${utils.config('filehost')}]],
+	                resultAt: $("input[name='image']"), 
+	                previewAt: $("#img"),
+	                promptOn: $("#form"),
+	                loadingOn:'.btn-file'
+	         };
+	    	 $(this).upload(opts);
+	    });  
+    });
+    /*]]>*/
+    </script>      
+</head>
+<body layout:fragment="content">
+	<div class="contentpanel" >
+       <form id="form" method="post" th:action="@{/account/profile/update.json}" class="form-horizontal form-bordered">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-btns">
+                    </div>
+                    <h4 class="panel-title">个人设置</h4>
+                </div>
+                <div class="panel-body nopadding">
+                    <div class="errorForm"></div>
+					<div th:replace="common/form::params('profile', ${current}, '')" />
+                </div>
+                <div class="panel-footer">
+                    <button class="btnSave btn btn-primary mr5" th:text="#{button.save}">保存</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <form method="POST" id="changePwForm" promptOn=".errorForm">
+		<input type="hidden" id="oldPassword" name="oldPassword" />
+		<input type="hidden" id="password" name="password" />
+		<input type="hidden" id="verifyPassword" name="verifyPassword" />
+	</form>
+</body>
+</html>

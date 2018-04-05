@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menu name="main"  title="主菜单">
+	<menu name="admin" title="平台管理菜单" role="MAIN" >
+		<menu name="dashboard" mapping="/platform/" title="控制面板" access="fn.main.dashboard" type="fa-dashboard"></menu>
+		<menu name="crm" title="客户关系" type="fa-building">
+			<menu name="partner" title="渠道商" mapping="/platform/partner/partnersearch.xhtml" access="fn.main.partner.search">
+			    <function title="查看" mapping="/platform/partner/partnerview.xhtml"></function>
+        		<function title="编辑" mapping="/platform/partner/partneredit.xhtml"></function>
+			</menu>
+			<menu name="client" title="客户" mapping="/platform/client/clientsearch.xhtml" access="fn.main.client.search">
+			    <function title="查看" mapping="/platform/client/clientview.xhtml"></function>
+        		<function title="编辑" mapping="/platform/client/clientedit.xhtml"></function>
+			</menu>
+		</menu>
+        <menu name="info" title="基础信息" type="fa-briefcase">
+        	<menu name="area" title="区域资料" mapping="/platform/info/area/areasearch.xhtml" access="fn.main.info.area" >
+                <function title="查看" mapping="/platform/info/area/areaview.xhtml"></function>
+        		<function title="编辑" mapping="/platform/info/area/areaedit.xhtml"></function>
+        	</menu>
+        	<menu name="vendor" title="厂家资料" mapping="/platform/info/vendor/vendorsearch.xhtml" access="fn.main.info.vendor" >
+                <function title="查看" mapping="/platform/info/vendor/vendorview.xhtml"></function>
+        		<function title="编辑" mapping="/platform/info/vendor/vendoredit.xhtml"></function>
+        	</menu>
+        	<menu name="car" title="车辆资料" mapping="/platform/info/car/shopcarsearch.xhtml" access="fn.main.info.car" >
+                <function title="查看" mapping="/platform/info/car/shopcarview.xhtml"></function>
+        		<function title="编辑" mapping="/platform/info/car/shopcaredit.xhtml"></function>
+        	</menu>
+        	<menu name="startprice" title="起步地址" mapping="/platform/info/startprice/startpricesearch.xhtml" access="fn.main.info.startprice" >
+                <function title="查看" mapping="/platform/info/startprice/startpriceview.xhtml"></function>
+        		<function title="编辑" mapping="/platform/info/startprice/startpriceedit.xhtml"></function>
+        	</menu>
+        </menu>
+        <menu name="template" title="部门管理" type="fa-briefcase">
+        	<menu name="department" title="部门信息" mapping="/platform/department/deptsearch.xhtml" access="fn.main.department" >
+                <function title="查看" mapping="/platform/department/deptview.xhtml"></function>
+        		<function title="编辑" mapping="/platform/department/deptedit.xhtml"></function>
+        	</menu>
+        </menu>
+        <menu name="goods" title="商品管理" type="fa-briefcase">
+        	<menu name="category" title="商品类别" mapping="/platform/goods/category/goodscategorysearch.xhtml" access="fn.main.goods.catogary" >
+                <function title="查看" mapping="/platform/goods/category/goodscategoryview.xhtml"></function>
+        		<function title="编辑" mapping="/platform/goods/category/goodscategoryedit.xhtml"></function>
+        	</menu>
+        	
+        	<menu name="info" title="商品资料" mapping="/platform/goods/info/goodsinfosearch.xhtml" access="fn.main.goods.info" >
+                <function title="查看" mapping="/platform/goods/info/goodsinfoview.xhtml"></function>
+        		<function title="编辑" mapping="/platform/goods/info/goodsinfoedit.xhtml"></function>
+        	</menu>
+        </menu>
+        <menu name="template" title="模版管理" type="fa-briefcase">
+        	<menu name="add" title="添加模版" mapping="/platform/template/templateedit.xhtml" access="fn.main.template" ></menu>
+            <menu name="search" title="模版列表" mapping="/platform/template/templatesearch.xhtml" access="fn.main.template" >
+                <function title="查看" mapping="/platform/template/templateview.xhtml"></function>
+        		<function title="编辑" mapping="/platform/template/templateedit.xhtml"></function>
+            </menu>
+        </menu>
+        <menu name="setting" title="系统设置" type="fa-rocket" >
+            <menu name="user" title="用户管理" mapping="/platform/user/usersearch.xhtml" access="fn.main.user.search" >
+                <function title="查看" mapping="/platform/user/userview.xhtml"></function>
+        		<function title="编辑" mapping="/platform/user/useredit.xhtml"></function>
+            </menu>
+        	<menu name="notice" title="消息公告" mapping="/platform/notice/noticesearch.xhtml" access="fn.main.notice" >
+        	    <function title="查看" mapping="/platform/notice/noticeview.xhtml"></function>
+        		<function title="编辑" mapping="/platform/notice/noticeedit.xhtml"></function>
+        	</menu>
+        	<!-- 
+            <menu name="logs" title="日志信息" mapping="/platform/optlog/optlogsearch.xhtml" access="fn.main.logs.optlogsearch" >
+                 <function title="查看" mapping="/platform/optlog/optlogview.xhtml"></function>
+            </menu> 
+        	 -->
+            <menu name="profile" title="个人设置" mapping="/platform/account/profile.xhtml"  access="fn.main.profile" ></menu>
+		</menu>
+	</menu>
+	
+	<menu name="partner" title="渠道商管理菜单" role="PARTNER"> 
+		<menu name="dashboard" mapping="/partner/" title="控制面板" access="fn.partner.dashboard" type="fa-dashboard" ></menu>
+		<menu name="client" title="客户管理" type="fa-institution">
+            <menu name="add" title="添加客户" mapping="/partner/client/clientedit.xhtml"  access="fn.partner.client.add" ></menu>
+            <menu name="search" title="客户列表" mapping="/partner/client/clientsearch.xhtml" access="fn.partner.client.search" >
+                <function title="查看" mapping="/partner/client/clientview.xhtml"></function>
+        		<function title="编辑" mapping="/partner/client/clientedit.xhtml"></function>
+        		<function title="服务" mapping="/partner/client/servicesearch.xhtml"></function>
+            </menu>
+        </menu>
+        <menu name="site" title="站点管理" type="fa-cubes">
+			<menu name="search" title="站点管理" mapping="/partner/site/sitesearch.xhtml" access="fn.partner.site.search" >
+			     <function title="查看" mapping="/partner/site/siteview.xhtml"></function>
+			     <function title="编辑" mapping="/partner/site/siteedit.xhtml"></function>
+			</menu>
+		</menu>
+		<menu name="setting" title="系统设置" type="fa-rocket" >
+            <menu name="user" title="用户管理" mapping="/partner/user/usersearch.xhtml" acc待ss="fn.partner.user.search" >
+            	<function title="查看" mapping="/partner/user/userview.xhtml"></function>
+        		<function title="编辑" mapping="/partner/user/useredit.xhtml"></function>
+            </menu>
+            <menu name="profile" title="个人设置" mapping="/partner/account/profile.xhtml"  access="fn.partner.profile" ></menu>
+            <!-- 
+        	<menu name="syslog" title="系统日志" mapping="/partner/log/optlogsearch.xhtml" access="fn.partner.log" type="fa-archive" >
+        	    <function title="日志详情" mapping="/partner/log/optlogview.html"></function>
+        	</menu>
+             -->
+        </menu> 
+	</menu>
+	<menu name="client" title="客户管理菜单" role="CLIENT">
+		<menu name="dashboard" title="控制面板" mapping="/client/" access="fn.client.dashboard" type="fa-dashboard"></menu>
+		<menu name="setting" title="系统设置" type="fa-rocket" >
+            <menu name="user" title="用户管理" mapping="/client/user/usersearch.xhtml" access="fn.client.user.search" >
+                <function title="查看" mapping="/client/user/userview.xhtml"></function>
+        		<function title="编辑" mapping="/client/user/useredit.xhtml"></function>
+            </menu>
+            <menu name="notice" title="消息公告" mapping="/client/notice/noticesearch.xhtml" access="fn.client.notice" >
+        	</menu>
+          
+         
+            <!-- 
+        	<menu name="syslog" title="系统日志" mapping="/client/log/optlogsearch.xhtml" access="fn.client.log"></menu>
+             -->
+        </menu> 
+	</menu>
+</menu>

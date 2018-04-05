@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorator="layout/partner">
+<head>
+	<data:site th:id="${utils.first(param.id)}" var="data"/>
+	<script>
+	    $(document).ready(function() {
+	       <div th:utext="${utils.validate('site', '#form')}" th:remove="tag"></div>
+	    }); 
+    </script>
+    <script th:inline="javascript">
+    /*<![CDATA[*/
+	    $(document).ready(function() {
+	        var updateOpts={
+	                linkPrefix:"site"
+	        }
+	        window.uh = new UpdateHander(updateOpts);
+	    });
+	/*]]>*/
+    </script>        
+</head>
+<body>    
+ <div layout:fragment="content">
+   <div class="contentpanel">
+       <form id="form" method="post" class="form-horizontal form-bordered">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title" th:text="#{field.site.info}"></div>
+                </div>
+                <div class="panel-body nopadding">
+                    <div class="errorForm"></div>
+                      <input type="hidden" id="id" name="id" th:value="${data.id}"/>
+					  <div th:replace="common/form::params('site', ${data}, '')" />
+                </div>
+                <div class="panel-footer">
+                    <button class="btnSave btn btn-primary mr5" th:text="#{button.save}" />
+                    <button type="button" class="btnReturn btn btn-default" th:text="#{button.return}" />
+                </div>
+            </div>
+        </form>
+    </div>
+  </div>
+</body>
+</html>

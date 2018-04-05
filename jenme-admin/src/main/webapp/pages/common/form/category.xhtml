@@ -1,0 +1,22 @@
+<div th:unless="${mode == 'readonly'}" class="form-group">
+    <label class="col-sm-2 control-label" th:text="#{${field.title}}" />
+    <div class="col-sm-4">
+    	<select th:name="${field.name}" class="select" id="categorySelect" th:attr="data-select-value=${data[field.name]}" >
+    		<div th:each="categorys,itemStat:${categorylist}" th:remove="tag">
+    			<option th:value="${categorys.id}" th:text="${categorys.code + ' ' + categorys.name}" th:selected="${data[field.name]} == ${categorys.id}" />
+    		</div>
+        </select>
+    </div>
+   	<div class="col-sm-6 form-hint" th:unless="${#strings.isEmpty(field.hint)}" th:text="#{${field.hint}}" />
+</div>
+<div th:if="${mode == 'readonly'}" class="form-group">
+    <label class="col-sm-2 control-label" th:text="#{${field.title}}" />
+    <div class="col-sm-4">
+    	<div th:each="categorys,itemStat:${categorylist}" th:remove="tag">
+    		<div th:if="${data[field.name]} == ${categorys.id}" th:remove="tag">
+    			<div class="well well-sm" th:text="${categorys.code + ' ' + categorys.name}"/>
+    		</div>
+    	</div>	
+    </div>
+   	<div class="col-sm-6 form-hint" th:unless="${#strings.isEmpty(field.hint)}" th:text="#{${field.hint}}" />
+</div>

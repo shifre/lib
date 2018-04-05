@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menu name="site" title="站点管理菜单" type="SITE">
+    <menu name="order" title="订单管理" type="fa-list" >
+        <menu name="room" title="客房订单" mapping="site/order/ordersearch.html" access="fn.site.common" ></menu>
+        <menu name="product" title="商品订单" mapping="site/order/ordersearch.html" access="fn.site.common" ></menu>
+    </menu>
+    <menu name="room" title="客房管理" type="fa-archive" >
+        <menu name="add" title="增加房型" mapping="site/room/roomsearch.html"  access="fn.site.common"></menu>
+        <menu name="search" title="房型列表" mapping="site/room/roomsearch.html" access="fn.site.common"></menu>
+    </menu>
+
+    <menu name="product" title="商品管理" type="fa-credit-card" >
+        <menu name="type" title="类别管理" mapping="site/product/type/typesearch.html" access="fn.site.product.type"></menu>
+        <menu name="shelf" title="货架管理" mapping="site/product/nav/navsearch.html" access="fn.site.product.nav" ></menu>
+        <menu name="add" title="增加商品"  mapping="site/product/productedit.html" access="fn.site.product" ></menu>
+        <menu name="search" title="商品列表"  mapping="site/product/productsearch.html" access="fn.site.product" ></menu>
+    </menu>
+    <menu name="activity" title="活动管理" type="fa-trophy" >
+        <menu name="add" title="增加活动" mapping="site/activity/activityedit.html" access="fn.site.common" ></menu>
+        <menu name="search" title="活动列表" mapping="site/activity/activitysearch.html" access="fn.site.common" ></menu>
+    </menu>
+     <menu name="hotel" title="酒店设置" type="fa-sitemap">
+        <menu name="info" title="酒店信息"  mapping="client/waiting.html" access="fn.site.common" ></menu>
+        <menu name="facility" title="酒店设施"  mapping="client/waiting.html" access="fn.site.common" ></menu>
+        <menu name="homepage" title="首页设置"  mapping="client/waiting.html" access="fn.site.common" ></menu>
+    </menu>
+    <menu name="wechat" title="微信设置" type="fa-dribbble">
+        <menu name="trust" title="微信托管"  mapping="client/waiting.html" access="fn.site.common" ></menu>
+        <menu name="wait" title="自定义菜单"  mapping="client/waiting.html" access="fn.site.common" ></menu>
+        <menu name="wait" title="自动回复"  mapping="client/waiting.html" access="fn.site.common" ></menu>
+        <menu name="wait" title="在线客服"  mapping="client/waiting.html" access="fn.site.common" ></menu>
+    </menu>
+    <menu name="member" title="会员管理" type="fa-user" >
+        <menu name="type" title="会员类别"  mapping="client/waiting.html" access="fn.site.common" ></menu>
+        <menu name="search" title="会员列表"  mapping="client/waiting.html" access="fn.site.common" ></menu>
+    </menu>
+    <menu name="material" title="素材管理"  mapping="client/waiting.html" access="fn.site.common" type="fa-qrcode"></menu>
+    <menu name="teditor" title="模版管理" type="fa-briefcase" >
+        <menu name="change" title="更换模版"  mapping="client/waiting.html" access="fn.site.common" ></menu>
+    </menu>
+</menu>

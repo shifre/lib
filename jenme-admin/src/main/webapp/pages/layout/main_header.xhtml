@@ -1,0 +1,78 @@
+<current:setting />
+<header>
+   <div class="headerwrapper" th:classappend="${setting.theme} == 'COMPACT'? 'collapsed' : ''">
+       <div class="header-left">
+           <a href="#" class="logo">
+               <img th:src="@{/assets/images/logo.png}" alt="" /> 
+           </a>
+           <div class="pull-right">
+               <a href="#" class="menu-collapse ">
+                   <i class="fa fa-bars"></i>
+               </a>
+           </div>
+       </div><!-- header-left -->
+       <div class="header-right">
+           <div class="pull-right">
+               <!-- <div class="btn-group btn-group-list btn-group-notification">
+                   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                     <i class="fa fa-bell-o"></i>
+                     <span class="badge">5</span>
+                   </button>
+                   <div class="dropdown-menu pull-right">
+                       <a href="blank.html" class="link-right"><i class="fa fa-search"></i></a>
+                       <h5>新通知</h5>
+                       <ul class="media-list dropdown-list">
+                           <li class="media">
+                               <img class="img-circle pull-left noti-thumb" th:src="@{/assets/images/profile.png}" alt="" />
+                               <div class="media-body">
+                                 <strong>平台管理员</strong> 五月资金对账
+                                 <small class="date"><i class="fa fa-thumbs-up"></i> 20分钟前</small>
+                               </div>
+                           </li>
+                       </ul>
+                       <div class="dropdown-footer text-center">
+                           <a href="${ctx}/platform/waiting.html" class="link">查看所有通知</a>
+                       </div>
+                   </div>
+               </div> -->
+               
+              <!--  <div class="btn-group btn-group-list btn-group-messages">
+                   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                       <i class="fa fa-envelope-o"></i>
+                       <span class="badge">2</span>
+                   </button>
+                   <div class="dropdown-menu pull-right">
+                       <a href="blank.html" class="link-right"><i class="fa fa-plus"></i></a>
+                       <h5>新信息</h5>
+                       <ul class="media-list dropdown-list">
+                           <li class="media">
+                               <span class="badge badge-success">新</span>
+                               <img class="img-circle pull-left noti-thumb" th:src="@{/assets/images/enabled_yes.png}" alt="" />
+                               <div class="media-body">
+                                 <strong>平台－哥特软件</strong>
+                                 <p>系统开始维护...</p>
+                                 <small class="date"><i class="fa fa-clock-o"></i> 20分钟前</small>
+                               </div>
+                           </li>
+                       </ul>
+                       <div class="dropdown-footer text-center">
+                           <a href="${ctx}/platform/waiting.html" class="link">查看所有信息</a>
+                       </div>
+                   </div>
+               </div> -->
+               
+               <div class="btn-group btn-group-option">
+                   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                     <i class="fa fa-caret-down"></i>
+                   </button>
+                   <ul class="dropdown-menu pull-right" role="menu">
+                     <li><a th:href="@{/platform/account/profile.xhtml}"><i class="glyphicon glyphicon-user"></i>个人设置</a></li>
+                     <li><a th:href="@{/platform/account/changepwd.xhtml}"><i class="glyphicon glyphicon-user"></i>密码修改</a></li>
+                     <li class="divider"></li>
+                     <li><a th:href="@{/logout.xhtml}"><i class="glyphicon glyphicon-log-out"></i>退出登录</a></li>
+                   </ul>
+               </div>
+           </div>
+       </div>
+   </div>
+</header>

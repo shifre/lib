@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorator="layout/partner">
+<head>
+	<data:goods th:id="${utils.first(param.id)}" var="data"/>
+	<data:goodscategorylist var="categorylist"/>
+	<data:vendorlist var="vendorlist"/>
+    <script th:inline="javascript">
+    /*<![CDATA[*/
+    $(document).ready(function() {
+        var updateOpts={
+                linkPrefix:"stockinform"
+        }
+        window.uh = new UpdateHander(updateOpts);
+        
+        $(".btnAudit").click(function(){
+        	var dh = new DialogHandler();
+    		dh.confirm(bundle["goods.audit.hint"] , function(){
+        		var action = "../goods/audit.json?goodsId=" + [[${data.goodsId}]];
+                $.newform(action, "post", ".errorForm").ajax(false, null,function(){
+                }, null, false);
+                $(".btnReturn").click();
+	        	return true;
+    		});
+        	
+        });
+        
+        $("#purDeliverTimeSelect").change((function(){
+        	var purDeliverTimeSelect = $("#purDeliverTimeSelect").val();
+        	var saleDeliverTimeSelect = $("#saleDeliverTimeSelect").val();
+        	$("#saleDeliverTimeSelect").val(purDeliverTimeSelect).change();  
+       	}));
+        
+        $("#saleDeliverTimeSelect").change((function(){
+        	var purDeliverTimeSelect = $("#purDeliverTimeSelect").val();
+        	var saleDeliverTimeSelect = $("#saleDeliverTimeSelect").val();
+        	if (purDeliverTimeSelect - saleDeliverTimeSelect > 0) {
+        		alert("销售货期须大于等于采购货期！");
+        		$("#purDeliverTimeSelect").val(saleDeliverTimeSelect).change();
+        	} 
+       	}));
+        
+        $("input[name='purPrice']").change((function(){
+        	priceChange(this.name);
+       	}));
+        $("input[name='salePrice']").change((function(){
+        	priceChange(this.name);
+       	}));
+        
+        $("input[name='customize']").change((function(){
+        	var checked = this.checked;
+        	if (checked) {
+        		document.getElementById("accessories").disabled = true; 
+        	} else {
+        		document.getElementById("accessories").disabled = false; 
+        	};  
+       	}));
+        
+        $("input[name='accessories']").change((function(){
+        	var checked = this.checked;
+        	if (checked) {
+        		document.getElementById("customize").disabled = true; 
+        	} else {
+        		document.getElementById("customize").disabled = false; 
+        	};  
+       	}));
+        
+        $("#typeSelect").change((function(){
+        	var typeSelect = $("#typeSelect").val();
+        	if (typeSelect == 'goods') {
+        		document.getElementById("customize").disabled = false;
+        		document.getElementById("accessories").disabled = false; 
+        	} else {
+        		$("#customize").prop("checked",false); 
+        		document.getElementById("customize").disabled = true;
+        		$("#accessories").prop("checked",false); 
+        		document.getElementById("accessories").disabled = true; 
+        	}
+       	}));
+	});
+    
+    function priceChange(str) {
+    	var purPrice = $("input[name='purPrice']").val();
+    	var salePrice = $("input[name='salePrice']").val();
+    	var profit = $("input[name='profit']").val();
+    	if (str == "purPrice") {
+    		$("input[name='salePrice']").val(purPrice);
+    	}
+    	
+    	purPrice = $("input[name='purPrice']").val();
+    	salePrice = $("input[name='salePrice']").val();
+    	profit = $("input[name='profit']").val();
+    	$("input[name='profit']").val(((salePrice != "0" ?  1 - purPrice/salePrice : 0) * 100).toFixed(0) + "%");
+    }
+    /*]]>*/
+    </script>        
+</head>
+<body>    
+<div layout:fragment="content">
+   <div class="contentpanel">
+   	  <form id="form" method="post" class="form-horizontal form-bordered">
+	          <div class="panel panel-default">
+	              <div class="panel-heading">
+	                  <div class="panel-title" th:text="#{field.invoicing.stockinform.detail.newform}" />
+	               </div>
+	               
+	               <div class="panel-body nopadding">
+	                   <div class="errorForm"/>
+                          <div class="form-group">
+                        	    <input type="hidden" id="id" name="stockInFormId" th:value="${data.id}"/>
+                        	 </div>
+						
+						 <div class="form-group">
+							 <div>
+								 <label class="col-sm-1 control-label" th:text="#{field.invoicing.stockinform.id}" />
+								 <div class="col-sm-4">
+								    <input type="text" class="form-control" name="stockInCode" th:value="${data.stockInCode}" />
+								  </div>
+							</div>
+						    <div>
+							    <label class="col-sm-1 control-label" th:text="#{field.invoicing.stockinform.vendor.order.id}" />
+								<div class="col-sm-4">
+								    <input type="text" class="form-control" name="vendorOrderCd" th:value="${data.vendorOrderCd}" />
+								</div>
+					        </div>
+						</div>
+					    
+					    <div class="form-group">
+							<div>
+							    <label class="col-sm-1 control-label" th:text="#{field.invoicing.stockinform.remark}" />
+								<div class="col-sm-4">
+									<input type="text" class="form-control" name="remark" th:value="${data.remark}" />
+								</div>
+							</div>
+						</div>	               
+					</div>
+					
+					 <div class="row">
+			   <div class="col-sm-12">
+					<table id="resultTable" class="table table-bordered table-hover">
+					      <thead class="">
+					          <tr>
+   					             <th th:text="#{field.invoicing.stockinform.date}" />
+					             <th th:text="#{field.invoicing.stockinform.id}" />
+					             <th th:text="#{field.invoicing.stockinform.vendor.order.id}" />
+					             <th th:text="#{field.invoicing.stockinform.create.by}" />
+					             <th th:text="#{field.invoicing.stockinform.remark}" />
+					             <th th:text="#{field.invoicing.stockinform.credential.id}" />
+					         </tr>
+					      </thead>
+					      <tbody>
+					      </tbody>
+					</table>
+			   </div>
+			</div>  
+					    
+					    <div class="panel-footer">
+	                	     <button type="button" class="btn btnAudit btn-primary"  th:text="#{field.goods.info.button.audit}" />
+	                	    <button class="btnSave btn btn-primary mr5" th:text="#{button.save}" />
+	                  	<button type="button" class="btn btnReturn btn-default"  th:text="#{button.return}" />
+			        </div>
+	           </div>
+	           </form>
+	           
+	          
+	      </div>
+	</div>
+
+</body>
+</html>

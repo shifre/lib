@@ -1,0 +1,8 @@
+<div th:if="${mode == 'readonly'}" class="form-group">
+</div>
+<div th:unless="${mode == 'readonly'}"  class="form-group">
+    <label class="col-sm-2 control-label" th:text="#{${field.title}}" />
+    <div class="col-sm-4">
+        <input type="text" class="form-control" th:name="${field.name}" th:value="${data.salePrice/data.purPrice}" />
+    </div>
+</div>

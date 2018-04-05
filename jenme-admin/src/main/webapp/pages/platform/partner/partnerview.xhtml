@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorator="layout/main">
+<head>
+	<data:partner th:id="${utils.first(param.id)}" var="data"/>
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	var cityJson = [[${utils.dict('city')}]];
+    $(document).ready(function() {
+        var updateOpts={
+                linkPrefix:"partner"
+        }
+        window.uh = new UpdateHander(updateOpts);
+    });
+	/*]]>*/
+	</script>
+</head>
+<body>
+	<div layout:fragment="content">
+	   <div class="contentpanel">
+	       <form id="form" method="post" class="form-horizontal form-bordered">
+	            <div class="panel panel-default">
+	                <div class="panel-heading">
+	                    <div class="panel-title"><fmt:message key="field.partner.info" /></div>
+	                </div>
+	                <div class="panel-body nopadding">
+	                    <div class="errorForm" />
+	                    <input type="hidden" id="id" name="id" th:value="${data.id}"/>
+						<div th:replace="common/form::params('partner', ${data}, 'readonly')" />
+	                </div>
+	                <div class="panel-footer">
+		                 <button type="button" class="btn btnEdit btn-primary"  th:text="#{button.edit}" />
+                    	 <button type="button" class="btn btnRemove btn-danger" th:text="#{button.delete}" />
+		                 <button type="button" class="btn btnReturn btn-default"  th:text="#{button.return}" />
+	                </div>
+	            </div>
+	        </form>
+	    </div>
+	 </div>
+</body>
+</html>

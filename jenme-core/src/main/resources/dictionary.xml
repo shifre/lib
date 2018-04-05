@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <city key="086" value="中国大陆">
+        <item key="20" value="广东省" >
+            <item key="757" value="佛山市" />
+            <item key="755" value="深圳市" />
+        </item>
+        <item key="23" value="湖南省" >
+            <item key="735" value="郴州市" />
+            <item key="734" value="衡阳市" />
+        </item>
+    </city>
+    <expresscompany key="快递公司" value="快递公司">
+        <item key="顺丰" value="顺丰" />
+        <item key="韵达" value="韵达" />
+        <item key="圆通" value="圆通" />
+        <item key="申通" value="申通" />
+        <item key="中通" value="中通" />
+        <item key="EMS" value="EMS" />
+        <item key="全峰" value="全峰" />
+        <item key="邮政" value="邮政" /> 
+        <item key="天天" value="天天" />
+    </expresscompany>
+    <setting>
+    	<item key="partnerUserName" value="admin" />
+    	<item key="partnerUserPassword" value="111111" />
+    	<item key="clientUserName" value="admin" />
+    	<item key="clientUserPassword" value="111111" />
+    	<item key="defaultSite" value="1" />
+    </setting>
+    <channel>
+        <!-- 
+        <item key="date@datetime" value="日期" />
+        <item key="text@text" value="文本" />
+        <item key="bool@bool" value="单选" />
+        <item key="select@select" value="下拉框" />
+        <item key="images@imageselect" value="资源图片选择" />
+        <item key="files@fileselect" value="资源附件选择" />
+         -->
+        <item key="content@html" value="内容" />
+        <item key="description@textarea" value="简介" />
+    </channel>
+    <articlefixedfield>
+        <item key="title@text" value="标题" />
+        <item key="datetime@datetime" value="发布时间" />
+        <item key="tags@textarea" value="标签" />
+        <item key="onTop@bool" value="是否置顶" />
+        <item key="enabled@bool" value="是否生效" />
+    </articlefixedfield>
+    <productfixedfield>
+        <item key="title@text" value="名称" />
+        <item key="price@text" value="价格" />
+        <item key="brand@text" value="品牌" />
+        <item key="sku@text" value="编号" />
+        <item key="content@html" value="介绍" />
+    </productfixedfield>
+    <system>
+    	<item key="field" value="[siteId],[createdTime],[id],[typeId],[parentId],[publishTime],[onTop],[enabled],[tags],[images],[title],[price],[brand],[content],[data],[seoKeywords],[seoDescription],[file],[sku],[eformId]" />
+    </system>
+    
+    <sms>
+        <item key="verifyCode" value="验证码%s，请立刻马上填在输入框里，千万不要告诉任何人，千万不要告诉任何人，千万不要告诉任何人，重要的事情说三遍！"/>
+    </sms>
+    <jpush>
+        <item key="wxiosLoginMsgTitle" value="完善信息累积莫水兑换免费房"/>
+        <item key="wxiosLoginMsgTitle2" value="完善信息累积莫水兑换免费房"/>
+        <item key="wxiosLoginMsg" value="绑定手机号或微信号，可累积2滴莫水，完善信息可再累积1滴莫水。"/>
+        <item key="wxiosLoginMsg2" value="邀请好友注册，每邀请1位好友即可获得1滴莫水，累积20滴莫水可兑换酒店免费房1晚。"/>
+        <item key="wxandroidLoginMsg" value="新用户绑定手机号或微信号，即可累积2滴莫水；完善个人信息，可再累积1滴莫水。累积20滴莫水可兑换莫比签约酒店免费房1晚。"/>
+        <item key="wxandroidLoginMsg2" value="发送邀请码邀请好友注册，每成功邀请1位好友即可获得1滴莫水。累积20滴莫水可兑换莫比签约酒店免费房1晚。"/>
+    </jpush>
+    <wxpay>
+        <item key="body" value="订单内容：酒店房间预订\n总金额：%s\n姓名：%s\n电话:%s\n订单编号：%s\n\n预订时间：%s\n预订房型：%s\n房间数：%s\n入住时间：%s\n离店时间%s"></item>
+    </wxpay>
+</root>
